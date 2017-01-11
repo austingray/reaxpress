@@ -9505,7 +9505,7 @@ function Header() {
             React.createElement(
               "a",
               { href: "/" },
-              "Express React Boilerplate"
+              "Preaxpress"
             )
           )
         )

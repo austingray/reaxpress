@@ -6,7 +6,7 @@ function Footer() {
       <div className="container">
         <div className="row">
           <div className="col-md-12">
-            Julia Balfour, LLC &copy; {new Date().getFullYear()}
+            Reaxpress, LLC &copy; {new Date().getFullYear()}
           </div>
         </div>
       </div>
