@@ -1,0 +1,22 @@
+{
+  "name": "reaxpress",
+  "version": "1.0.0",
+  "description": "An Express/React boilerplate with a CLI for rapid prototyping.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Austin Gray",
+  "license": "ISC",
+  "bin": {
+    "reaxpress": "./bin/reaxpress-cli.js"
+  },
+  "devDependencies": {
+    "commander": "^2.9.0"
+  },
+  "dependencies": {
+    "express": "^4.14.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  }
+}
