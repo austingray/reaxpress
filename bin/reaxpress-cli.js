@@ -1,17 +1,19 @@
 #!/usr/bin/env node
 const program = require('commander');
 
+let cmdValue = '';
+let argValue = '';
+
 const commands = {};
-commands.route = function(arg) {
-  console.log('command:', cmdValue);
-  console.log('argument:', argValue);
-}
+commands.route = (arg) => {
+  console.log('argument:', arg);
+};
 
 program
   .version('0.0.1')
-  .action(function(cmd, arg) {
+  .action((cmd, arg) => {
     cmdValue = cmd;
-    argValue = arg
+    argValue = arg;
   });
 
 program.parse(process.argv);
