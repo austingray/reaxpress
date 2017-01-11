@@ -7,7 +7,7 @@ function Header() {
         <div className="row">
           <div className="col-md-12">
             <div className="logo">
-              <a href="/">Preaxpress</a>
+              <a href="/">Reaxpress</a>
             </div>
           </div>
         </div>

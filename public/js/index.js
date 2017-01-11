@@ -9464,7 +9464,7 @@ function Footer() {
         React.createElement(
           "div",
           { className: "col-md-12" },
-          "Julia Balfour, LLC \xA9 ",
+          "Reaxpress, LLC \xA9 ",
           new Date().getFullYear()
         )
       )
