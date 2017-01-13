@@ -27,10 +27,7 @@ app.use(expressSession({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
 
-// #route-def
-const index = require('./routes/index');
-// #route-mount
-app.use('/', index);
+app.use(require('./.reaxpress/routes'));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
