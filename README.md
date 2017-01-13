@@ -7,11 +7,9 @@ An Express/React boilerplate with a CLI for rapid prototyping.
  - Universal React components for server and client side rendering
  - A CLI for generating routes and boilerplate code
 
- This is not a SPA but that may change in the future.
-
 ### Under the hood
 
-This code is built on top of the default code you get when creating a new project with the [Express application generator](https://expressjs.com/en/starter/generator.html). The view engine uses ejs just for the template file and uses universal server/client React components. The gist of the command line integration is you can register routes which are tracked in  .reaxpress/skeleton.json. Reaxpress will generate boilerplate code, including the express route, a basic react component, and modifications to the webpack config file. A prestart script lives in ./bin/prestart.sh which will run Knex migrations, compile scss files, and run webpack. This project follows [Airbnb React/JSX Style Guide](https://github.com/airbnb/javascript/tree/master/react).
+This code is built on top of the default code you get when creating a new project with the [Express application generator](https://expressjs.com/en/starter/generator.html). The view engine uses ejs just for the template file and uses universal server/client React components. The gist of the command line integration is you can register routes which are tracked in  .reaxpress/skeleton.json. Reaxpress will generate boilerplate code, including the express route, a basic react component, and modifications to the webpack config file. A prestart script lives in ./bin/prestart.sh which will run Knex migrations, compile scss files, and run webpack. This project follows [Airbnb React/JSX Style Guide](https://github.com/airbnb/javascript/tree/master/react). This is not a SPA as each route generates a fresh request from the server but that may change in the future.
 
 ### Usage
 
