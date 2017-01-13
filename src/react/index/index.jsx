@@ -10,7 +10,7 @@ function Index() {
     <div>
       <Header />
       <Page>
-        page content
+        Index content
       </Page>
       <Footer />
     </div>

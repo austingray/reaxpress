@@ -1,13 +1,16 @@
 #!/usr/bin/env node
 /* eslint consistent-return: 0, no-shadow: 0 */
-import { component, route } from './template';
+require('babel-register');
 
+// modules
 const program = require('commander');
 const fs = require('fs');
 const path = require('path');
 
+// reaxpress variables and includes
 const webpackConfigFile = path.join(__dirname, '..', 'webpack.config.js');
-const appFile = path.join(__dirname, '..', 'app.js');
+const appFile = path.join(__dirname, 'routes.jsx');
+const template = require('./template');
 
 let cmdValue = '';
 let argValue = '';
@@ -28,8 +31,8 @@ commands.route = (arg) => {
     if (err) {
       return console.log(err);
     }
-    let modified = data.replace(/#route-def/g, `#route-def\nconst ${arg} = require('./routes/${arg}');`);
-    modified = modified.replace(/#route-mount/g, `#route-mount\napp.use('/${arg}', ${arg});`);
+    let modified = data.replace(/#route-def/g, `#route-def\nconst ${arg} = require('../routes/${arg}');`);
+    modified = modified.replace(/#route-mount/g, `#route-mount\nrouter.use('/${arg}', ${arg});`);
     fs.writeFile(appFile, modified, 'utf8', (err) => {
       if (err) return console.log(err);
       console.log('successfully added route to app file.');
@@ -39,14 +42,14 @@ commands.route = (arg) => {
   const reactDirPath = path.join(__dirname, '..', 'src/react/', arg);
   const reactFile = path.join(reactDirPath, 'index.jsx');
   mkdirSync(reactDirPath);
-  const componentCode = component(arg);
+  const componentCode = template.component(arg);
   fs.writeFile(reactFile, componentCode, 'utf8', (err) => {
     if (err) return console.log(err);
     console.log('successfully created react component file.');
   });
   // create route file
   const routeFile = path.join(__dirname, '..', 'routes', `${arg}.jsx`);
-  const routeCode = route(arg);
+  const routeCode = template.route(arg);
   fs.writeFile(routeFile, routeCode, 'utf8', (err) => {
     if (err) return console.log(err);
     console.log('successfully created route file.');

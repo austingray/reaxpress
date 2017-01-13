@@ -5,7 +5,7 @@ module.exports = {
     index: './src/react/index',
   },
   output: {
-    path: path.join(__dirname, 'public/js'),
+    path: path.join(__dirname, 'public/build/js'),
     filename: '[name].js',
   },
   resolve: {

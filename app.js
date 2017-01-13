@@ -7,7 +7,6 @@ const bodyParser = require('body-parser');
 const expressSession = require('express-session');
 const flash = require('connect-flash');
 // const favicon = require('serve-favicon');
-
 const app = express();
 
 // view engine setup
@@ -27,7 +26,11 @@ app.use(expressSession({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
 
-app.use(require('./.reaxpress/routes'));
+// default index routes
+app.use('/', require('./routes/index'));
+
+// reaxpress generated routes
+app.use(require('./reaxpress/routes'));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
