@@ -13,7 +13,7 @@ What this is not:
 
 ### Under the hood
 
-This code is built on top of the [Express application generator](https://expressjs.com/en/starter/generator.html) default project. The view engine uses ejs just for the template file and uses universal server/client React components. The gist of the command line integration is you can register routes which are tracked in  .reaxpress/skeleton.json. Reaxpress will generate boilerplate code, including the express route, a basic react component, and modifications to the webpack config file. A prestart script lives in ./bin/prestart.sh which will run Knex migrations, compile scss files, and run webpack. This project follows [Airbnb React/JSX Style Guide](https://github.com/airbnb/javascript/tree/master/react).
+This code is built on top of the default code you get when creating a new project with the [Express application generator](https://expressjs.com/en/starter/generator.html). The view engine uses ejs just for the template file and uses universal server/client React components. The gist of the command line integration is you can register routes which are tracked in  .reaxpress/skeleton.json. Reaxpress will generate boilerplate code, including the express route, a basic react component, and modifications to the webpack config file. A prestart script lives in ./bin/prestart.sh which will run Knex migrations, compile scss files, and run webpack. This project follows [Airbnb React/JSX Style Guide](https://github.com/airbnb/javascript/tree/master/react).
 
 ### Usage
 
