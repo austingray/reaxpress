@@ -1,8 +1,6 @@
 # Reaxpress
 
-(This is an attempt at a Proof of Concept early stage Work in Progress... PoCesWiP!)
-
-A boilerplate bundled with a CLI for rapidly prototyping Express/React sites.
+A boilerplate bundled with a CLI for rapid Express/React prototyping.
 
 Features:
 
@@ -15,26 +13,20 @@ What this is not:
 
 ### Usage
 
-To create an alias for the 'reaxpress' command:
-
-    npm install -g
-    reaxpress <cmd> <arg>
-
 Or call the script directly
 
-    ./bin/reaxpress-cli.js <cmd> <name>
+    ./reaxpress/reaxpress <cmd> <arg>
 
 Commands:
 
-    reaxpress route <name>
+    ./reaxpress/reaxpress route <name>
 
 This will:
- - create ./routes/<name>.jsx with boilerplate get functionality
- - create ./src/react/<name>/index.jsx with boilerplate components/copy
- - modify ./app.js to define and mount your route
+ - register the route in ./reaxpress/skeleton.json
+ - link the route to your app via ./reaxpress/routes.jsx
+ - create the file ./routes/<name>.jsx with boilerplate get functionality
+ - create ./src/react/<name>/index.jsx with boilerplate component
  - modify ./webpack.config.js to add your new component as an entry point
-
-This is a very crude implementation still and needs to check if the route name already exists, as well as do some additional checks.
 
 ### Setup and Installation
 
