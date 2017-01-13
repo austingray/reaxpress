@@ -1,15 +1,13 @@
 # Reaxpress
 
-A boilerplate bundled with a CLI for rapid Express/React prototyping.
+An Express/React boilerplate with a CLI for rapid prototyping.
 
-Features:
+### Features:
 
- - A CLI for generating routes and boilerplate code
  - Universal React components for server and client side rendering
+ - A CLI for generating routes and boilerplate code
 
-What this is not:
-
- - This is not a SPA (may change in the future).
+ This is not a SPA but that may change in the future.
 
 ### Under the hood
 
