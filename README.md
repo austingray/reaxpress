@@ -14,7 +14,7 @@ This code is built on top of the default code you get when creating a new projec
 ### Usage
 
     ./reaxpress.js create [route]
-    ./reaxpress.js delete [route]
+    ./reaxpress.js remove [route]
     ./reaxpress.js forget [route]
 
 ### Todo
