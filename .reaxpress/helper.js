@@ -5,7 +5,7 @@ const skeleton = require('./skeleton');
 const webpack = require('./webpack');
 
 const helper = {};
-helper.checkIfRouteExists = (name) => {
+helper.routeExists = (name) => {
   // if skeleton.json ref exists
   if (skeleton.exists(name)) {
     console.log(`'${name}' is already a registered route`);

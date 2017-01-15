@@ -1,6 +1,4 @@
 // methods for reading/writing to our webpack config file
-const fs = require('fs');
-const path = require('path');
 
 const webpack = {};
 
