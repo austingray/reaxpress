@@ -4,7 +4,7 @@ const path = require('path');
 
 const skeleton = {};
 
-skeleton.file = path.join(__dirname, 'skeleton.json');
+skeleton.file = path.join(__dirname, '..', 'skeleton.json');
 
 skeleton.read = () => {
   const contents = fs.readFileSync(skeleton.file, 'utf8');
@@ -17,6 +17,14 @@ skeleton.exists = (name) => {
     return true;
   }
   return false;
+};
+
+skeleton.create = (name) => {
+  console.log('skeleton.create() not implemented');
+};
+
+skeleton.remove = (name) => {
+  console.log('skeleton.remove() not implemented');
 };
 
 module.exports = skeleton;

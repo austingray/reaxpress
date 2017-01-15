@@ -1,5 +1,4 @@
 require('babel-register');
-
 const program = require('commander');
 const commands = require('./commands');
 
