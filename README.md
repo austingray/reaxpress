@@ -13,15 +13,9 @@ This code is built on top of the default code you get when creating a new projec
 
 ### Usage
 
-The cli is a work in progress and functionality is non-existent at the moment. A basic 'create' action is available by using:
-
-    ./reaxpress/reaxpress route [route]
-
-The following convention will be used when completed:
-
-    ./reaxpress/reaxpress create [route]
-    ./reaxpress/reaxpress delete [route]
-    ./reaxpress/reaxpress forget [route]
+    ./reaxpress.js create [route]
+    ./reaxpress.js delete [route]
+    ./reaxpress.js forget [route]
 
 ### Todo
 

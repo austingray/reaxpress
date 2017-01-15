@@ -29,8 +29,9 @@ app.use(flash());
 // default index routes
 app.use('/', require('./routes/index'));
 
-// reaxpress generated routes
-app.use(require('./reaxpress/routes'));
+// #reaxpress: generated routes
+app.use(require('./.reaxpress/routes'));
+// #reaxpress: forget
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
