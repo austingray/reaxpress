@@ -9,9 +9,16 @@ An Express/React boilerplate with a CLI for rapid prototyping.
 
 ### Under the hood
 
-This code is built on top of the default code you get when creating a new project with the [Express application generator](https://expressjs.com/en/starter/generator.html). The view engine uses ejs just for the template file and uses universal server/client React components. The gist of the command line integration is you can register routes which are tracked in  .reaxpress/skeleton.json. Reaxpress will generate boilerplate code, including the express route, a basic react component, and modifications to the webpack config file. A prestart script lives in ./bin/prestart.sh which will run Knex migrations, compile scss files, and run webpack. This project follows [Airbnb React/JSX Style Guide](https://github.com/airbnb/javascript/tree/master/react). This is not a SPA as each route generates a fresh request from the server but that may change in the future.
+ - This code is built on top of the default code you get when creating a new project with the [Express application generator](https://expressjs.com/en/starter/generator.html).
+ - The view engine uses ejs just for the template file and uses universal server/client React components.
+ - A prestart script lives in ./bin/prestart.sh which runs knex migrations, compiles scss, and runs webpack.
+ - This project follows [Airbnb React/JSX Style Guide](https://github.com/airbnb/javascript/tree/master/react).
+ - This is not a SPA as each route generates a fresh request from the server but that may change in the future.
+ - This project uses [Bootstrap v4](https://v4-alpha.getbootstrap.com/)
 
 ### Usage
+
+The gist of the command line integration is you can create/remove/forget routes which are tracked in ./.reaxpress/skeleton.json. Reaxpress will generate boilerplate code, including the express route, a basic react component, and modifications to the webpack config file.
 
     ./reaxpress.js create [route]
     ./reaxpress.js remove [route]
@@ -27,6 +34,8 @@ This code is built on top of the default code you get when creating a new projec
 'remove' does the inverse.
 
 'forget' will unregister the route with the skeleton.json file. This means it can no longer be removed using the cli tool and all generated changes must be manually removed.
+
+In the future, I may force manual removal of modified boilerplate files to not erase any customizations by accident. This depends on what direction and added functionality the CLI tool may get.
 
 There is one protected route, 'index' which cannot be added/deleted.
 
