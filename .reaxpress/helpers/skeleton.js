@@ -27,6 +27,7 @@ skeleton.create = (name) => {
   const contents = skeleton.read();
   contents.routes.push(name);
   skeleton.write(contents);
+  console.log(`...created: '${name}' in ${skeleton.file}`);
 };
 
 skeleton.remove = (name) => {
@@ -34,6 +35,7 @@ skeleton.remove = (name) => {
   const index = contents.routes.indexOf(name);
   contents.routes.splice(index, 1);
   skeleton.write(contents);
+  console.log(`...removed: '${name}' in ${skeleton.file}`);
 };
 
 module.exports = skeleton;

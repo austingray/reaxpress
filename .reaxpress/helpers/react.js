@@ -34,12 +34,20 @@ react.create = (name) => {
     console.log(`There was an error writing component code to: '${reactFile}'`);
     return false;
   }
+  console.log(`...created: ${reactFile}`);
   return true;
 };
 
 react.remove = (name) => {
   const reactDirPath = path.join(__dirname, '../..', 'src/react/', name);
-  deleteFolderRecursive(reactDirPath);
+  try {
+    deleteFolderRecursive(reactDirPath);
+  } catch (err) {
+    console.log(`There was an error deleting react dir: ${reactDirPath}`);
+    return false;
+  }
+  console.log(`...removed: ${reactDirPath}`);
+  return true;
 };
 
 module.exports = react;

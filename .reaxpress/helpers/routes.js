@@ -15,6 +15,7 @@ routes.create = (name) => {
     console.log(`There was an error writing route code to '${routeFile}'`);
     return false;
   }
+  console.log(`...created: ${routeFile}`);
 
   let routeContent = '';
   try {
@@ -31,6 +32,7 @@ routes.create = (name) => {
     console.log(`There was a problem writing to ${routeFileJs}`);
     return false;
   }
+  console.log(`...created: '${name}' in ${routeFileJs}`);
   return true;
 };
 
@@ -38,6 +40,7 @@ routes.remove = (name) => {
   // remove route file
   const routeFile = path.join(__dirname, '../..', 'routes', `${name}.jsx`);
   fs.unlinkSync(routeFile);
+  console.log(`...removed: ${routeFile}`);
 
   // remove mount
   let routeContent = '';
@@ -55,6 +58,7 @@ routes.remove = (name) => {
     console.log(`There was a problem writing to ${routeFileJs}`);
     return false;
   }
+  console.log(`...removed: '${name} in ${routeFileJs}'`);
   return true;
 };
 

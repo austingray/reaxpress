@@ -41,6 +41,7 @@ webpack.create = (name) => {
   }
   let webpackCode = webpack.read();
   webpackCode = webpackCode.replace(/entry: {/g, `entry: {\n    ${name}: './src/react/${name}',`);
+  console.log(`...created: '${name}' in webpack.config.js`);
   return webpack.write(webpackCode);
 };
 
@@ -51,6 +52,7 @@ webpack.remove = (name) => {
   }
   let webpackCode = webpack.read();
   webpackCode = webpackCode.replace(`\n    ${name}: './src/react/${name}',`, '');
+  console.log(`...removed: '${name}' in webpack.config.js`);
   return webpack.write(webpackCode);
 };
 
