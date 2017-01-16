@@ -11,6 +11,10 @@ skeleton.read = () => {
   return JSON.parse(contents);
 };
 
+skeleton.write = (contents) => {
+  fs.writeFileSync(skeleton.file, JSON.stringify(contents));
+};
+
 skeleton.exists = (name) => {
   const contents = skeleton.read();
   if (contents.routes.includes(name)) {
@@ -20,11 +24,16 @@ skeleton.exists = (name) => {
 };
 
 skeleton.create = (name) => {
-  console.log('skeleton.create() not implemented');
+  const contents = skeleton.read();
+  contents.routes.push(name);
+  skeleton.write(contents);
 };
 
 skeleton.remove = (name) => {
-  console.log('skeleton.remove() not implemented');
+  const contents = skeleton.read();
+  const index = contents.routes.indexOf(name);
+  contents.routes.splice(index, 1);
+  skeleton.write(contents);
 };
 
 module.exports = skeleton;

@@ -35,7 +35,27 @@ routes.create = (name) => {
 };
 
 routes.remove = (name) => {
-  console.log('routes.remove() not implemented');
+  // remove route file
+  const routeFile = path.join(__dirname, '../..', 'routes', `${name}.jsx`);
+  fs.unlinkSync(routeFile);
+
+  // remove mount
+  let routeContent = '';
+  try {
+    routeContent = fs.readFileSync(routeFileJs, 'utf8');
+  } catch (err) {
+    console.log(`There was a problem reading from ${routeFileJs}`);
+    return false;
+  }
+  routeContent = routeContent.replace(`\nconst ${name} = require('../routes/${name}');`, '');
+  routeContent = routeContent.replace(`\nrouter.use('/${name}', ${name});`, '');
+  try {
+    fs.writeFileSync(routeFileJs, routeContent);
+  } catch (err) {
+    console.log(`There was a problem writing to ${routeFileJs}`);
+    return false;
+  }
+  return true;
 };
 
 module.exports = routes;

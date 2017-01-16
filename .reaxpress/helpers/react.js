@@ -4,6 +4,20 @@ const template = require('./template');
 
 const react = {};
 
+const deleteFolderRecursive = (_path) => {
+  if (fs.existsSync(_path)) {
+    fs.readdirSync(_path).forEach((file) => {
+      const curPath = `${_path}/${file}`;
+      if (fs.lstatSync(curPath).isDirectory()) {
+        deleteFolderRecursive(curPath);
+      } else {
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(_path);
+  }
+};
+
 react.create = (name) => {
   const reactDirPath = path.join(__dirname, '../..', 'src/react/', name);
   const reactFile = path.join(reactDirPath, 'index.jsx');
@@ -24,7 +38,8 @@ react.create = (name) => {
 };
 
 react.remove = (name) => {
-  console.log('route.remove() not implemented');
+  const reactDirPath = path.join(__dirname, '../..', 'src/react/', name);
+  deleteFolderRecursive(reactDirPath);
 };
 
 module.exports = react;
