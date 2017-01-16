@@ -17,9 +17,21 @@ This code is built on top of the default code you get when creating a new projec
     ./reaxpress.js remove [route]
     ./reaxpress.js forget [route]
 
+'create' will:
+ - register the route in ./.reaxpress/skeleton.json
+ - create a boilerplate express route file ./routes/[route].jsx
+ - mount that route file in ./.reaxpress/routes.js
+ - create the react components in ./src/react/[route]
+ - add the react component as an entry in ./webpack.config.js
+
+'remove' does the inverse.
+
+'forget' will unregister the route with the skeleton.json file. This means it can no longer be removed using the cli tool and all generated changes must be manually removed.
+
+There is one protected route, 'index' which cannot be added/deleted.
+
 ### Todo
 
- - Write/Rewrite CLI functionality
  - Create server object for client consumption on page load
  - Basic user auth
  - Basic CMS functionality
