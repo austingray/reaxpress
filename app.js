@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const expressSession = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
 // const favicon = require('serve-favicon');
 const app = express();
 
@@ -26,9 +27,13 @@ app.use(expressSession({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
 
+// passport
+app.use(passport.initialize());
+app.use(passport.session());
+require('./passport.config.js')();
+
 // default index routes
 app.use('/', require('./routes/index'));
-
 // #reaxpress: generated routes
 app.use(require('./.reaxpress/routes'));
 
