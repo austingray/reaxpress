@@ -4,12 +4,11 @@ An Express/React boilerplate with a CLI for rapid prototyping.
 
 ### Features:
 
- - Universal React components for server and client side rendering
  - A CLI for generating routes and boilerplate code
+ - Universal React components for server and client side rendering
+ - Data sharing between server and client
 
 ### CLI
-
-The gist of the command line integration is you can create/remove/forget routes which are tracked in ./.reaxpress/skeleton.json. Reaxpress will generate boilerplate code, including the express route, a basic react component, and modifications to the webpack config file.
 
     ./reaxpress.js create [route]
     ./reaxpress.js remove [route]
@@ -32,7 +31,7 @@ There is one protected route, 'index' which cannot be added/deleted.
 
 ### Server -> Client Data Sharing
 
-There's a middleware in app.js that sets a variable named res.locals.reaxpressData. All of your view data should be stored in that object. It is saved as a string because it will be written directly into our template, in a script tag in the document's head.
+There's a middleware in app.js that sets a variable named res.locals.reaxpressData. All of your view data should be stored in that object. It is saved as a string because it will be written directly into our document's head in a script tag.
 
     app.use((req, res, next) => {
       res.locals.reaxpressData = JSON.stringify({
@@ -41,26 +40,40 @@ There's a middleware in app.js that sets a variable named res.locals.reaxpressDa
       next();
     });
 
-If we want to add custom view data for a route:
+If we want to add custom data, we would perform our database call, parse the contents of res.locals.reaxpressData, add our new data, then stringify the updated data back to res.locals.reaxpressData. We then pass our data as a prop in our react component:
 
     router.get('/article', (req, res) => {
-      // database call to fetch an article's comments
-      const comments = ...
-      // convert res.locals.reaxpressData back to an object and add our custom data
+      const comments = /* fetch comments from database \*/
+
       const reaxpressData = JSON.parse(res.locals.reaxpressData);
       reaxpressData.comments = comments;
-      // JSON.stringify() the updated reaxpressData and save back to res.locals.reaxpressData
+
       res.locals.reaxpressData = JSON.stringify(reaxpressData);
-      // pass the reaxpressData to handle server side data rendering
+
       res.render('template.ejs', {
         templateHtml: ReactDOMServer.renderToString(<Article reaxpressData={reaxpressData} />),
         componentJs: 'article',
       });
     });
 
-We send all of our view data server side as a prop named reaxpressData. We serve a JSON.stringify() version of the same data to the front end via res.locals.reaxpressData.
+We automagically make that data available to our components via the @Reaxpress decorator. All top level components should use the decorator, which will make it available to all child components. The @Reaxpress decorator is a [Higher Order Component](https://facebook.github.io/react/docs/higher-order-components.html) that lives in ./src/react/reaxpress/index.js.
 
-We can automagically use that data by using the @Reaxpress decorator. The Reaxpress decorator is a [Higher Order Component](https://facebook.github.io/react/docs/higher-order-components.html) that lives in ./src/react/reaxpress/index.js which makes that reaxpressData available to your components.
+    @Reaxpress
+    class Article extends React.Component {
+      render() {
+        return (
+          <div>
+            <Header />
+            <Page>
+              Article content
+            </Page>
+            <Footer />
+          </div>
+        );
+      }
+    }
+
+Using @Reaxpress, 'this.props.reaxpressData' will be the same value on the client side as it is on the server side. Any child components that will display custom data should use the @Reaxpress decorator. This will make the global reaxpressData available as this.props.reaxpressData:
 
     import React from 'react';
     import Reaxpress from '../reaxpress';
@@ -71,14 +84,14 @@ We can automagically use that data by using the @Reaxpress decorator. The Reaxpr
         const user = this.props.reaxpressData.user;
         return (
           <header id="header">
-            <div className="logo">
+            <div id="logo">
               <a href="/">Reaxpress</a>
             </div>
-            <div className="user">
+            <div id="user">
               {
                 user
                   ? `Hello, ${user.username}`
-                  : <LoginBox />
+                  : <a href="/login">Login</a>
               }
             </div>
           </header>
@@ -86,7 +99,7 @@ We can automagically use that data by using the @Reaxpress decorator. The Reaxpr
       }
     }
 
-Using @Reaxpress, 'this.props.reaxpressData.user' will be the same value on the client side as it is on the server side.
+If you notice in the code above, the Article does not pass any props to the <Header /> component, but using our decorator, the props are made available to it.
 
 ### Under the hood
 
@@ -102,7 +115,7 @@ Using @Reaxpress, 'this.props.reaxpressData.user' will be the same value on the 
  - Basic user auth
  - Basic CMS functionality
 
-### Setup
+### Installation
 
 Installation:
 

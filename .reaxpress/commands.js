@@ -32,9 +32,19 @@ const routeExists = (name) => {
   return exists;
 };
 
+// these route names cannot be used by the CLI
+const blacklisted = [
+  'index',
+];
+
 module.exports = {
 
   create: (name) => {
+    if (blacklisted.includes(name)) {
+      console.log(`Route '${name}' is a protected route`);
+      return false;
+    }
+
     // bail if route exists
     if (routeExists(name)) {
       return false;
@@ -49,7 +59,12 @@ module.exports = {
   },
 
   remove: (name) => {
-    // bail if route does not exist
+    if (blacklisted.includes(name)) {
+      console.log(`Route '${name}' is a protected route`);
+      return false;
+    }
+
+    // bail if route is not registered in skeleton file
     if (!skeleton.exists(name)) {
       console.log(`Route '${name}' does not exist or is not registered in skeleton.json`);
       return false;
@@ -68,15 +83,14 @@ module.exports = {
   },
 
   forget: (name) => {
-    // bail if route does not exist
-    if (!routeExists(name)) {
-      console.log(`Route '${name}' does not exist.`);
+    if (blacklisted.includes(name)) {
+      console.log(`Route '${name}' is a protected route`);
       return false;
     }
 
-    // protected routes cannot be deleted
-    if (['index'].includes(name)) {
-      console.log(`Route '${name}' is a protected route`);
+    // bail if route does not exist
+    if (!routeExists(name)) {
+      console.log(`Route '${name}' does not exist.`);
       return false;
     }
 

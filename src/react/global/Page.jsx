@@ -1,3 +1,4 @@
+/* eslint "react/prop-types": 0 */
 import React from 'react';
 
 function Page({ children }) {
@@ -13,13 +14,5 @@ function Page({ children }) {
     </section>
   );
 }
-
-Page.propTypes = {
-  children: React.PropTypes.array,
-};
-
-Page.defaultProps = {
-  children: 'This is default content.',
-};
 
 export default Page;

@@ -4,22 +4,34 @@ module.exports = {
     return (
 `import React from 'react';
 import ReactDOM from 'react-dom';
+import Reaxpress from '../reaxpress';
 
 import Header from '../global/Header';
 import Footer from '../global/Footer';
 import Page from '../global/Page';
 
-function ${componentName}() {
-  return (
-    <div>
-      <Header />
-      <Page>
-        ${componentName} content
-      </Page>
-      <Footer />
-    </div>
-  );
+@Reaxpress
+class ${componentName} extends React.Component {
+  render() {
+    return (
+      <div>
+        <Header />
+        <Page>
+          ${componentName} content
+        </Page>
+        <Footer />
+      </div>
+    );
+  }
 }
+
+${componentName}.defaultProps = {
+  reaxpressData: {},
+};
+
+${componentName}.propTypes = {
+  reaxpressData: React.PropTypes.object,
+};
 
 if (typeof document !== 'undefined') {
   ReactDOM.render(
@@ -45,8 +57,9 @@ const ReactDOMServer = require('react-dom/server');
 const router = express.Router();
 
 router.get('/', (req, res) => {
+  const reaxpressData = JSON.parse(res.locals.reaxpressData);
   res.render('template.ejs', {
-    templateHtml: ReactDOMServer.renderToString(<${componentName} />),
+    templateHtml: ReactDOMServer.renderToString(<${componentName} reaxpressData={reaxpressData} />),
     componentJs: '${name}',
   });
 });

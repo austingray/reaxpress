@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-module.exports = require('./.reaxpress/core');
+module.exports = require('./.reaxpress/reaxpress');

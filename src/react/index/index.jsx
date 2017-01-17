@@ -13,7 +13,7 @@ class Index extends React.Component {
       <div>
         <Header />
         <Page>
-          Index content - {this.props.reaxpressData.test}
+          Index content
         </Page>
         <Footer />
       </div>
