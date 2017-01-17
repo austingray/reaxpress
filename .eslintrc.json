@@ -12,7 +12,9 @@
   },
   "rules": {
     "react/forbid-prop-types": "off",
-    "no-console": "off"
+    "no-console": "off",
+    "react/prefer-stateless-function": ["off", { "ignorePureComponents": true }],
+    "no-param-reassign": ["error", { "props": false }]
   },
   "extends": "airbnb",
   "plugins": [

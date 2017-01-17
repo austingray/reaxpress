@@ -19,7 +19,7 @@ module.exports = {
         loader: 'babel-loader',
         query: {
           compact: false,
-          plugins: ['transform-runtime'],
+          plugins: ['transform-runtime', 'transform-decorators-legacy'],
           presets: ['es2015', 'stage-0', 'react'],
         },
       },

@@ -1,21 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Reaxpress from '../reaxpress';
 
 import Header from '../global/Header';
 import Footer from '../global/Footer';
 import Page from '../global/Page';
 
-function Index() {
-  return (
-    <div>
-      <Header />
-      <Page>
-        Index content
-      </Page>
-      <Footer />
-    </div>
-  );
+@Reaxpress
+class Index extends React.Component {
+  render() {
+    return (
+      <div>
+        <Header />
+        <Page>
+          Index content - {this.props.reaxpressData.test}
+        </Page>
+        <Footer />
+      </div>
+    );
+  }
 }
+
+Index.defaultProps = {
+  reaxpressData: {},
+};
+
+Index.propTypes = {
+  reaxpressData: React.PropTypes.object,
+};
 
 if (typeof document !== 'undefined') {
   ReactDOM.render(

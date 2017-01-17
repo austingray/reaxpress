@@ -1,19 +1,38 @@
-const React = require('react');
+import React from 'react';
+import Reaxpress from '../reaxpress';
 
-function Header() {
-  return (
-    <header id="header">
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12">
-            <div className="logo">
-              <a href="/">Reaxpress</a>
+@Reaxpress
+class Header extends React.Component {
+  render() {
+    return (
+      <header id="header">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-9">
+              <div className="logo">
+                <a href="/">Reaxpress</a>
+              </div>
+            </div>
+            <div className="col-md-3">
+              {
+                this.props.reaxpressData.user
+                  ? 'Logged in'
+                  : 'Not logged in'
+              }
             </div>
           </div>
         </div>
-      </div>
-    </header>
-  );
+      </header>
+    );
+  }
 }
+
+Header.defaultProps = {
+  reaxpressData: {},
+};
+
+Header.propTypes = {
+  reaxpressData: React.PropTypes.object,
+};
 
 export default Header;

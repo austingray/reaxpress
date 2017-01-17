@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 function Page({ children }) {
   return (
@@ -16,18 +15,11 @@ function Page({ children }) {
 }
 
 Page.propTypes = {
-  children: React.PropTypes.string,
+  children: React.PropTypes.array,
 };
 
 Page.defaultProps = {
   children: 'This is default content.',
 };
-
-if (typeof document !== 'undefined') {
-  ReactDOM.render(
-    <Page />,
-    document.getElementById('app'),
-  );
-}
 
 export default Page;

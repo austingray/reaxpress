@@ -8,6 +8,7 @@ const expressSession = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
 const favicon = require('serve-favicon');
+
 const app = express();
 
 // view engine setup
@@ -31,6 +32,14 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 require('./passport.config.js')();
+
+// reaxpress globals
+app.use((req, res, next) => {
+  res.locals.reaxpressData = JSON.stringify({
+    user: { username: 'test' } || false,
+  });
+  next();
+});
 
 // default index routes
 app.use('/', require('./routes/index'));
