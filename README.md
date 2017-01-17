@@ -16,20 +16,25 @@ An Express/React boilerplate with a CLI for rapid prototyping.
 ./reaxpress.js forget [route]
 ```
 
-'create' will:
+*create* will:
  - register the route in ./.reaxpress/skeleton.json
  - create a boilerplate express route file ./routes/[route].jsx
  - mount that route file in ./.reaxpress/routes.js
  - create the react components in ./src/react/[route]
  - add the react component as an entry in ./webpack.config.js
 
-'remove' does the inverse.
+*remove*
 
-'forget' will unregister the route with the skeleton.json file. This means it can no longer be removed using the cli tool and all generated changes must be manually removed.
+ - deletes the files that were created above
 
-In the future, I may force manual removal of modified boilerplate files to not erase any customizations by accident. This depends on what direction and added functionality the CLI tool may get.
+*forget*
+ - unregister the route in skeleton.json.
 
-There is one protected route, 'index' which cannot be added/deleted.
+Forgetting a route means it can no longer be removed using the cli tool and all generated changes must be manually removed. In the future, I may force manual removal of modified boilerplate files to not erase any customizations by accident. This depends on what direction and added functionality the CLI tool may get.
+
+There are several protected routes which cannot be added or deleted to protect core functionality:
+
+    'index', 'reaxpress'
 
 ### Server -> Client Data Sharing
 

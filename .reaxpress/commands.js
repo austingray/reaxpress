@@ -35,6 +35,7 @@ const routeExists = (name) => {
 // these route names cannot be used by the CLI
 const blacklisted = [
   'index',
+  'reaxpress',
 ];
 
 module.exports = {
