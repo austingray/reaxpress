@@ -10,9 +10,11 @@ An Express/React boilerplate with a CLI for rapid prototyping.
 
 ### CLI
 
-    ./reaxpress.js create [route]
-    ./reaxpress.js remove [route]
-    ./reaxpress.js forget [route]
+```
+./reaxpress.js create [route]
+./reaxpress.js remove [route]
+./reaxpress.js forget [route]
+```
 
 'create' will:
  - register the route in ./.reaxpress/skeleton.json
@@ -33,73 +35,81 @@ There is one protected route, 'index' which cannot be added/deleted.
 
 There's a middleware in app.js that sets a variable named res.locals.reaxpressData. All of your view data should be stored in that object. It is saved as a string because it will be written directly into our document's head in a script tag.
 
-    app.use((req, res, next) => {
-      res.locals.reaxpressData = JSON.stringify({
-        user: req.user || false,
-      });
-      next();
-    });
+```javascript
+app.use((req, res, next) => {
+  res.locals.reaxpressData = JSON.stringify({
+    user: req.user || false,
+  });
+  next();
+});
+```
 
 If we want to add custom data, we would perform our database call, parse the contents of res.locals.reaxpressData, add our new data, then stringify the updated data back to res.locals.reaxpressData. We then pass our data as a prop in our react component:
 
-    router.get('/article', (req, res) => {
-      const comments = /* fetch comments from database \*/
+```javascript
+router.get('/article', (req, res) => {
+  const comments = /* fetch comments from database \*/
 
-      const reaxpressData = JSON.parse(res.locals.reaxpressData);
-      reaxpressData.comments = comments;
+  const reaxpressData = JSON.parse(res.locals.reaxpressData);
+  reaxpressData.comments = comments;
 
-      res.locals.reaxpressData = JSON.stringify(reaxpressData);
+  res.locals.reaxpressData = JSON.stringify(reaxpressData);
 
-      res.render('template.ejs', {
-        templateHtml: ReactDOMServer.renderToString(<Article reaxpressData={reaxpressData} />),
-        componentJs: 'article',
-      });
-    });
+  res.render('template.ejs', {
+    templateHtml: ReactDOMServer.renderToString(<Article reaxpressData={reaxpressData} />),
+    componentJs: 'article',
+  });
+});
+```
 
 We automagically make that data available to our components via the @Reaxpress decorator. All top level components should use the decorator, which will make it available to all child components. The @Reaxpress decorator is a [Higher Order Component](https://facebook.github.io/react/docs/higher-order-components.html) that lives in ./src/react/reaxpress/index.js.
 
-    @Reaxpress
-    class Article extends React.Component {
-      render() {
-        return (
-          <div>
-            <Header />
-            <Page>
-              Article content
-            </Page>
-            <Footer />
-          </div>
-        );
-      }
-    }
+```javascript
+@Reaxpress
+class Article extends React.Component {
+  render() {
+    return (
+      <div>
+        <Header />
+        <Page>
+          Article content
+        </Page>
+        <Footer />
+      </div>
+    );
+  }
+}
+```
 
 Using @Reaxpress, 'this.props.reaxpressData' will be the same value on the client side as it is on the server side. Any child components that will display custom data should use the @Reaxpress decorator. This will make the global reaxpressData available as this.props.reaxpressData:
 
-    import React from 'react';
-    import Reaxpress from '../reaxpress';
+```javascript
+import React from 'react';
+import Reaxpress from '../reaxpress';
 
-    @Reaxpress
-    class Header extends React.Component {
-      render() {
-        const user = this.props.reaxpressData.user;
-        return (
-          <header id="header">
-            <div id="logo">
-              <a href="/">Reaxpress</a>
-            </div>
-            <div id="user">
-              {
-                user
-                  ? `Hello, ${user.username}`
-                  : <a href="/login">Login</a>
-              }
-            </div>
-          </header>
-        );
-      }
-    }
+@Reaxpress
+class Header extends React.Component {
+  render() {
+    const user = this.props.reaxpressData.user;
+    return (
+      <header id="header">
+        <div id="logo">
+          <a href="/">Reaxpress</a>
+        </div>
+        <div id="user">
+          {
+            user
+              ? `Hello, ${user.username}`
+              : <a href="/login">Login</a>
+          }
+        </div>
+      </header>
+    );
+  }
+}
+```
 
-If you notice in the code above, the Article does not pass any props to the <Header /> component, but using our decorator, the props are made available to it.
+If you notice in the code above, Article does not pass any props to the Header component, but using our decorator, the props are made available to it.
 
 ### Under the hood
 
@@ -119,15 +129,21 @@ If you notice in the code above, the Article does not pass any props to the <Hea
 
 Installation:
 
-    npm install
+```
+npm install
+```
 
 This project will expect a postgres database
 
-    CREATE USER <db_user> WITH PASSWORD '<db_password>';
-    CREATE DATABASE <db_name> OWNER <db_user>;
-    -- need privileges to install uuid-ossp extension via knex migration
-    ALTER USER <db_user> WITH SUPERUSER;
+```SQL
+CREATE USER <db_user> WITH PASSWORD '<db_password>';
+CREATE DATABASE <db_name> OWNER <db_user>;
+-- need privileges to install uuid-ossp extension via knex migration
+ALTER USER <db_user> WITH SUPERUSER;
+```
 
 With defined environment variable:
 
-    export REAXPRESS_CONNECTION_STRING=postgresql://jb_user:randompasswordstring@127.0.0.1:5432/jb_database
+```bash
+export REAXPRESS_CONNECTION_STRING=postgresql://jb_user:randompasswordstring@127.0.0.1:5432/jb_database
+```
