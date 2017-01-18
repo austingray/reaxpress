@@ -16,7 +16,7 @@ An Express/React boilerplate with a CLI for rapid prototyping.
 ./reaxpress.js forget <route>
 ```
 
-*create* will:
+*create*:
  - register the route in ./.reaxpress/skeleton.json
  - create a boilerplate express route file ./routes/[route].jsx
  - mount that route file in ./.reaxpress/routes.js
