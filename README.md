@@ -11,9 +11,9 @@ An Express/React boilerplate with a CLI for rapid prototyping.
 ### CLI
 
 ```
-./reaxpress.js create [route]
-./reaxpress.js remove [route]
-./reaxpress.js forget [route]
+./reaxpress.js create <route>
+./reaxpress.js remove <route>
+./reaxpress.js forget <route>
 ```
 
 *create* will:
@@ -38,7 +38,7 @@ There are several protected routes which cannot be added or deleted to protect c
 
 ### Server -> Client Data Sharing
 
-There's a middleware in app.js that sets a variable named res.locals.reaxpressData. All of your view data should be stored in that object. It is saved as a string because it will be written directly into our document's head in a script tag.
+There's a middleware in app.js that creates the global reaxpressData variable and saves a stringified version as res.locals.reaxpressData. All of your view data should be stored in that object. It is saved as a string because it will be written directly into our document's head in a script tag.
 
 ```javascript
 app.use((req, res, next) => {
@@ -49,17 +49,23 @@ app.use((req, res, next) => {
 });
 ```
 
-If we want to add custom data, we would perform our database call, parse the contents of res.locals.reaxpressData, add our new data, then stringify the updated data back to res.locals.reaxpressData. We then pass our data as a prop in our react component:
+If we want to add view specific data, you need to parse the contents of res.locals.reaxpressData, add the data, then re-stringify it back to res.locals.reaxpressData. Make sure to pass the Object as a prop in our react component.
 
 ```javascript
-router.get('/article', (req, res) => {
-  const comments = /* fetch comments from database \*/
+router.get('/article/:id', (req, res) => {
+  // get view specific data
+  const article = fetchArticle(req.params.id);
 
+  // grab our global reaxpressData
   const reaxpressData = JSON.parse(res.locals.reaxpressData);
-  reaxpressData.comments = comments;
 
+  // add our view specific data to the global object
+  reaxpressData.article = article;
+
+  // save our updated object back to res.locals
   res.locals.reaxpressData = JSON.stringify(reaxpressData);
 
+  // render our view, passing the updated global object as a prop
   res.render('template.ejs', {
     templateHtml: ReactDOMServer.renderToString(<Article reaxpressData={reaxpressData} />),
     componentJs: 'article',
@@ -67,7 +73,7 @@ router.get('/article', (req, res) => {
 });
 ```
 
-We automagically make that data available to our components via the @Reaxpress decorator. All top level components should use the decorator, which will make it available to all child components. The @Reaxpress decorator is a [Higher Order Component](https://facebook.github.io/react/docs/higher-order-components.html) that lives in ./src/react/reaxpress/index.js.
+The contents of reaxpressData is automagically made available to child components via the @Reaxpress decorator. The @Reaxpress decorator is a [Higher-Order Component](https://facebook.github.io/react/docs/higher-order-components.html) that lives in ./src/react/reaxpress/index.js.
 
 ```javascript
 @Reaxpress
@@ -86,7 +92,7 @@ class Article extends React.Component {
 }
 ```
 
-Using @Reaxpress, 'this.props.reaxpressData' will be the same value on the client side as it is on the server side. Any child components that will display custom data should use the @Reaxpress decorator. This will make the global reaxpressData available as this.props.reaxpressData:
+Using @Reaxpress, 'this.props.reaxpressData' will be the same value on the client side as it is on the server side. Any child components that display custom data should use the @Reaxpress decorator to gain access to the contents.
 
 ```javascript
 import React from 'react';
@@ -114,7 +120,7 @@ class Header extends React.Component {
 }
 ```
 
-If you notice in the code above, Article does not pass any props to the Header component, but using our decorator, the props are made available to it.
+In the code above, Article does not pass any props to the Header component, but using our decorator, this.props.reaxpressData is made available to it.
 
 ### Under the hood
 
@@ -127,12 +133,10 @@ If you notice in the code above, Article does not pass any props to the Header c
 
 ### Todo
 
- - Basic user auth
- - Basic CMS functionality
+ - Basic auth
+ - CMS functionality
 
 ### Installation
-
-Installation:
 
 ```
 npm install
