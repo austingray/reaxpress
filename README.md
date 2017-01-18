@@ -92,7 +92,7 @@ class Article extends React.Component {
 }
 ```
 
-Using @Reaxpress, 'this.props.reaxpressData' will be the same value on the client side as it is on the server side. Any child components that display custom data should use the @Reaxpress decorator to gain access to the contents.
+Using @Reaxpress, 'this.props.reaxpressData' will be the same value on the client side as it is on the server side. Any child components that display custom data should use the @Reaxpress decorator to gain access to it.
 
 ```javascript
 import React from 'react';
