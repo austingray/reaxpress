@@ -55,7 +55,7 @@ app.use((req, res, next) => {
 });
 ```
 
-To add route specific view data, parse the contents of `res.locals.reaxpressData`, add the data, then stringify it back to `res.locals.reaxpressData`. Pass the regular object as a prop in our react component.
+To add route specific view data, parse the contents of `res.locals.reaxpressData`, add the data, then stringify it back to `res.locals.reaxpressData`. Pass the regular object as a prop to our react component.
 
 ```javascript
 router.get('/article/:id', (req, res) => {
@@ -79,7 +79,7 @@ router.get('/article/:id', (req, res) => {
 });
 ```
 
-The contents of reaxpressData is automagically made available to React components via the `@Reaxpress` decorator, which is a [Higher-Order Component](https://facebook.github.io/react/docs/higher-order-components.html) that lives in `./src/react/reaxpress/index.js`. Inside your route component, if `document` is not undefined, then `ReactDOM.render()` is called to mount the component on the client. All of this code is included when using the CLI tool to generate a route.
+The contents of reaxpressData are automagically made available to React components via the `@Reaxpress` decorator, which is a [Higher-Order Component](https://facebook.github.io/react/docs/higher-order-components.html) that lives in `./src/react/reaxpress/index.js`. Inside your top level components, if `document` is not undefined, then `ReactDOM.render()` is called to mount the component on the client. All of this code is included when using the CLI tool to generate a route.
 
 ```javascript
 import React from 'react';
@@ -109,13 +109,13 @@ class Article extends React.Component {
 
 if (typeof document !== 'undefined') {
   ReactDOM.render(
-    <Index />,
+    <Article />,
     document.getElementById('app'),
   );
 }
 ```
 
-Using the `@Reaxpress` decorator, `this.props.reaxpressData` will be the same value on the client side as it is on the server side. Any child components that display custom data should use the @Reaxpress decorator to access it.
+Using the `@Reaxpress` decorator, `this.props.reaxpressData` will be the same on the client side as it is on the server. Any child components that display that data should use the decorator to access it.
 
 ```javascript
 import React from 'react';
