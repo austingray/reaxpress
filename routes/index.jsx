@@ -1,4 +1,4 @@
-import Index from '../src/react/Index';
+import Index from '../src/react/index';
 import Login from '../src/react/login';
 import Register from '../src/react/register';
 import Account from '../src/react/account';
