@@ -4,24 +4,37 @@ import Reaxpress from '../reaxpress';
 @Reaxpress
 class Header extends React.Component {
   render() {
+    const user = this.props.reaxpressData.user;
     return (
       <header id="header">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-9">
-              <div className="logo">
-                <a href="/">Reaxpress</a>
+        <section id="header-main">
+          <div className="container">
+            <div className="row">
+              <div className="col-xs-6">
+                <div className="logo">
+                  <a href="/">Reaxpress</a>
+                </div>
+              </div>
+              <div className="col-xs-6" style={{ textAlign: 'right' }}>
+                {
+                  user
+                    ? (
+                      <div>
+                        Welcome, <a href="/account">{user.username}</a> <a href="/logout">[logout]</a>
+                      </div>
+                    )
+                    : (
+                      <div>
+                        <a href="/login" className="btn btn-link">Login</a>
+                        <a href="/register" className="btn btn-primary">Register</a>
+                      </div>
+                    )
+                }
               </div>
             </div>
-            <div className="col-md-3">
-              {
-                this.props.reaxpressData.user
-                  ? 'Logged in'
-                  : 'Not logged in'
-              }
-            </div>
           </div>
-        </div>
+        </section>
+        <section id="messages" />
       </header>
     );
   }

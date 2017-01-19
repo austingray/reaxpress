@@ -1,12 +1,13 @@
 # Reaxpress
 
-An Express/React boilerplate with a CLI for rapid prototyping.
+The goal of Reaxpress is to provide an extendable boilerplate for creating React/Express applications that reuse React components on the server and client and doesn't require redundant calls to the server to render the client view.
 
 ### Features:
 
  - A CLI for generating routes and boilerplate code
- - Universal React components for server and client side rendering
- - Data sharing between server and client
+ - Universal React components
+ - Ubiquitous view state data sharing between server and client
+ - Basic user auth using [passport](http://passportjs.org/)
 
 ### CLI
 
@@ -34,7 +35,12 @@ Forgetting a route means it can no longer be removed using the cli tool and all 
 
 There are several protected routes which cannot be added or deleted to protect core functionality:
 
-    'index', 'reaxpress'
+    'index',
+    'reaxpress',
+    'login',
+    'logout',
+    'register',
+    'account',
 
 ### Server -> Client Data Sharing
 

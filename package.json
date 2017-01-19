@@ -32,7 +32,8 @@
     "pg": "^6.1.2",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "validator": "^6.2.1"
   },
   "devDependencies": {
     "babel-core": "^6.21.0",

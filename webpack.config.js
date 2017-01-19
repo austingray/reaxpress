@@ -3,6 +3,9 @@ const path = require('path');
 module.exports = {
   entry: {
     index: './src/react/index',
+    login: './src/react/login',
+    register: './src/react/register',
+    account: './src/react/account',
   },
   output: {
     path: path.join(__dirname, 'public/build/js'),

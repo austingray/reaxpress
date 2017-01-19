@@ -9,9 +9,6 @@ exports.up = (knex, Promise) => {
         table.timestamps(true, true);
         table.string('username').notNullable();
         table.string('hash').notNullable();
-        table.string('email').unique().notNullable();
-        table.string('first_name');
-        table.string('last_name');
       }),
     ]);
   });

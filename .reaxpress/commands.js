@@ -36,6 +36,10 @@ const routeExists = (name) => {
 const blacklisted = [
   'index',
   'reaxpress',
+  'login',
+  'logout',
+  'register',
+  'account',
 ];
 
 module.exports = {
