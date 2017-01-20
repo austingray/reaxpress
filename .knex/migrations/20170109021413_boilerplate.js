@@ -11,6 +11,15 @@ exports.up = (knex, Promise) => {
         table.string('hash').notNullable();
         table.integer('role').defaultTo(0);
       }),
+      // pages
+      knex.schema.createTable('pages', (table) => {
+        table.increments().primary();
+        table.uuid('uuid').defaultTo(knex.raw('uuid_generate_v4()')).notNullable().unique();
+        table.timestamps(true, true);
+        table.integer('created_by').references('users.id').notNullable();
+        table.string('title');
+        table.text('body');
+      }),
     ]);
   });
 };

@@ -13,7 +13,10 @@ class Admin extends React.Component {
       <div>
         <Header />
         <Page>
-          Admin content
+          <h1>Admin</h1>
+          <ul>
+            <li><a href="/admin/pages">Pages</a></li>
+          </ul>
         </Page>
         <Footer />
       </div>
