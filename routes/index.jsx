@@ -4,9 +4,7 @@ import Register from '../src/react/register';
 import Account from '../src/react/account';
 
 const router = require('express').Router();
-const knex = require('knex')(require('../.knex/knexfile')[process.env.NODE_ENV]);
 const passport = require('passport');
-const bcrypt = require('bcrypt');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 
@@ -98,17 +96,10 @@ router.post('/register', (req, res) => {
       res.redirect('/register');
       return;
     }
-    bcrypt.genSalt(10, (genSaltErr, salt) => {
-      bcrypt.hash(reqPassword, salt, (hashErr, hash) => {
-        knex.raw(`
-          INSERT INTO users (username, hash)
-          VALUES ('${reqUsername}', '${hash}')
-        `).then(() => {
-          passport.authenticate('local')(req, res, () => {
-            req.flash('success', `Welcome, ${reqUsername}.`);
-            res.redirect('/account');
-          });
-        });
+    users.createUser(reqUsername, reqPassword, () => {
+      passport.authenticate('local')(req, res, () => {
+        req.flash('success', `Welcome, ${reqUsername}.`);
+        res.redirect('/account');
       });
     });
   });

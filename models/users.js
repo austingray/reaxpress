@@ -1,4 +1,5 @@
 const knex = require('knex')(require('../.knex/knexfile')[process.env.NODE_ENV]);
+const bcrypt = require('bcrypt');
 
 const users = {};
 
@@ -13,6 +14,19 @@ users.checkIfUserExists = (username, callback) => {
       exists = false;
     }
     callback(exists);
+  });
+};
+
+users.createUser = (username, password, callback) => {
+  bcrypt.genSalt(10, (genSaltErr, salt) => {
+    bcrypt.hash(password, salt, (hashErr, hash) => {
+      knex.raw(`
+        INSERT INTO users (username, hash)
+        VALUES ('${username}', '${hash}')
+      `).then(() => {
+        callback();
+      });
+    });
   });
 };
 
