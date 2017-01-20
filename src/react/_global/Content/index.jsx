@@ -1,7 +1,7 @@
 /* eslint "react/prop-types": 0 */
 import React from 'react';
 
-function Page({ children }) {
+function Content({ children }) {
   return (
     <section id="content">
       <div className="container">
@@ -15,4 +15,4 @@ function Page({ children }) {
   );
 }
 
-export default Page;
+export default Content;

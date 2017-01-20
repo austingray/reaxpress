@@ -5,11 +5,13 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 // models
 import users from '../models/users';
+import pages from '../models/pages';
 // react components
-import Index from '../src/react/index';
-import Login from '../src/react/login';
-import Register from '../src/react/register';
-import Account from '../src/react/account';
+import Index from '../src/react/Index';
+import Login from '../src/react/Login';
+import Register from '../src/react/Register';
+import Account from '../src/react/Account';
+import Page from '../src/react/_global/Page';
 
 const router = express.Router();
 
@@ -57,6 +59,22 @@ router.get('/account', (req, res) => {
     res.render('template.ejs', {
       templateHtml: ReactDOMServer.renderToString(<Account reaxpressData={reaxpressData} />),
       componentJs: 'account',
+    });
+  });
+});
+
+// pages
+router.use((req, res, next) => {
+  pages.fetchPageFromRequestUrl(req.originalUrl, (page) => {
+    if (!page) {
+      return next();
+    }
+    const reaxpressData = JSON.parse(res.locals.reaxpressData);
+    reaxpressData.page = page;
+    res.locals.reaxpressData = JSON.stringify(reaxpressData);
+    return res.render('template.ejs', {
+      templateHtml: ReactDOMServer.renderToString(<Page reaxpressData={reaxpressData} />),
+      componentJs: 'templatedefault',
     });
   });
 });

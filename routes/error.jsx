@@ -2,7 +2,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 // react components
-import ErrorTemplate from '../src/react/error';
+import Page from '../src/react/_global/Page';
 
 const router = require('express').Router();
 
@@ -18,12 +18,12 @@ router.use((req, res) => {
   const reaxpressData = JSON.parse(res.locals.reaxpressData);
   reaxpressData.page = {
     title: `Error: ${status}`,
-    body: 'There was a problem processing your request or this page simply does not exist.',
+    content: 'There was a problem processing your request or this page simply does not exist.',
   };
   res.locals.reaxpressData = JSON.stringify(reaxpressData);
   res.render('template.ejs', {
-    templateHtml: ReactDOMServer.renderToString(<ErrorTemplate reaxpressData={reaxpressData} />),
-    componentJs: 'error',
+    templateHtml: ReactDOMServer.renderToString(<Page reaxpressData={reaxpressData} />),
+    componentJs: 'page',
   });
 });
 

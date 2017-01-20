@@ -1,5 +1,5 @@
 import React from 'react';
-import Reaxpress from '../reaxpress';
+import Reaxpress from '../Reaxpress';
 
 @Reaxpress
 class Header extends React.Component {

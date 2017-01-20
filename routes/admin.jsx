@@ -6,8 +6,8 @@ import ReactDOMServer from 'react-dom/server';
 import users from '../models/users';
 import pages from '../models/pages';
 // react components
-import Admin from '../src/react/admin';
-import ErrorTemplate from '../src/react/error';
+import Admin from '../src/react/Admin';
+import Page from '../src/react/_global/Page';
 
 const router = express.Router();
 
@@ -22,12 +22,12 @@ const validateAdminRequest = (req, res, next) => {
     const reaxpressData = JSON.parse(res.locals.reaxpressData);
     reaxpressData.page = {
       title: 'Error: 404',
-      body: 'There was a problem processing your request or this page simply does not exist.',
+      content: 'There was a problem processing your request or this page simply does not exist.',
     };
     res.locals.reaxpressData = JSON.stringify(reaxpressData);
     return res.render('template.ejs', {
-      templateHtml: ReactDOMServer.renderToString(<ErrorTemplate reaxpressData={reaxpressData} />),
-      componentJs: 'error',
+      templateHtml: ReactDOMServer.renderToString(<Page reaxpressData={reaxpressData} />),
+      componentJs: 'page',
     });
   });
 };

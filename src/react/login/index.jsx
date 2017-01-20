@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Reaxpress from '../reaxpress';
-
-import Header from '../global/Header';
-import Footer from '../global/Footer';
-import Page from '../global/Page';
+import Reaxpress from '../_global/Reaxpress';
+import Header from '../_global/Header';
+import Footer from '../_global/Footer';
+import Content from '../_global/Content';
 
 @Reaxpress
 class Login extends React.Component {
@@ -12,7 +11,7 @@ class Login extends React.Component {
     return (
       <div>
         <Header />
-        <Page>
+        <Content>
           <h1>Login</h1>
           <form role="form" action="/login" method="post" className="credential-box">
             <div className="form-group">
@@ -28,7 +27,7 @@ class Login extends React.Component {
               <a href="/" className="btn btn-link">Cancel</a>
             </div>
           </form>
-        </Page>
+        </Content>
         <Footer />
       </div>
     );

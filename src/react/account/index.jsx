@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Reaxpress from '../reaxpress';
-
-import Header from '../global/Header';
-import Footer from '../global/Footer';
-import Page from '../global/Page';
+import Reaxpress from '../_global/Reaxpress';
+import Header from '../_global/Header';
+import Footer from '../_global/Footer';
+import Content from '../_global/Content';
 
 @Reaxpress
 class Account extends React.Component {
@@ -13,7 +12,7 @@ class Account extends React.Component {
     return (
       <div>
         <Header />
-        <Page>
+        <Content>
           <h1>Welcome, {user.username}</h1>
           {
             user.role > 1
@@ -24,7 +23,7 @@ class Account extends React.Component {
               )
               : <p>We&apos;ve been expecting you.</p>
           }
-        </Page>
+        </Content>
         <Footer />
       </div>
     );

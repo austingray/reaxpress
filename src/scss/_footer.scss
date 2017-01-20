@@ -2,4 +2,12 @@
   padding:24px 0;
   background:#000000;
   color:#ffffff;
+  .footer-menu {
+    text-align:right;
+    a {
+      display:inline-block;
+      margin: 0 4px;
+      color: #fff;
+    }
+  }
 }

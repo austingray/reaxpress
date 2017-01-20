@@ -2,12 +2,12 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    error: './src/react/error',
-    admin: './src/react/admin',
-    index: './src/react/index',
-    login: './src/react/login',
-    register: './src/react/register',
-    account: './src/react/account',
+    admin: './src/react/Admin',
+    index: './src/react/Index',
+    login: './src/react/Login',
+    register: './src/react/Register',
+    account: './src/react/Account',
+    page: './src/react/_global/Page',
   },
   output: {
     path: path.join(__dirname, 'public/build/js'),

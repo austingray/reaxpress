@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Reaxpress from '../reaxpress';
-
-import Header from '../global/Header';
-import Footer from '../global/Footer';
-import Page from '../global/Page';
+import Reaxpress from '../_global/Reaxpress';
+import Header from '../_global/Header';
+import Footer from '../_global/Footer';
+import Content from '../_global/Content';
 
 @Reaxpress
 class Admin extends React.Component {
@@ -12,12 +11,12 @@ class Admin extends React.Component {
     return (
       <div>
         <Header />
-        <Page>
+        <Content>
           <h1>Admin</h1>
           <ul>
             <li><a href="/admin/pages">Pages</a></li>
           </ul>
-        </Page>
+        </Content>
         <Footer />
       </div>
     );

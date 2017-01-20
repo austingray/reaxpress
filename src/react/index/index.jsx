@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Reaxpress from '../reaxpress';
-
-import Header from '../global/Header';
-import Footer from '../global/Footer';
-import Page from '../global/Page';
+import Reaxpress from '../_global/Reaxpress';
+import Header from '../_global/Header';
+import Footer from '../_global/Footer';
+import Content from '../_global/Content';
 
 @Reaxpress
 class Index extends React.Component {
@@ -12,9 +11,9 @@ class Index extends React.Component {
     return (
       <div>
         <Header />
-        <Page>
+        <Content>
           Index content
-        </Page>
+        </Content>
         <Footer />
       </div>
     );

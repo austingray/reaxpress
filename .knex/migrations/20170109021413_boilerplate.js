@@ -17,6 +17,7 @@ exports.up = (knex, Promise) => {
         table.uuid('uuid').defaultTo(knex.raw('uuid_generate_v4()')).notNullable().unique();
         table.timestamps(true, true);
         table.integer('created_by').references('users.id').notNullable();
+        table.string('slug');
         table.string('title');
         table.text('content');
       }),
@@ -26,6 +27,7 @@ exports.up = (knex, Promise) => {
 
 exports.down = (knex, Promise) => {
   return Promise.all([
+    knex.schema.dropTable('pages'),
     knex.schema.dropTable('users'),
   ]);
 };
