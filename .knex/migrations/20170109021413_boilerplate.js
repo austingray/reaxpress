@@ -18,7 +18,7 @@ exports.up = (knex, Promise) => {
         table.timestamps(true, true);
         table.integer('created_by').references('users.id').notNullable();
         table.string('title');
-        table.text('body');
+        table.text('content');
       }),
     ]);
   });
