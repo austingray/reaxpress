@@ -10,19 +10,7 @@ const bcrypt = require('bcrypt');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 
-const checkIfUserExists = (username, callback) => {
-  let exists = true;
-  knex.raw(`
-    SELECT u.*
-    FROM users u
-    WHERE u.username = '${username}'
-  `).then((clients) => {
-    if (clients.rows.length === 0) {
-      exists = false;
-    }
-    callback(exists);
-  });
-};
+const users = require('../models/users');
 
 /*
  * GET
@@ -61,10 +49,14 @@ router.get('/account', (req, res) => {
     res.redirect('/login');
     return;
   }
-  const reaxpressData = JSON.parse(res.locals.reaxpressData);
-  res.render('template.ejs', {
-    templateHtml: ReactDOMServer.renderToString(<Account reaxpressData={reaxpressData} />),
-    componentJs: 'account',
+  users.getData(req.user.username, (userData) => {
+    const reaxpressData = JSON.parse(res.locals.reaxpressData);
+    reaxpressData.user = userData;
+    res.locals.reaxpressData = JSON.stringify(reaxpressData);
+    res.render('template.ejs', {
+      templateHtml: ReactDOMServer.renderToString(<Account reaxpressData={reaxpressData} />),
+      componentJs: 'account',
+    });
   });
 });
 
@@ -100,7 +92,7 @@ router.post('/register', (req, res) => {
     return;
   }
 
-  checkIfUserExists(reqUsername, (exists) => {
+  users.checkIfUserExists(reqUsername, (exists) => {
     if (exists) {
       req.flash('error', 'That username is taken. Please try again..');
       res.redirect('/register');

@@ -9,7 +9,7 @@ module.exports = () => {
   });
   passport.deserializeUser((id, done) => {
     knex.raw(`
-      SELECT u.*
+      SELECT u.username
       FROM users u
       WHERE u.id = ${id}
     `).then((user) => {

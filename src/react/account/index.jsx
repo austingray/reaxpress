@@ -9,12 +9,21 @@ import Page from '../global/Page';
 @Reaxpress
 class Account extends React.Component {
   render() {
+    const user = this.props.reaxpressData.user;
     return (
       <div>
         <Header />
         <Page>
-          <h1>Welcome, {this.props.reaxpressData.user.username}</h1>
-          <p>We&apos;ve been expecting you.</p>
+          <h1>Welcome, {user.username}</h1>
+          {
+            user.role > 1
+              ? (
+                <p>
+                  You must be pretty important around here. <a href="/admin">Admin panel</a>.
+                </p>
+              )
+              : <p>We&apos;ve been expecting you.</p>
+          }
         </Page>
         <Footer />
       </div>

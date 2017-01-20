@@ -1,41 +1,37 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import Admin from '../src/react/admin';
+import ErrorTemplate from '../src/react/error';
 
 const router = require('express').Router();
-const knex = require('knex')(require('../.knex/knexfile')[process.env.NODE_ENV]);
+const users = require('../models/users');
 
-const getUserRole = (username, callback) => {
-  knex.raw(`
-    SELECT u.role
-    FROM users u
-    WHERE u.username = '${username}'
-  `).then((user) => {
-    callback(user.rows[0].role);
+// validate admin requests
+// router.use(/^\/admin.*/,
+const validateAdminRequest = (req, res, next) => {
+  users.isAdmin(req.user, (isAdmin) => {
+    if (isAdmin) {
+      return next();
+    }
+    res.status(404);
+    const reaxpressData = JSON.parse(res.locals.reaxpressData);
+    reaxpressData.page = {
+      title: `Error: ${status}`,
+      body: 'There was a problem processing your request or this page simply does not exist.',
+    };
+    res.locals.reaxpressData = JSON.stringify(reaxpressData);
+    return res.render('template.ejs', {
+      templateHtml: ReactDOMServer.renderToString(<ErrorTemplate reaxpressData={reaxpressData} />),
+      componentJs: 'error',
+    });
   });
 };
 
-router.get('/', (req, res, next) => {
-  if (!req.user) {
-    next();
-    return;
-  }
-  getUserRole(req.user.username, (role) => {
-    const roleVal = Number(role);
-    console.log(roleVal);
-    if (isNaN(roleVal)) {
-      next();
-      return;
-    }
-    if (roleVal < 1) {
-      next();
-      return;
-    }
-    const reaxpressData = JSON.parse(res.locals.reaxpressData);
-    res.render('template.ejs', {
-      templateHtml: ReactDOMServer.renderToString(<Admin reaxpressData={reaxpressData} />),
-      componentJs: 'admin',
-    });
+router.get('/', validateAdminRequest, (req, res) => {
+  const reaxpressData = JSON.parse(res.locals.reaxpressData);
+  res.render('template.ejs', {
+    templateHtml: ReactDOMServer.renderToString(<Admin reaxpressData={reaxpressData} />),
+    componentJs: 'admin',
   });
 });
 
