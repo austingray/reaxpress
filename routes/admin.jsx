@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 // models
 import users from '../models/users';
+import pages from '../models/pages';
 // react components
 import Admin from '../src/react/admin';
 import ErrorTemplate from '../src/react/error';
@@ -16,6 +17,7 @@ const validateAdminRequest = (req, res, next) => {
     if (isAdmin) {
       return next();
     }
+    // do 404 if not an admin
     res.status(404);
     const reaxpressData = JSON.parse(res.locals.reaxpressData);
     reaxpressData.page = {
@@ -35,6 +37,12 @@ router.get('/', validateAdminRequest, (req, res) => {
   res.render('template.ejs', {
     templateHtml: ReactDOMServer.renderToString(<Admin reaxpressData={reaxpressData} />),
     componentJs: 'admin',
+  });
+});
+
+router.get('/pages', validateAdminRequest, (req, res) => {
+  pages.fetch({}, (allPages) => {
+    res.json(allPages);
   });
 });
 
