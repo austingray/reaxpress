@@ -41,22 +41,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// default index routes
-app.use('/', require('./routes/index'));
 // #reaxpress: generated routes
 app.use(require('./.reaxpress/routes'));
 
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// error handler
-app.use((err, req, res) => {
-  // render the error page
-  res.status(err.status || 500);
-});
+// error handling
+app.use(require('./routes/error'));
 
 module.exports = app;

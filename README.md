@@ -41,6 +41,7 @@ There are several protected routes which cannot be added or deleted to protect c
     'logout',
     'register',
     'account',
+    'error'
 
 ### Server -> Client Data Sharing
 

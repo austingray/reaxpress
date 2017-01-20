@@ -3,14 +3,12 @@ import Login from '../src/react/login';
 import Register from '../src/react/register';
 import Account from '../src/react/account';
 
-const express = require('express');
+const router = require('express').Router();
 const knex = require('knex')(require('../.knex/knexfile')[process.env.NODE_ENV]);
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
-
-const router = express.Router();
 
 const checkIfUserExists = (username, callback) => {
   let exists = true;

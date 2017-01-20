@@ -2,6 +2,8 @@ const path = require('path');
 
 module.exports = {
   entry: {
+    error: './src/react/error',
+    admin: './src/react/admin',
     index: './src/react/index',
     login: './src/react/login',
     register: './src/react/register',
