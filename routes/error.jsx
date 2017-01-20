@@ -1,5 +1,7 @@
+// modules
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+// react components
 import ErrorTemplate from '../src/react/error';
 
 const router = require('express').Router();

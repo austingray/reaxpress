@@ -1,14 +1,17 @@
+// modules
+import express from 'express';
+import passport from 'passport';
+import React from 'react';
+import ReactDOMServer from 'react-dom/server';
+// models
+import users from '../models/users';
+// react components
 import Index from '../src/react/index';
 import Login from '../src/react/login';
 import Register from '../src/react/register';
 import Account from '../src/react/account';
 
-const router = require('express').Router();
-const passport = require('passport');
-const React = require('react');
-const ReactDOMServer = require('react-dom/server');
-
-const users = require('../models/users');
+const router = express.Router();
 
 /*
  * GET

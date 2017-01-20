@@ -1,13 +1,16 @@
+// modules
+import express from 'express';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+// models
+import users from '../models/users';
+// react components
 import Admin from '../src/react/admin';
 import ErrorTemplate from '../src/react/error';
 
-const router = require('express').Router();
-const users = require('../models/users');
+const router = express.Router();
 
 // validate admin requests
-// router.use(/^\/admin.*/,
 const validateAdminRequest = (req, res, next) => {
   users.isAdmin(req.user, (isAdmin) => {
     if (isAdmin) {
@@ -16,7 +19,7 @@ const validateAdminRequest = (req, res, next) => {
     res.status(404);
     const reaxpressData = JSON.parse(res.locals.reaxpressData);
     reaxpressData.page = {
-      title: `Error: ${status}`,
+      title: 'Error: 404',
       body: 'There was a problem processing your request or this page simply does not exist.',
     };
     res.locals.reaxpressData = JSON.stringify(reaxpressData);
