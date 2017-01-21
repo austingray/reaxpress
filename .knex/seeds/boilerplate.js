@@ -26,10 +26,10 @@ exports.seed = (knex, Promise) => {
   return Promise.join(
     // users
     knex('users').del(),
-    knex('users').insert({ id: 1, uuid: knex.raw('uuid_generate_v4()'), username: 'admin', hash: adminHash, role: 10 }),
-    knex('users').insert({ id: 2, uuid: knex.raw('uuid_generate_v4()'), username: 'user', hash: userHash, role: 0 }),
+    knex('users').insert({ uuid: knex.raw('uuid_generate_v4()'), username: 'admin', hash: adminHash, role: 10 }),
+    knex('users').insert({ uuid: knex.raw('uuid_generate_v4()'), username: 'user', hash: userHash, role: 0 }),
     // pages
     knex('pages').del(),
-    knex('pages').insert({ id: 1, uuid: knex.raw('uuid_generate_v4()'), created_by: 1, slug: 'about', title: 'About Reaxpress', content: aboutContent })
+    knex('pages').insert({ uuid: knex.raw('uuid_generate_v4()'), created_by: 1, slug: 'about', title: 'About Reaxpress', content: aboutContent })
   );
 };

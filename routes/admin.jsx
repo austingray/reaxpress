@@ -6,8 +6,9 @@ import ReactDOMServer from 'react-dom/server';
 import users from '../models/users';
 import pages from '../models/pages';
 // react components
-import Admin from '../src/react/Admin';
 import Page from '../src/react/_global/Page';
+import Admin from '../src/react/Admin';
+import AdminPages from '../src/react/Admin/Pages';
 
 const router = express.Router();
 
@@ -42,8 +43,19 @@ router.get('/', validateAdminRequest, (req, res) => {
 
 router.get('/pages', validateAdminRequest, (req, res) => {
   pages.fetch({}, (allPages) => {
-    res.json(allPages);
+    console.log('admin pages route');
+    const reaxpressData = JSON.parse(res.locals.reaxpressData);
+    reaxpressData.pages = allPages;
+    res.locals.reaxpressData = JSON.stringify(reaxpressData);
+    res.render('template.ejs', {
+      templateHtml: ReactDOMServer.renderToString(<AdminPages reaxpressData={reaxpressData} />),
+      componentJs: 'adminPages',
+    });
   });
+});
+
+router.get('/pages/:id', validateAdminRequest, (req, res) => {
+  res.send('todo');
 });
 
 module.exports = router;

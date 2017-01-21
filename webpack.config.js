@@ -3,6 +3,7 @@ const path = require('path');
 module.exports = {
   entry: {
     admin: './src/react/Admin',
+    adminPages: './src/react/Admin/Pages',
     index: './src/react/Index',
     login: './src/react/Login',
     register: './src/react/Register',
