@@ -19,7 +19,8 @@ const deleteFolderRecursive = (_path) => {
 };
 
 react.create = (name) => {
-  const reactDirPath = path.join(__dirname, '../..', 'src/react/', name);
+  const nameToUppercase = name.charAt(0).toUpperCase() + name.slice(1);
+  const reactDirPath = path.join(__dirname, '../..', 'src/react/', nameToUppercase);
   const reactFile = path.join(reactDirPath, 'index.jsx');
   try {
     fs.mkdirSync(reactDirPath);
@@ -39,7 +40,8 @@ react.create = (name) => {
 };
 
 react.remove = (name) => {
-  const reactDirPath = path.join(__dirname, '../..', 'src/react/', name);
+  const nameToUppercase = name.charAt(0).toUpperCase() + name.slice(1);
+  const reactDirPath = path.join(__dirname, '../..', 'src/react/', nameToUppercase);
   try {
     deleteFolderRecursive(reactDirPath);
   } catch (err) {

@@ -4,11 +4,10 @@ module.exports = {
     return (
 `import React from 'react';
 import ReactDOM from 'react-dom';
-import Reaxpress from '../reaxpress';
-
-import Header from '../global/Header';
-import Footer from '../global/Footer';
-import Page from '../global/Page';
+import Reaxpress from '../_global/Reaxpress';
+import Header from '../_global/Header';
+import Footer from '../_global/Footer';
+import Content from '../_global/Content';
 
 @Reaxpress
 class ${componentName} extends React.Component {
@@ -16,9 +15,9 @@ class ${componentName} extends React.Component {
     return (
       <div>
         <Header />
-        <Page>
+        <Content>
           ${componentName} content
-        </Page>
+        </Content>
         <Footer />
       </div>
     );
@@ -48,11 +47,10 @@ export default ${componentName};
   route: (name) => {
     const componentName = name.charAt(0).toUpperCase() + name.slice(1);
     return (
-`import ${componentName} from '../src/react/${name}';
-
-const express = require('express');
-const React = require('react');
-const ReactDOMServer = require('react-dom/server');
+`import express from 'express';
+import React from 'react';
+import ReactDOMServer from 'react-dom/server';
+import ${componentName} from '../src/react/${componentName}';
 
 const router = express.Router();
 
