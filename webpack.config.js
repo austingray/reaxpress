@@ -4,6 +4,7 @@ module.exports = {
   entry: {
     admin: './src/react/Admin',
     adminPages: './src/react/Admin/Pages',
+    adminPagesUpdate: './src/react/Admin/Pages/Update',
     index: './src/react/Index',
     login: './src/react/Login',
     register: './src/react/Register',

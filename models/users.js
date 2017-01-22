@@ -83,4 +83,25 @@ users.isAdmin = (reqUser, callback) => {
   });
 };
 
+users.getUserIdFromUsername = (username, callback) => {
+  if (typeof username === 'undefined') {
+    callback();
+    return;
+  }
+  knex.raw(`
+    SELECT u.id
+    FROM users u
+    WHERE u.username = '${username}'
+  `).then((model) => {
+    const user = model.rows[0];
+    // if no user with username, fail
+    if (typeof user === 'undefined') {
+      return callback();
+    }
+    const id = Number(user.id);
+    // user is admin
+    return callback(id);
+  });
+};
+
 module.exports = users;

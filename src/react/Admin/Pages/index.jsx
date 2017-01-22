@@ -1,3 +1,4 @@
+/* eslint class-methods-use-this: 0 */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Reaxpress from '../../_global/Reaxpress';
@@ -7,6 +8,15 @@ import Content from '../../_global/Content';
 
 @Reaxpress
 class AdminPages extends React.Component {
+  deletePage(id) {
+    $.ajax({
+      method: 'DELETE',
+      url: `/admin/pages/${id}`,
+      success(redirectUrl) {
+        window.location.href = redirectUrl;
+      },
+    });
+  }
   render() {
     const pages = this.props.reaxpressData.pages;
     return (
@@ -21,9 +31,10 @@ class AdminPages extends React.Component {
             <thead className="thead-inverse">
               <tr>
                 <th>#</th>
-                <th>Slug</th>
                 <th>Title</th>
-                <th />
+                <th>Slug</th>
+                <th>View/Edit</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -31,9 +42,19 @@ class AdminPages extends React.Component {
                 pages.map(page =>
                   <tr key={page.id}>
                     <td>{page.id}</td>
-                    <td>{page.slug}</td>
                     <td>{page.title}</td>
-                    <td><a className="btn btn-default" href={`/admin/pages/${page.id}`}>Edit</a></td>
+                    <td>{page.slug}</td>
+                    <td>
+                      <a className="btn btn-default" href={`/${page.slug}`}>View</a>
+                      &nbsp;
+                      <a className="btn btn-primary" href={`/admin/pages/${page.id}`}>Edit</a>
+                    </td>
+                    <td>
+                      <form onSubmit={(e) => { e.preventDefault(); this.deletePage(page.id); }}>
+                        <input type="hidden" value={page.id} />
+                        <button className="btn btn-danger">Delete</button>
+                      </form>
+                    </td>
                   </tr>,
                 )
               }

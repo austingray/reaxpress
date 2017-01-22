@@ -1,3 +1,4 @@
+/* eslint max-len: 0 */
 // modules
 import express from 'express';
 import React from 'react';
@@ -9,6 +10,7 @@ import pages from '../models/pages';
 import Page from '../src/react/_global/Page';
 import Admin from '../src/react/Admin';
 import AdminPages from '../src/react/Admin/Pages';
+import AdminPagesUpdate from '../src/react/Admin/Pages/Update';
 
 const router = express.Router();
 
@@ -43,7 +45,6 @@ router.get('/', validateAdminRequest, (req, res) => {
 
 router.get('/pages', validateAdminRequest, (req, res) => {
   pages.fetch({}, (allPages) => {
-    console.log('admin pages route');
     const reaxpressData = JSON.parse(res.locals.reaxpressData);
     reaxpressData.pages = allPages;
     res.locals.reaxpressData = JSON.stringify(reaxpressData);
@@ -55,7 +56,31 @@ router.get('/pages', validateAdminRequest, (req, res) => {
 });
 
 router.get('/pages/:id', validateAdminRequest, (req, res) => {
-  res.send('todo');
+  pages.fetchPageById(req.params.id, (page) => {
+    const reaxpressData = JSON.parse(res.locals.reaxpressData);
+    reaxpressData.page = page;
+    res.locals.reaxpressData = JSON.stringify(reaxpressData);
+    res.render('template.ejs', {
+      templateHtml: ReactDOMServer.renderToString(<AdminPagesUpdate reaxpressData={reaxpressData} />),
+      componentJs: 'adminPagesUpdate',
+    });
+  });
+});
+
+router.post('/pages/:id', validateAdminRequest, (req, res) => {
+  const page = req.body;
+  users.getUserIdFromUsername(req.user.username, (userId) => {
+    page.user_id = userId;
+    pages.savePage(page, () => {
+      res.redirect('/admin/pages');
+    });
+  });
+});
+
+router.delete('/pages/:id', validateAdminRequest, (req, res) => {
+  pages.deleteById(req.params.id, () => {
+    res.send('/admin/pages');
+  });
 });
 
 module.exports = router;
