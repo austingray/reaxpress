@@ -1,27 +1,31 @@
 # Reaxpress
 
-_This is a work in progress_
-
-As I march towards a 1.0 release, I've decided to post this note/disclaimer. There are undocumented pieces of this project, specifically regarding CMS functionality which is heavily under construction. This project is subject to change at any time until it hits 1.0. I do not have an official public milestone list. I would greatly appreciate any feedback or requests for functionality. This project is a learning experience for me, and I realize I'm taking a few unconventional approaches. Thank you for checking it out!
-
-### Todo
-
- - Add CLI Admin CRUD generation
- - AJAXify admin CRUD operations and views
-
 ### Overview
 
-The goal of Reaxpress is to provide an extendable boilerplate for creating React/Express applications that reuse React components on the server and client, and does not require redundant server requests to render the client-side view.
+_This is a work in progress_
+
+The goal of Reaxpress is to provide an extendable boilerplate for creating React/Express applications that reuse React components on the server and client, and does not require redundant server requests for the client.
+
+As I march towards a 1.0 release, I've decided to post this note/disclaimer. There are undocumented pieces of this project, specifically regarding CMS and Admin functionality, heavily under construction. I would greatly appreciate any constructive criticism and/or requests for functionality. This project is a learning experience for me, and I realize I'm taking a few unconventional approaches. Thank you for checking it out!
 
 ### Features:
 
- - A CLI for generating routes and boilerplate code
- - Universal React components
- - Ubiquitous view state data between server and client
- - Basic user auth using [passport](http://passportjs.org/)
- - Basic CMS functionality (coming soon)
+ - A CLI for generating routes
+ - Universal React components without redundant requests from the client side
+ - User auth via [Passport](http://passportjs.org/)
+ - CMS functionality
+
+### Roadmap to 1.0
+
+  - Make functionality opt-in/out (Auth, CMS) via CLI
+  - CLI Admin CRUD generation
+  - AJAXify admin CRUD operations and views
+  - Convert to SPA (via conditional checks for URI in component)
+  - Documentation
 
 ### CLI
+
+Current functionality:
 
 ```
 ./reaxpress.js create <route>
@@ -29,31 +33,65 @@ The goal of Reaxpress is to provide an extendable boilerplate for creating React
 ./reaxpress.js forget <route>
 ```
 
-*create*:
+1.0 functionality (coming soon):
+
+##### init (todo)
+
+Initialize a new empty Reaxpress project.
+
+```
+Usage: ./reaxpress.js init [--auth | --cms]
+
+--auth  generate a project with basic Authentication
+--cms   generate a project with CMS (will automatically include --auth)
+```
+
+##### route (todo)
+
+Manage your express routes and generate boilerplate code.
+
+```
+./reaxpress.js route create <name> [--slug=<name>]
+./reaxpress.js route remove <name>
+./reaxpress.js route forget <name>
+./reaxpress.js route remind <name>
+```
+
+`create` will perform the following while `remove` will do the opposite:
+
  - register the route in `./.reaxpress/skeleton.json`
  - create a boilerplate express route file `./routes/[route].jsx`
  - mount that route file in `./.reaxpress/routes.js`
  - create the react components in `./src/react/[route]/index.jsx`
  - add the react component as an entry in `./webpack.config.js`
 
-*remove*
- - deletes the route reference and any files that were created above
+`forget` will prevent the `remove` command from being performed on this route, while `remind` will allow it to be removed.
 
-*forget*
- - unregister the route in `./.reaxpress/skeleton.json`.
+There are several protected routes which cannot be created or removed via the CLI to protect core functionality:
 
-Forgetting a route means it can no longer be removed using the cli tool and all generated changes must be manually removed. In the future, modified boilerplate files may need to be manually removed as to not erase any customizations by accident. This depends on what direction and added functionality the CLI tool may get.
-
-There are several protected routes which cannot be added or deleted to protect core functionality:
-
+```javascript
     'reaxpress',
     'index',
-    'login',
-    'logout',
-    'register',
-    'account',
-    'admin',
     'error',
+    'login', // auth
+    'logout', // auth
+    'register', // auth
+    'account', //auth
+    'admin', // cms
+```
+
+### cms (todo)
+
+Create a content type with CRUD functionality manageable by the CMS system.
+
+```
+./reaxpress.js cms create <table> [--display-name=<name>] [--col=<column_name>.<column_type>]...
+./reaxpress.js cms modify <table> ([--add-col=<column_name>.<column_type>]... [--rem-col=<column_name>]...)
+./reaxpress.js cms remove <table>
+```
+
+ - adds a table to the migrations with specified columns
+ - generates express routes and react components
 
 ### Server -> Client Data Sharing
 
