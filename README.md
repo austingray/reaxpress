@@ -7,6 +7,7 @@ As I march towards a 1.0 release, I've decided to post this note/disclaimer. The
 ### Todo
 
  - Add CLI Admin CRUD generation
+ - AJAXify admin CRUD operations and views
 
 ### Overview
 
