@@ -1,6 +1,6 @@
 # Reaxpress
 
-### Overview
+## Overview
 
 _This is a work in progress_
 
@@ -8,14 +8,14 @@ The goal of Reaxpress is to provide an extendable boilerplate for creating React
 
 As I march towards a 1.0 release, I've decided to post this note/disclaimer. There are undocumented pieces of this project, specifically regarding CMS and Admin functionality, heavily under construction. I would greatly appreciate any constructive criticism and/or requests for functionality. This project is a learning experience for me, and I realize I'm taking a few unconventional approaches. Thank you for checking it out!
 
-### Features:
+## Features:
 
  - A CLI for generating routes
  - Universal React components without redundant requests from the client side
  - User auth via [Passport](http://passportjs.org/)
  - CMS functionality
 
-### Roadmap to 1.0
+## Roadmap to 1.0
 
   - Make functionality opt-in/out (Auth, CMS) via CLI
   - CLI Admin CRUD generation
@@ -23,7 +23,7 @@ As I march towards a 1.0 release, I've decided to post this note/disclaimer. The
   - Convert to SPA (via conditional checks for URI in component)
   - Documentation
 
-### CLI
+## CLI
 
 Current functionality:
 
@@ -35,9 +35,9 @@ Current functionality:
 
 1.0 functionality (coming soon):
 
-##### init (todo)
+#### init (todo)
 
-Initialize a new empty Reaxpress project.
+Initialize an empty Reaxpress project.
 
 ```
 Usage: ./reaxpress.js init [--auth | --cms]
@@ -46,30 +46,30 @@ Usage: ./reaxpress.js init [--auth | --cms]
 --cms   generate a project with CMS (will automatically include --auth)
 ```
 
-##### route (todo)
+#### add (todo)
+
+Patch in boilerplate Authentication or CMS functionality after init. This cannot be undone.
+
+```
+Usage: ./reaxpress.js add (--auth | --cms)
+```
+
+#### route (todo)
 
 Manage your express routes and generate boilerplate code.
 
 ```
+Usage:
 ./reaxpress.js route create <name> [--slug=<name>]
 ./reaxpress.js route remove <name>
 ./reaxpress.js route forget <name>
 ./reaxpress.js route remind <name>
 ```
 
-`create` will perform the following while `remove` will do the opposite:
-
- - register the route in `./.reaxpress/skeleton.json`
- - create a boilerplate express route file `./routes/[route].jsx`
- - mount that route file in `./.reaxpress/routes.js`
- - create the react components in `./src/react/[route]/index.jsx`
- - add the react component as an entry in `./webpack.config.js`
-
-`forget` will prevent the `remove` command from being performed on this route, while `remind` will allow it to be removed.
-
-There are several protected routes which cannot be created or removed via the CLI to protect core functionality:
+There are several routes which cannot be created or removed via the CLI to protect core functionality:
 
 ```javascript
+[
     'reaxpress',
     'index',
     'error',
@@ -78,11 +78,12 @@ There are several protected routes which cannot be created or removed via the CL
     'register', // auth
     'account', //auth
     'admin', // cms
+]
 ```
 
-### cms (todo)
+#### cms (todo)
 
-Create a content type with CRUD functionality manageable by the CMS system.
+Create a content type with CRUD functionality manageable via the admin panel.
 
 ```
 ./reaxpress.js cms create <table> [--display-name=<name>] [--col=<column_name>.<column_type>]...
@@ -90,10 +91,7 @@ Create a content type with CRUD functionality manageable by the CMS system.
 ./reaxpress.js cms remove <table>
 ```
 
- - adds a table to the migrations with specified columns
- - generates express routes and react components
-
-### Server -> Client Data Sharing
+## Server -> Client Data Sharing
 
 In `app.js`, the global reaxpressData variable is created and saved as `res.locals.reaxpressData`. All React component data should be stored in that object. It is saved as a string because it will be written directly into our document's head in a script tag, making it available to the client-side render.
 
@@ -196,7 +194,7 @@ class Header extends React.Component {
 
 In the code above, `Article` does not pass any props to the `Header` component, but using our decorator, `this.props.reaxpressData` is made available to it.
 
-### Installation
+## Installation
 
 ```
 npm install
@@ -217,7 +215,7 @@ With defined environment variable:
 export REAXPRESS_CONNECTION_STRING=postgresql://jb_user:randompasswordstring@127.0.0.1:5432/jb_database
 ```
 
-### Notes
+## Notes
 
  - A prestart script lives in ./bin/prestart.sh which runs knex migrations, compiles scss, and runs webpack.
  - This project follows [Airbnb React/JSX Style Guide](https://github.com/airbnb/javascript/tree/master/react).
