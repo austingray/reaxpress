@@ -4,6 +4,10 @@ _This is a work in progress_
 
 As I march towards a 1.0 release, I've decided to post this note/disclaimer. There are undocumented pieces of this project, specifically regarding CMS functionality which is heavily under construction. This project is subject to change at any time until it hits 1.0. I do not have an official public milestone list. I would greatly appreciate any feedback or requests for functionality. This project is a learning experience for me, and I realize I'm taking a few unconventional approaches. Thank you for checking it out!
 
+### Todo
+
+ - Add CLI Admin CRUD generation
+
 ### Overview
 
 The goal of Reaxpress is to provide an extendable boilerplate for creating React/Express applications that reuse React components on the server and client, and does not require redundant server requests to render the client-side view.
