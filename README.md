@@ -1,31 +1,18 @@
 # Reaxpress
 
-## Overview
+### Overview
 
-_This is a work in progress_
+The goal of Reaxpress is to provide an extendable boilerplate for creating React/Express applications that reuse React components on the server and client, and does not require redundant server requests to render the client-side view.
 
-The goal of Reaxpress is to provide an extendable boilerplate for creating React/Express applications that reuse React components on the server and client, and does not require redundant server requests for the client.
+### Features:
 
-As I march towards a 1.0 release, I've decided to post this note/disclaimer. There are undocumented pieces of this project, specifically regarding CMS and Admin functionality, heavily under construction. I would greatly appreciate any constructive criticism and/or requests for functionality. This project is a learning experience for me, and I realize I'm taking a few unconventional approaches. Thank you for checking it out!
+ - A CLI for generating routes and boilerplate code
+ - Universal React components
+ - Ubiquitous view state data between server and client
+ - Basic user auth using [passport](http://passportjs.org/)
+ - Basic CMS functionality (coming soon)
 
-## Features:
-
- - A CLI for generating routes
- - Universal React components without redundant requests from the client side
- - User auth via [Passport](http://passportjs.org/)
- - CMS functionality
-
-## Roadmap to 1.0
-
-  - Make functionality opt-in/out (Auth, CMS) via CLI
-  - CLI Admin CRUD generation
-  - AJAXify admin CRUD operations and views
-  - Convert to SPA (via conditional checks for URI in component)
-  - Documentation
-
-## CLI
-
-Current functionality:
+### CLI
 
 ```
 ./reaxpress.js create <route>
@@ -33,65 +20,33 @@ Current functionality:
 ./reaxpress.js forget <route>
 ```
 
-1.0 functionality (coming soon):
+*create*:
+ - register the route in `./.reaxpress/skeleton.json`
+ - create a boilerplate express route file `./routes/[route].jsx`
+ - mount that route file in `./.reaxpress/routes.js`
+ - create the react components in `./src/react/[route]/index.jsx`
+ - add the react component as an entry in `./webpack.config.js`
 
-#### init (todo)
+*remove*
+ - deletes the route reference and any files that were created above
 
-Initialize an empty Reaxpress project.
+*forget*
+ - unregister the route in `./.reaxpress/skeleton.json`.
 
-```
-Usage: ./reaxpress.js init [--auth | --cms]
+Forgetting a route means it can no longer be removed using the cli tool and all generated changes must be manually removed. In the future, modified boilerplate files may need to be manually removed as to not erase any customizations by accident. This depends on what direction and added functionality the CLI tool may get.
 
---auth  generate a project with basic Authentication
---cms   generate a project with CMS (will automatically include --auth)
-```
+There are several protected routes which cannot be added or deleted to protect core functionality:
 
-#### add (todo)
-
-Patch in boilerplate Authentication or CMS functionality after init. This cannot be undone.
-
-```
-Usage: ./reaxpress.js add (--auth | --cms)
-```
-
-#### route (todo)
-
-Manage your express routes and generate boilerplate code.
-
-```
-Usage:
-./reaxpress.js route create <name> [--slug=<name>]
-./reaxpress.js route remove <name>
-./reaxpress.js route forget <name>
-./reaxpress.js route remind <name>
-```
-
-There are several routes which cannot be created or removed via the CLI to protect core functionality:
-
-```javascript
-[
     'reaxpress',
     'index',
+    'login',
+    'logout',
+    'register',
+    'account',
+    'admin',
     'error',
-    'login', // auth
-    'logout', // auth
-    'register', // auth
-    'account', //auth
-    'admin', // cms
-]
-```
 
-#### cms (todo)
-
-Create a content type with CRUD functionality manageable via the admin panel.
-
-```
-./reaxpress.js cms create <table> [--display-name=<name>] [--col=<column_name>.<column_type>]...
-./reaxpress.js cms modify <table> ([--add-col=<column_name>.<column_type>]... [--rem-col=<column_name>]...)
-./reaxpress.js cms remove <table>
-```
-
-## Server -> Client Data Sharing
+### Server -> Client Data Sharing
 
 In `app.js`, the global reaxpressData variable is created and saved as `res.locals.reaxpressData`. All React component data should be stored in that object. It is saved as a string because it will be written directly into our document's head in a script tag, making it available to the client-side render.
 
@@ -194,7 +149,7 @@ class Header extends React.Component {
 
 In the code above, `Article` does not pass any props to the `Header` component, but using our decorator, `this.props.reaxpressData` is made available to it.
 
-## Installation
+### Installation
 
 ```
 npm install
@@ -215,7 +170,7 @@ With defined environment variable:
 export REAXPRESS_CONNECTION_STRING=postgresql://jb_user:randompasswordstring@127.0.0.1:5432/jb_database
 ```
 
-## Notes
+### Notes
 
  - A prestart script lives in ./bin/prestart.sh which runs knex migrations, compiles scss, and runs webpack.
  - This project follows [Airbnb React/JSX Style Guide](https://github.com/airbnb/javascript/tree/master/react).
