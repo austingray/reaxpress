@@ -74,7 +74,7 @@ router.use((req, res, next) => {
     res.locals.reaxpressData = JSON.stringify(reaxpressData);
     return res.render('template.ejs', {
       templateHtml: ReactDOMServer.renderToString(<Page reaxpressData={reaxpressData} />),
-      componentJs: 'templatedefault',
+      componentJs: 'page',
     });
   });
 });
