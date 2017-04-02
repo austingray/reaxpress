@@ -2,7 +2,7 @@
 import express from 'express';
 import passport from 'passport';
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
 // models
 import users from '../models/users';
 import pages from '../models/pages';
@@ -12,6 +12,7 @@ import Login from '../src/react/Login';
 import Register from '../src/react/Register';
 import Account from '../src/react/Account';
 import Page from '../src/react/_global/Page';
+import template from '../template';
 
 const router = express.Router();
 
@@ -20,16 +21,13 @@ const router = express.Router();
 */
 router.get('/', (req, res) => {
   const reaxpressData = JSON.parse(res.locals.reaxpressData);
-  res.render('template.ejs', {
-    templateHtml: ReactDOMServer.renderToString(<Index reaxpressData={reaxpressData} />),
-    componentJs: 'index',
-  });
+  res.send(template(reaxpressData, renderToString(<Index />)));
 });
 
 router.get('/login', (req, res) => {
   const reaxpressData = JSON.parse(res.locals.reaxpressData);
   res.render('template.ejs', {
-    templateHtml: ReactDOMServer.renderToString(<Login reaxpressData={reaxpressData} />),
+    templateHtml: renderToString(<Login />),
     componentJs: 'login',
   });
 });
@@ -42,7 +40,7 @@ router.get('/logout', (req, res) => {
 router.get('/register', (req, res) => {
   const reaxpressData = JSON.parse(res.locals.reaxpressData);
   res.render('template.ejs', {
-    templateHtml: ReactDOMServer.renderToString(<Register reaxpressData={reaxpressData} />),
+    templateHtml: renderToString(<Register reaxpressData={reaxpressData} />),
     componentJs: 'register',
   });
 });
@@ -57,7 +55,7 @@ router.get('/account', (req, res) => {
     reaxpressData.user = userData;
     res.locals.reaxpressData = JSON.stringify(reaxpressData);
     res.render('template.ejs', {
-      templateHtml: ReactDOMServer.renderToString(<Account reaxpressData={reaxpressData} />),
+      templateHtml: renderToString(<Account reaxpressData={reaxpressData} />),
       componentJs: 'account',
     });
   });
@@ -73,7 +71,7 @@ router.use((req, res, next) => {
     reaxpressData.page = page;
     res.locals.reaxpressData = JSON.stringify(reaxpressData);
     return res.render('template.ejs', {
-      templateHtml: ReactDOMServer.renderToString(<Page reaxpressData={reaxpressData} />),
+      templateHtml: renderToString(<Page reaxpressData={reaxpressData} />),
       componentJs: 'page',
     });
   });

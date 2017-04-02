@@ -45,20 +45,30 @@ const blacklisted = [
 module.exports = {
 
   create: (name) => {
-    if (blacklisted.includes(name)) {
-      console.log(`Route '${name}' is a protected route`);
+    const routeNames = name.split('/');
+
+    if (routeNames.length <= 0) {
+      console.log('No route provided.');
+      return false;
+    }
+
+    const parentRoute = routeNames.shift();
+    if (routeNames.length > 0) {
+      const childRoutes = routeNames.join('/');
+    }
+
+    if (blacklisted.includes(parentRoute)) {
+      console.log(`Route '${name}' is a protected route.`);
       return false;
     }
 
     // bail if route exists
-    if (routeExists(name)) {
-      return false;
+    if (!routeExists(parentRoute)) {
+      skeleton.create(name);
+      react.create(name);
+      routes.create(name);
+      webpack.create(name);
     }
-
-    skeleton.create(name);
-    react.create(name);
-    routes.create(name);
-    webpack.create(name);
 
     console.log(`Successfully created route: ${name}`);
   },
