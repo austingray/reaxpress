@@ -1,4 +1,15 @@
+# system
 .DS_Store
+
+# node
 node_modules
 npm-debug.log
+
+# project
 public/build/
+routes
+
+# whitelist
+!routes/admin.jsx
+!routes/error.jsx
+!routes/index.jsx

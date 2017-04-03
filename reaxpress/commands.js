@@ -1,115 +1,79 @@
 /* eslint consistent-return: 0, no-shadow: 0 */
-const fs = require('fs');
-const path = require('path');
 const skeleton = require('./helpers/skeleton');
-const routes = require('./helpers/routes');
 const react = require('./helpers/react');
-const webpack = require('./helpers/webpack');
+// const routes = require('./helpers/routes');
 
-const routeExists = (name) => {
-  let exists = false;
-  // if skeleton.json ref exists
-  if (skeleton.exists(name)) {
-    console.log(`'${name}' exists in skeleton.json`);
-    exists = true;
-  }
-  // check if route file exist ('./routes/<name>.js')
-  if (fs.existsSync(path.join(__dirname, '..', 'routes', `${name}.jsx`))) {
-    console.log(`'${name}' exists as project route file`);
-    exists = true;
-  }
-  // check if react dir exists ('./src/react/<name>')
-  if (fs.existsSync(path.join(__dirname, '..', 'src/react', `${name}`))) {
-    console.log(`'${name}' exists as react component`);
-    exists = true;
-  }
-  // check if webpack entry exists
-  if (webpack.check(name)) {
-    console.log(`'${name}' exists in webpack config`);
-    exists = true;
-  }
-
-  return exists;
+const parseRoute = (route, customComponent = '') => {
+  const routeNames = route.split('/');
+  const parent = routeNames.shift();
+  const child = routeNames.length > 0
+    ? `/${routeNames.join('/')}`
+    : '';
+  const component = customComponent === ''
+    ? route.split('/').map(string =>
+        string.charAt(0).toUpperCase() + string.slice(1),
+      ).join('')
+    : customComponent;
+  return {
+    parent,
+    child,
+    component,
+  };
 };
 
-// these route names cannot be used by the CLI
-const blacklisted = [
-  'index',
-  'reaxpress',
-  'login',
-  'logout',
-  'register',
-  'account',
-];
-
 module.exports = {
+  create: (route, component = '') => {
+    const routes = parseRoute(route, component);
 
-  create: (name) => {
-    const routeNames = name.split('/');
-
-    if (routeNames.length <= 0) {
-      console.log('No route provided.');
-      return false;
+    /*
+    * Skeleton
+    */
+    let newSkeleton = [];
+    if (!skeleton.exists(routes.parent)) {
+      // if the parent route doesn't yet exist,
+      // create it. This will return the skeleton.
+      // Since createChild executes in the same process
+      // we need to pass the new skeleton or the parent won't exist.
+      newSkeleton = skeleton.create(routes);
+    }
+    if (routes.child !== '' && skeleton.existsChild(routes.parent, routes.child) === false) {
+      // if the child route does not exist, create it
+      skeleton.createChild(routes, newSkeleton);
     }
 
-    const parentRoute = routeNames.shift();
-    if (routeNames.length > 0) {
-      const childRoutes = routeNames.join('/');
+    // TODO
+    /*
+    * React
+    */
+    if (!react.exists(routes)) {
+      react.create(routes);
     }
 
-    if (blacklisted.includes(parentRoute)) {
-      console.log(`Route '${name}' is a protected route.`);
-      return false;
-    }
+    /*
+    * Route
+    */
 
-    // bail if route exists
-    if (!routeExists(parentRoute)) {
-      skeleton.create(name);
-      react.create(name);
-      routes.create(name);
-      webpack.create(name);
-    }
-
-    console.log(`Successfully created route: ${name}`);
+    console.log(`Successfully created route: ${route}`);
   },
+  remove: (route) => {
+    const routes = parseRoute(route);
 
-  remove: (name) => {
-    if (blacklisted.includes(name)) {
-      console.log(`Route '${name}' is a protected route`);
-      return false;
-    }
+    // Skeleton
+    const skeletonRemoved = routes.child === '' // eslint-disable-line no-unused-vars
+      ? skeleton.remove(routes.parent)
+      : skeleton.removeChild(routes.parent, routes.child);
 
-    // bail if route is not registered in skeleton file
-    if (!skeleton.exists(name)) {
-      console.log(`Route '${name}' does not exist or is not registered in skeleton.json`);
-      return false;
-    }
+    // TODO
+    /*
+    * React
+    */
+    react.remove(routes);
 
-    // protected routes cannot be deleted
-    if (['index'].includes(name)) {
-      console.log(`Route '${name}' is a protected route`);
-      return false;
-    }
+    /*
+    * Route
+    */
 
-    skeleton.remove(name);
-    react.remove(name);
-    routes.remove(name);
-    webpack.remove(name);
-  },
-
-  forget: (name) => {
-    if (blacklisted.includes(name)) {
-      console.log(`Route '${name}' is a protected route`);
-      return false;
-    }
-
-    // bail if route does not exist
-    if (!routeExists(name)) {
-      console.log(`Route '${name}' does not exist.`);
-      return false;
-    }
-
-    skeleton.remove(name);
+    console.log(`Successfully deleted route: ${route}`);
   },
 
 };
