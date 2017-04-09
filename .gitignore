@@ -7,7 +7,7 @@ npm-debug.log
 
 # project
 public/build/
-routes
+./routes
 
 # whitelist
 !routes/admin.jsx

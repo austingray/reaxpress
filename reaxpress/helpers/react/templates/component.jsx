@@ -29,4 +29,5 @@ ${component}.propTypes = {
   reaxpressData: React.PropTypes.object,
 };
 
-export default ${component};`;
+export default ${component};
+`;

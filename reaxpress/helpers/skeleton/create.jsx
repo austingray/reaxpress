@@ -1,36 +1,21 @@
-import skeleton from '../../skeleton';
-import write from './write';
+import exists from './exists';
+import existsChild from './existsChild';
+import createParent from './createParent';
+import createChild from './createChild';
 
 const create = (routes) => {
-  // clone the current state of the skeleton.
-  const newSkeleton = JSON.parse(JSON.stringify(skeleton));
-
-  // define our new route, aptly called a 'bone'.
-  const bone = {
-    key: routes.parent,
-    routes: [],
-  };
-
-  console.log(routes);
-
-  // if a child was not provided, add a route for the parent
-  if (routes.child === '') {
-    console.log('pushing yo');
-    bone.routes.push({
-      path: '/',
-      component: routes.component,
-    });
+  let newSkeleton = [];
+  // if the parent route doesn't yet exist,
+  // create it. This will return the skeleton.
+  // Since createChild executes in the same process
+  // we need to pass the new skeleton or the parent won't exist.
+  if (!exists(routes.parent)) {
+    newSkeleton = createParent(routes);
   }
-
-  // add the parent route to the skeleton.
-  newSkeleton.push(bone);
-
-  console.log(JSON.stringify(newSkeleton));
-
-  // write our new skeleton file and return it.
-  write(newSkeleton);
-  console.log(`...created: '${routes.parent}' in Skeleton.`);
-  return newSkeleton;
+  // if the child route does not exist, create it
+  if (routes.child !== '' && existsChild(routes.parent, routes.child) === false) {
+    createChild(routes, newSkeleton);
+  }
 };
 
 export default create;
