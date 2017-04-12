@@ -1,13 +1,6 @@
 export default parsedArgs =>
-`import express from 'express';
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import ${parsedArgs.component} from '../src/react/${parsedArgs.component}';
-
-const router = express.Router();
-
-// #reaxpress route '/'
-router.get('/', (req, res) => {
+`// #reaxpress route '${parsedArgs.child}'
+router.get('${parsedArgs.child}', (req, res) => {
   // res.locals.reaxpressData passes the app state on the server
   const reaxpressData = JSON.parse(res.locals.reaxpressData);
   // customize the reaxpress app state here, for example:
@@ -28,8 +21,4 @@ router.get('/', (req, res) => {
     templateHtml: ReactDOMServer.renderToString(<${parsedArgs.component} />),
   });
 });
-
-// end of #reaxpress routes
-
-module.exports = router;
 `;
