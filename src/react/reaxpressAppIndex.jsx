@@ -9,6 +9,9 @@ import Register from './Register';
 
 import skeleton from '../../reaxpress/skeleton';
 
-for (let i = 0; i < skeleton.length; i += 1) {
-  console.log(skeleton[i]);
+if (typeof window !== 'undefined') {
+  console.log(skeleton);
+  for (let i = 0; i < skeleton.length; i += 1) {
+    console.log(skeleton[i]);
+  }
 }
