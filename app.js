@@ -35,9 +35,9 @@ require('./passport.config.js')();
 
 // reaxpress globals
 app.use((req, res, next) => {
-  res.locals.reaxpressData = JSON.stringify({
+  res.locals.reaxpressData = {
     user: req.user || false,
-  });
+  };
   next();
 });
 
