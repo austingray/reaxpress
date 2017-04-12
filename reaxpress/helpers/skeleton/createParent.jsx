@@ -11,11 +11,8 @@ const createParent = (routes) => {
     routes: [],
   };
 
-  console.log(routes);
-
   // if a child was not provided, add a route for the parent
   if (routes.child === '') {
-    console.log('pushing yo');
     bone.routes.push({
       path: '/',
       component: routes.component,
@@ -24,8 +21,6 @@ const createParent = (routes) => {
 
   // add the parent route to the skeleton.
   newSkeleton.push(bone);
-
-  console.log(JSON.stringify(newSkeleton));
 
   // write our new skeleton file and return it.
   write(newSkeleton);

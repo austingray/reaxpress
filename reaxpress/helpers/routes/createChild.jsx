@@ -9,11 +9,9 @@ import template from './templates/childRoute';
  * @return {null}
  */
 export default (parsedArgs) => {
-  const name = parsedArgs.child;
-
   // write the route file
-  const routeFile = path.join(__dirname, '../..', 'routes', `${parsedArgs.parent}.jsx`);
-  const childRouteCode = template(name);
+  const routeFile = path.join(__dirname, '../../..', 'routes', `${parsedArgs.parent}.jsx`);
+  const childRouteCode = template(parsedArgs);
 
   let routeContent = '';
   try {

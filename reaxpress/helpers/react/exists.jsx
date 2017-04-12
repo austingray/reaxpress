@@ -1,5 +1,5 @@
 const exists = (routes) => {
-  console.log(routes);
+  // todo
 };
 
 export default exists;

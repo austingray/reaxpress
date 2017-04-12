@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
   // res.locals.reaxpressData passes the app state on the server
   const reaxpressData = JSON.parse(res.locals.reaxpressData);
   // customize the reaxpress app state here, for example:
-  reaxpressData.custom = { key: 'value' }
+  reaxpressData.custom = { key: 'value' };
 
   // if the url has ?reaxpress=true appended,
   // it means it's a fresh request to an endpoint.

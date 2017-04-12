@@ -1,7 +1,9 @@
 import create from './create';
-import remove from './remove';
+import removeParent from './removeParent';
+import removeChild from './removeChild';
 
 export default {
   create,
-  remove,
+  removeParent,
+  removeChild,
 };

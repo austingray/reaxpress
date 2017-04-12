@@ -6,30 +6,23 @@ import routes from './helpers/routes';
 
 module.exports = {
   create: (route, component = '') => {
-    // get our { parent, child, component } object
     const parsedRoutes = parseRoute(route, component);
     skeleton.create(parsedRoutes);
     react.create(parsedRoutes);
     routes.create(parsedRoutes);
+    console.log(`Successfully created route: ${route}`);
   },
   remove: (route) => {
-    const routes = parseRoute(route);
-
-    // Skeleton
-    const skeletonRemoved = routes.child === '' // eslint-disable-line no-unused-vars
-      ? skeleton.remove(routes.parent)
-      : skeleton.removeChild(routes.parent, routes.child);
-
-    // TODO
-    /*
-    * React
-    */
-    react.remove(routes);
-
-    /*
-    * Route
-    */
-
+    const parsedRoutes = parseRoute(route);
+    if (parsedRoutes.child === '') {
+      skeleton.remove(parsedRoutes.parent);
+      react.remove(parsedRoutes);
+      routes.removeParent(parsedRoutes);
+    } else {
+      skeleton.removeChild(parsedRoutes.parent, parsedRoutes.child);
+      react.remove(parsedRoutes);
+      routes.removeChild(parsedRoutes);
+    }
     console.log(`Successfully deleted route: ${route}`);
   },
 
