@@ -35,6 +35,7 @@ const create = (routes) => {
     throw new Error(err);
   }
   appIndexContent = appIndexContent.replace(/\/\/ #reaxpress components/g, `// #reaxpress components\nimport ${routes.component} from './${routes.component}';`);
+  appIndexContent = appIndexContent.replace(/\/\/ #reaxpress component list/g, `// #reaxpress component list\n  ${routes.component},`);
   try {
     fs.writeFileSync(appIndex, appIndexContent);
   } catch (err) {
