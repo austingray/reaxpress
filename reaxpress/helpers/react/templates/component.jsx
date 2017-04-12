@@ -1,6 +1,5 @@
 module.exports = component =>
 `import React from 'react';
-import ReactDOM from 'react-dom';
 import Reaxpress from '../_global/Reaxpress';
 import Header from '../_global/Header';
 import Footer from '../_global/Footer';
