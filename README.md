@@ -120,7 +120,7 @@ ALTER USER <db_user> WITH SUPERUSER;
 With defined environment variable:
 
 ```bash
-export REAXPRESS_CONNECTION_STRING=postgresql://jb_user:randompasswordstring@127.0.0.1:5432/jb_database
+export REAXPRESS_CONNECTION_STRING=postgresql://username:password@127.0.0.1:5432/database
 ```
 
 ### Notes
