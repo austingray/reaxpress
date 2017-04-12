@@ -8,3 +8,7 @@ import Register from './Register';
 // #reaxpress components
 
 import skeleton from '../../reaxpress/skeleton';
+
+for (let i = 0; i < skeleton.length; i += 1) {
+  console.log(skeleton[i]);
+}

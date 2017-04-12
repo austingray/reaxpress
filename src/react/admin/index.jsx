@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Reaxpress from '../_global/Reaxpress';
 import Header from '../_global/Header';
 import Footer from '../_global/Footer';
@@ -30,12 +29,5 @@ Admin.defaultProps = {
 Admin.propTypes = {
   reaxpressData: React.PropTypes.object,
 };
-
-if (typeof document !== 'undefined') {
-  ReactDOM.render(
-    <Admin />,
-    document.getElementById('app'),
-  );
-}
 
 export default Admin;
