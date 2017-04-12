@@ -1,39 +1,36 @@
 # Reaxpress
 
+The CLI has had a massive overhaul, and the information below is out of date. I have been converting this to a single page app where all GET endpoints are managed via the CLI. When using the cli, `create` and `remove` are functioning, but many things below are changing. Documentation will be updated once the conversion to an SPA is completed.
+
 ### Overview
 
-The goal of Reaxpress is to provide an extendable boilerplate for creating React/Express applications that reuse React components on the server and client, and does not require redundant server requests to render the client-side view.
+The goal of Reaxpress (React + Express) is to provide an extendable application boilerplate for rapid prototyping.
 
 ### Features:
 
- - A CLI for generating routes and boilerplate code
+ - A CLI for managing routes and generating boilerplate
  - Universal React components
  - Ubiquitous view state data between server and client
  - Basic user auth using [passport](http://passportjs.org/)
- - Basic CMS functionality (coming soon)
+ - Basic CMS functionality
+ - State management (coming soon)
+ - Single page app (coming soon)
 
 ### CLI
 
 ```
 ./reaxpress.js create <route>
 ./reaxpress.js remove <route>
-./reaxpress.js forget <route>
 ```
 
 *create*:
- - register the route in `./.reaxpress/skeleton.json`
- - create a boilerplate express route file `./routes/[route].jsx`
- - mount that route file in `./.reaxpress/routes.js`
- - create the react components in `./src/react/[route]/index.jsx`
- - add the react component as an entry in `./webpack.config.js`
+ - creates a reference in the project skeleton.
+ - creates a boilerplate express route file.
+ - creates a react component
+ - some behind the scenes which will be documented in detail once the SPA aspect is completed
 
 *remove*
- - deletes the route reference and any files that were created above
-
-*forget*
- - unregister the route in `./.reaxpress/skeleton.json`.
-
-Forgetting a route means it can no longer be removed using the cli tool and all generated changes must be manually removed. In the future, modified boilerplate files may need to be manually removed as to not erase any customizations by accident. This depends on what direction and added functionality the CLI tool may get.
+ - deletes any files that were created above (cannot undo this, so be careful)
 
 There are several protected routes which cannot be added or deleted to protect core functionality:
 
@@ -48,18 +45,18 @@ There are several protected routes which cannot be added or deleted to protect c
 
 ### Server -> Client Data Sharing
 
-In `app.js`, the global reaxpressData variable is created and saved as `res.locals.reaxpressData`. All React component data should be stored in that object. It is saved as a string because it will be written directly into our document's head in a script tag, making it available to the client-side render.
+In `app.js`, the global reaxpressData variable is created and saved as `res.locals.reaxpressData`. All application state should be stored in that object. Below is the generic middleware that is used to first initiate the reaxpressData object:
 
 ```javascript
 app.use((req, res, next) => {
-  res.locals.reaxpressData = JSON.stringify({
+  res.locals.reaxpressData = {
     user: req.user || false,
-  });
+  };
   next();
 });
 ```
 
-To add route specific view data, parse the contents of `res.locals.reaxpressData`, add the data, then stringify it back to `res.locals.reaxpressData`. Pass the regular object as a prop to our react component.
+To add route specific view data, follow the example below:
 
 ```javascript
 router.get('/article/:id', (req, res) => {
@@ -67,27 +64,20 @@ router.get('/article/:id', (req, res) => {
   const article = fetchArticle(req.params.id);
 
   // grab our global reaxpressData
-  const reaxpressData = JSON.parse(res.locals.reaxpressData);
+  const reaxpressData = res.locals.reaxpressData;
 
   // add our view specific data to the global object
   reaxpressData.article = article;
 
-  // save our updated object back to res.locals
-  res.locals.reaxpressData = JSON.stringify(reaxpressData);
-
   // render our view, passing the updated global object as a prop
-  res.render('template.ejs', {
-    templateHtml: ReactDOMServer.renderToString(<Article reaxpressData={reaxpressData} />),
-    componentJs: 'article',
-  });
+  res.send(template(reaxpressData, renderToString(<Article reaxpressData={reaxpressData} />)));
 });
 ```
 
-The contents of reaxpressData are automagically made available to React components via the `@Reaxpress` decorator, which is a [Higher-Order Component](https://facebook.github.io/react/docs/higher-order-components.html) that lives in `./src/react/reaxpress/index.js`. Inside your top level components, if `document` is not undefined, then `ReactDOM.render()` is called to mount the component on the client. All of this code is included when using the CLI tool to generate a route.
+The contents of reaxpressData are automagically made available to React components via the `@Reaxpress` decorator, which is a [Higher-Order Component](https://facebook.github.io/react/docs/higher-order-components.html) that lives in `./src/react/_global/reaxpress/index.js`.
 
 ```javascript
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Reaxpress from '../reaxpress';
 
 import Header from '../global/Header';
@@ -110,44 +100,7 @@ class Article extends React.Component {
     );
   }
 }
-
-if (typeof document !== 'undefined') {
-  ReactDOM.render(
-    <Article />,
-    document.getElementById('app'),
-  );
-}
 ```
-
-Using the `@Reaxpress` decorator, `this.props.reaxpressData` will be the same on the client side as it is on the server. Any child components that display that data should use the decorator to access it.
-
-```javascript
-import React from 'react';
-import Reaxpress from '../reaxpress';
-
-@Reaxpress
-class Header extends React.Component {
-  render() {
-    const user = this.props.reaxpressData.user;
-    return (
-      <header id="header">
-        <div id="logo">
-          <a href="/">Reaxpress</a>
-        </div>
-        <div id="user">
-          {
-            user
-              ? `Hello, ${user.username}`
-              : <a href="/login">Login</a>
-          }
-        </div>
-      </header>
-    );
-  }
-}
-```
-
-In the code above, `Article` does not pass any props to the `Header` component, but using our decorator, `this.props.reaxpressData` is made available to it.
 
 ### Installation
 
@@ -174,5 +127,4 @@ export REAXPRESS_CONNECTION_STRING=postgresql://jb_user:randompasswordstring@127
 
  - A prestart script lives in ./bin/prestart.sh which runs knex migrations, compiles scss, and runs webpack.
  - This project follows [Airbnb React/JSX Style Guide](https://github.com/airbnb/javascript/tree/master/react).
- - This is not a SPA as each route generates a fresh request from the server but that may change in the future.
  - This project uses [Bootstrap v4](https://v4-alpha.getbootstrap.com/)
