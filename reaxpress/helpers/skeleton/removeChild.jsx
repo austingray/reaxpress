@@ -1,4 +1,4 @@
-import skeleton from '../../skeleton';
+import skeleton from './custom';
 import write from './write';
 
 const removeChild = (parent, child) => {

@@ -1,9 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 
-const filePath = path.join(__dirname, '../..', 'skeleton.js');
+const filePath = path.join(__dirname, 'custom.jsx');
 
-const templateString = skeleton => `module.exports = ${JSON.stringify(skeleton)};`;
+const templateString = skeleton =>
+`export default ${JSON.stringify(skeleton)};`;
 
 const write = (contents) => {
   fs.writeFileSync(filePath, templateString(contents));

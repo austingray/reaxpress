@@ -6,6 +6,8 @@ import create from './create';
 import createChild from './createChild';
 import remove from './remove';
 import removeChild from './removeChild';
+import defaults from './defaults';
+import custom from './custom';
 
 module.exports = {
   read,
@@ -16,4 +18,6 @@ module.exports = {
   createChild,
   remove,
   removeChild,
+  defaults,
+  custom,
 };

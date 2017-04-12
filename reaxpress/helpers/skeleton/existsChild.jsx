@@ -1,4 +1,4 @@
-import skeleton from '../../skeleton';
+import skeleton from './custom';
 
 const existsChild = (parent, childRoute) => {
   let retVal = false;
