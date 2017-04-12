@@ -1,6 +1,5 @@
 import validator from 'validator';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Reaxpress from '../../../_global/Reaxpress';
 import Header from '../../../_global/Header';
 import Footer from '../../../_global/Footer';
@@ -66,13 +65,5 @@ AdminPagesUpdate.defaultProps = {
 AdminPagesUpdate.propTypes = {
   reaxpressData: React.PropTypes.object,
 };
-
-if (typeof document !== 'undefined') {
-  console.log(window.location.pathname);
-  ReactDOM.render(
-    <AdminPagesUpdate />,
-    document.getElementById('app'),
-  );
-}
 
 export default AdminPagesUpdate;

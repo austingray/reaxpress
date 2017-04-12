@@ -1,6 +1,5 @@
 /* eslint class-methods-use-this: 0 */
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Reaxpress from '../../_global/Reaxpress';
 import Header from '../../_global/Header';
 import Footer from '../../_global/Footer';
@@ -74,13 +73,5 @@ AdminPages.defaultProps = {
 AdminPages.propTypes = {
   reaxpressData: React.PropTypes.object,
 };
-
-if (typeof document !== 'undefined') {
-  console.log(window.location.pathname);
-  ReactDOM.render(
-    <AdminPages />,
-    document.getElementById('app'),
-  );
-}
 
 export default AdminPages;

@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Reaxpress from '../_global/Reaxpress';
 import Header from '../_global/Header';
 import Footer from '../_global/Footer';
@@ -41,12 +40,5 @@ Login.defaultProps = {
 Login.propTypes = {
   reaxpressData: React.PropTypes.object,
 };
-
-if (typeof document !== 'undefined') {
-  ReactDOM.render(
-    <Login />,
-    document.getElementById('app'),
-  );
-}
 
 export default Login;

@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Reaxpress from '../_global/Reaxpress';
 import Header from '../_global/Header';
 import Footer from '../_global/Footer';
@@ -37,12 +36,5 @@ Account.defaultProps = {
 Account.propTypes = {
   reaxpressData: React.PropTypes.object,
 };
-
-if (typeof document !== 'undefined') {
-  ReactDOM.render(
-    <Account />,
-    document.getElementById('app'),
-  );
-}
 
 export default Account;

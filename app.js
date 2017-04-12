@@ -35,14 +35,14 @@ require('./passport.config.js')();
 
 // reaxpress globals
 app.use((req, res, next) => {
-  res.locals.reaxpressData = JSON.stringify({
+  res.locals.reaxpressData = {
     user: req.user || false,
-  });
+  };
   next();
 });
 
 // #reaxpress: generated routes
-app.use(require('./.reaxpress/routes'));
+app.use(require('./reaxpress/mount'));
 
 // error handling
 app.use(require('./routes/error'));

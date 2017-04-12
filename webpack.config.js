@@ -1,19 +1,10 @@
 const path = require('path');
 
 module.exports = {
-  entry: {
-    admin: './src/react/Admin',
-    adminPages: './src/react/Admin/Pages',
-    adminPagesUpdate: './src/react/Admin/Pages/Update',
-    index: './src/react/Index',
-    login: './src/react/Login',
-    register: './src/react/Register',
-    account: './src/react/Account',
-    page: './src/react/_global/Page',
-  },
+  entry: path.join(__dirname, 'src/react/reaxpressAppIndex.jsx'),
   output: {
     path: path.join(__dirname, 'public/build/js'),
-    filename: '[name].js',
+    filename: 'bundle.js',
   },
   resolve: {
     extensions: ['.js', '.jsx'],
