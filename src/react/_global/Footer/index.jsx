@@ -12,7 +12,7 @@ function Footer() {
             <div className="footer-menu">
               <a href="/">Home</a>
               <a href="/about">About</a>
-              <a href="https://github.com/austingray/reaxpress">Github</a>
+              <a href="https://github.com/austingray/reaxpress">Reaxpress on Github</a>
             </div>
           </div>
         </div>

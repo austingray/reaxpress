@@ -21,7 +21,7 @@ const router = express.Router();
 */
 router.get('/', (req, res) => {
   const reaxpressData = res.locals.reaxpressData;
-  res.send(template(reaxpressData, renderToString(<Index reaxpressData={reaxpressData} />)));
+  res.send(template(reaxpressData, renderToString(<div><Index reaxpressData={reaxpressData} /></div>)));
 });
 
 router.get('/login', (req, res) => {

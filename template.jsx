@@ -12,6 +12,16 @@ module.exports = (reaxpressData, componentHtml) =>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <script>
       window.reaxpressData = ${JSON.stringify(reaxpressData).replace(/</g, '\\u003c')}
+      window.reaxpress = {};
+      window.reaxpress.changeListeners = [];
+      window.reaxpress.addChangeListener = function(action) {
+        reaxpress.changeListeners.push(action);
+      }
+      window.reaxpress.updateUrl = (url) => {
+        for (var i = 0; i < reaxpress.changeListeners.length; i++) {
+          reaxpress.changeListeners[i](url);
+        }
+      }
     </script>
   </head>
 

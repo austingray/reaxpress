@@ -1,11 +1,19 @@
 export default [
   {
-    "key": "index",
-    "routes": [
+    key: 'index',
+    routes: [
       {
-        "path": "/",
-        "component": "Index"
-      }
-    ]
-  }
+        path: '/',
+        component: 'Index',
+      },
+      {
+        path: '/login',
+        component: 'Login',
+      },
+      {
+        path: '/register',
+        component: 'Register',
+      },
+    ],
+  },
 ];
