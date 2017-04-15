@@ -26,7 +26,7 @@ module.exports = (reaxpressData, componentHtml) =>
   </head>
 
   <body>
-    <div id="app">${componentHtml}</div>
+    <div id="app"><div>${componentHtml}</div></div>
     <script src="/build/js/bundle.js"></script>
   </body>
 </html>`;
