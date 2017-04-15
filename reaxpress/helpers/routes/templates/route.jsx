@@ -10,7 +10,7 @@ const router = express.Router();
 // #reaxpress route '/'
 router.get('/', (req, res) => {
   // res.locals.reaxpressData passes the app state on the server
-  const reaxpressData = JSON.parse(res.locals.reaxpressData);
+  const reaxpressData = res.locals.reaxpressData;
   // customize the reaxpress app state here, for example:
   reaxpressData.custom = { key: 'value' };
 

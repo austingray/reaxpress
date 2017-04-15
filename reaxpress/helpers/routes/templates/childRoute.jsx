@@ -2,7 +2,7 @@ export default parsedArgs =>
 `// #reaxpress start route '${parsedArgs.child}'
 router.get('${parsedArgs.child}', (req, res) => {
   // res.locals.reaxpressData passes the app state on the server
-  const reaxpressData = JSON.parse(res.locals.reaxpressData);
+  const reaxpressData = res.locals.reaxpressData;
   // customize the reaxpress app state here, for example:
   reaxpressData.custom = { key: 'value' };
 
