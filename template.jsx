@@ -13,14 +13,40 @@ module.exports = (reaxpressData, componentHtml) =>
     <script>
       window.reaxpressData = ${JSON.stringify(reaxpressData).replace(/</g, '\\u003c')}
       window.reaxpress = {};
-      window.reaxpress.changeListeners = [];
-      window.reaxpress.addChangeListener = function(action) {
-        reaxpress.changeListeners.push(action);
+      window.reaxpress.mounted = false;
+      // actions that should fire when the URL changes
+      window.reaxpress.urlListeners = [];
+      window.reaxpress.addUrlListener = function(action) {
+        window.reaxpress.urlListeners.push(action);
       }
       window.reaxpress.updateUrl = (url) => {
-        for (var i = 0; i < reaxpress.changeListeners.length; i++) {
-          reaxpress.changeListeners[i](url);
+        for (var i = 0; i < reaxpress.urlListeners.length; i++) {
+          reaxpress.urlListeners[i](url);
         }
+      }
+      // actions that should fire when reaxpressData gets updated
+      window.reaxpress.dataListeners = [];
+      window.reaxpress.addDataListener = function(action) {
+        reaxpress.dataListeners.push(action);
+      }
+      window.reaxpress.reload = (callback = () => {}) => {
+        $.ajax({
+          url: window.location.href,
+          method: 'GET',
+          data: {
+            reaxpress: true
+          },
+          success(newReaxpressData) {
+            window.reaxpressData = newReaxpressData;
+            for (var i = 0; i < reaxpress.dataListeners.length; i++) {
+              reaxpress.dataListeners[i](newReaxpressData);
+            }
+            callback();
+          },
+          error(err) {
+            callback();
+          }
+        });
       }
     </script>
   </head>

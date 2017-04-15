@@ -23,33 +23,36 @@ const validateAdminRequest = (req, res, next) => {
     }
     // do 404 if not an admin
     res.status(404);
-    const reaxpressData = res.locals.reaxpressData;
-    reaxpressData.page = {
+    const rd = res.locals.reaxpressData;
+    rd.page = {
       title: 'Error: 404',
       content: 'There was a problem processing your request or this page simply does not exist.',
     };
-    return res.send(template(reaxpressData, renderToString(<Page reaxpressData={reaxpressData} />)));
+    return res.send(template(rd, renderToString(<Page reaxpressData={rd} />)));
   });
 };
 
 router.get('/', validateAdminRequest, (req, res) => {
-  const reaxpressData = res.locals.reaxpressData;
-  res.send(template(reaxpressData, renderToString(<Admin reaxpressData={reaxpressData} />)));
+  const rd = res.locals.reaxpressData;
+  if (req.query.reaxpress === 'true') { return res.json(rd); }
+  return res.send(template(rd, renderToString(<Admin reaxpressData={rd} />)));
 });
 
 router.get('/pages', validateAdminRequest, (req, res) => {
   pages.fetch({}, (allPages) => {
-    const reaxpressData = res.locals.reaxpressData;
-    reaxpressData.pages = allPages;
-    res.send(template(reaxpressData, renderToString(<AdminPages reaxpressData={reaxpressData} />)));
+    const rd = res.locals.reaxpressData;
+    rd.pages = allPages;
+    if (req.query.reaxpress === 'true') { return res.json(rd); }
+    return res.send(template(rd, renderToString(<AdminPages reaxpressData={rd} />)));
   });
 });
 
 router.get('/pages/:id', validateAdminRequest, (req, res) => {
   pages.fetchPageById(req.params.id, (page) => {
-    const reaxpressData = res.locals.reaxpressData;
-    reaxpressData.page = page;
-    res.send(template(reaxpressData, renderToString(<AdminPagesUpdate reaxpressData={reaxpressData} />)));
+    const rd = res.locals.reaxpressData;
+    rd.page = page;
+    if (req.query.reaxpress === 'true') { return res.json(rd); }
+    return res.send(template(rd, renderToString(<AdminPagesUpdate reaxpressData={rd} />)));
   });
 });
 

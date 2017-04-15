@@ -3,11 +3,31 @@ import React from 'react';
 
 function Reaxpress(ReaxpressComponent) {
   class ReaxpressComponentWrapper extends React.Component {
+    constructor(props) {
+      super(props);
+      this.mounted = false;
+      this.handleDataChange = this.handleDataChange.bind(this);
+      this.state = {};
+    }
     getChildContext() {
       if (Object.keys(this.props.reaxpressData).length === 0 && this.props.reaxpressData.constructor === Object) {
         return {};
       }
       return { reaxpressData: this.props.reaxpressData };
+    }
+    componentDidMount() {
+      this.mounted = true;
+      window.reaxpress.addDataListener(this.handleDataChange);
+    }
+    componentWillUnmount() {
+      this.mounted = false;
+    }
+    handleDataChange(reaxpressData) {
+      if (this.mounted) {
+        this.setState({
+          reaxpressData,
+        });
+      }
     }
     render() {
       let reaxpressData = {};

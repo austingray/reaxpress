@@ -1,8 +1,9 @@
 // modules
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
 // react components
 import Page from '../src/react/_global/Page';
+import template from '../template';
 
 const router = require('express').Router();
 
@@ -15,16 +16,14 @@ router.use((req, res, next) => {
 router.use((req, res) => {
   const status = res.locals.status || 500;
   res.status(status);
-  const reaxpressData = JSON.parse(res.locals.reaxpressData);
-  reaxpressData.page = {
+  const rd = res.locals.reaxpressData;
+  rd.page = {
     title: `Error: ${status}`,
     content: 'There was a problem processing your request or this page simply does not exist.',
   };
-  res.locals.reaxpressData = JSON.stringify(reaxpressData);
-  res.render('template.ejs', {
-    templateHtml: ReactDOMServer.renderToString(<Page reaxpressData={reaxpressData} />),
-    componentJs: 'page',
-  });
+  const isReaxpress = req.originalUrl.indexOf('reaxpress=true') > -1;
+  if (isReaxpress) { return res.json(rd); }
+  return res.send(template(rd, renderToString(<Page reaxpressData={rd} />)));
 });
 
 module.exports = router;

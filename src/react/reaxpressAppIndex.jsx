@@ -8,9 +8,10 @@ import Admin from './Admin';
 import Index from './Index';
 import Login from './Login';
 import Register from './Register';
+import Page from './_global/Page';
 // #reaxpress components
 
-const componentList = { Account, Admin, Index, Login, Register, // eslint-disable-line
+const componentList = { Account, Admin, Index, Login, Register, Page, // eslint-disable-line
   // #reaxpress component list
 };
 
@@ -33,7 +34,8 @@ const checkRegisteredRoutes = (reqPath = null, callback) => {
       }
     }
   }
-  return callback(false, null);
+  return callback(true, Page);
+  // return callback(false, null);
 };
 
 class ReaxpressApp extends React.Component {
@@ -47,7 +49,7 @@ class ReaxpressApp extends React.Component {
   }
   componentDidMount() {
     window.reaxpress.mounted = true;
-    window.reaxpress.addChangeListener(this.handleUrlChange);
+    window.reaxpress.addUrlListener(this.handleUrlChange);
   }
   handleUrlChange(path) {
     this.setState({
@@ -90,6 +92,7 @@ document.addEventListener('click', (e) => {
   checkRegisteredRoutes(pushUrl, (exists, Component) => {
     if (exists && window.reaxpress.mounted) {
       window.reaxpress.updateUrl(pushUrl);
+      window.reaxpress.reload();
       e.preventDefault();
     }
   });

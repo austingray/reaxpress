@@ -20,13 +20,18 @@ const router = express.Router();
  * GET
 */
 router.get('/', (req, res) => {
-  const reaxpressData = res.locals.reaxpressData;
-  res.send(template(reaxpressData, renderToString(<Index reaxpressData={reaxpressData} />)));
+  const rd = res.locals.reaxpressData;
+  users.allUsers((allUsers) => {
+    rd.users = allUsers;
+    if (req.query.reaxpress === 'true') { return res.json(rd); }
+    return res.send(template(rd, renderToString(<Index reaxpressData={rd} />)));
+  });
 });
 
 router.get('/login', (req, res) => {
-  const reaxpressData = res.locals.reaxpressData;
-  res.send(template(reaxpressData, renderToString(<Login reaxpressData={reaxpressData} />)));
+  const rd = res.locals.reaxpressData;
+  if (req.query.reaxpress === 'true') { return res.json(rd); }
+  return res.send(template(rd, renderToString(<Login reaxpressData={rd} />)));
 });
 
 router.get('/logout', (req, res) => {
@@ -35,8 +40,9 @@ router.get('/logout', (req, res) => {
 });
 
 router.get('/register', (req, res) => {
-  const reaxpressData = res.locals.reaxpressData;
-  res.send(template(reaxpressData, renderToString(<Register reaxpressData={reaxpressData} />)));
+  const rd = res.locals.reaxpressData;
+  if (req.query.reaxpress === 'true') { return res.json(rd); }
+  return res.send(template(rd, renderToString(<Register reaxpressData={rd} />)));
 });
 
 router.get('/account', (req, res) => {
@@ -45,22 +51,25 @@ router.get('/account', (req, res) => {
     return;
   }
   users.getData(req.user.username, (userData) => {
-    const reaxpressData = res.locals.reaxpressData;
-    reaxpressData.user = userData;
-    res.send(template(reaxpressData, renderToString(<Account reaxpressData={reaxpressData} />)));
+    const rd = res.locals.reaxpressData;
+    rd.user = userData;
+    if (req.query.reaxpress === 'true') { return res.json(rd); }
+    return res.send(template(rd, renderToString(<Account reaxpressData={rd} />)));
   });
 });
 
 // pages
 router.use((req, res, next) => {
-  pages.fetchPageFromRequestUrl(req.originalUrl, (page) => {
+  const reqUrl = req.originalUrl.split('?')[0];
+  pages.fetchPageFromRequestUrl(reqUrl, (page) => {
     if (!page) {
-      next();
-      return;
+      return next();
     }
-    const reaxpressData = res.locals.reaxpressData;
-    reaxpressData.page = page;
-    res.send(template(reaxpressData, renderToString(<Page reaxpressData={reaxpressData} />)));
+    const isReaxpress = req.originalUrl.indexOf('reaxpress=true') > -1;
+    const rd = res.locals.reaxpressData;
+    rd.page = page;
+    if (isReaxpress) { return res.json(rd); }
+    return res.send(template(rd, renderToString(<Page reaxpressData={rd} />)));
   });
 });
 

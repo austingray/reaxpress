@@ -16,8 +16,16 @@ class Page extends React.Component {
       <div>
         <Header />
         <Content>
-          <h1>{page.title}</h1>
-          <div className="page-content" dangerouslySetInnerHTML={{ __html: validator.unescape(page.content) }} />
+          {
+            typeof page === 'undefined'
+              ? null
+              : (
+                <div>
+                  <h1>{page.title}</h1>
+                  <div className="page-content" dangerouslySetInnerHTML={{ __html: validator.unescape(page.content) }} />
+                </div>
+              )
+          }
         </Content>
         <Footer />
       </div>
