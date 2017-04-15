@@ -104,4 +104,13 @@ users.getUserIdFromUsername = (username, callback) => {
   });
 };
 
+users.allUsers = (callback) => {
+  knex.raw(`
+    SELECT id, username, created_at
+    FROM users
+  `).then((model) => {
+    callback(model.rows);
+  });
+};
+
 module.exports = users;
