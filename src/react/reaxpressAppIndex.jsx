@@ -96,7 +96,6 @@ document.addEventListener('click', (e) => {
 }, false);
 
 checkRegisteredRoutes(null, (exists) => {
-  console.log(exists);
   if (exists) {
     ReactDOM.render(
       <ReaxpressApp />,
