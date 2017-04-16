@@ -42,7 +42,7 @@ app.use((req, res, next) => {
 });
 
 // #reaxpress: generated routes
-app.use(require('./reaxpress/mount'));
+app.use(require('./.reaxpress/mount'));
 
 // error handling
 app.use(require('./routes/error'));

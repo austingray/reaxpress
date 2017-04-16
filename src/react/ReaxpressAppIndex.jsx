@@ -1,8 +1,8 @@
 /* eslint no-unused-vars: 0 */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import defaults from '../../reaxpress/helpers/skeleton/defaults';
-import custom from '../../reaxpress/helpers/skeleton/custom';
+import defaults from '../../.reaxpress/helpers/skeleton/defaults';
+import custom from '../../.reaxpress/helpers/skeleton/custom';
 import Account from './Account';
 import Index from './Index';
 import Login from './Login';
