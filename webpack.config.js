@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: path.join(__dirname, 'src/react/reaxpressAppIndex.jsx'),
+  entry: path.join(__dirname, 'src/react/ReaxpressAppIndex.jsx'),
   output: {
     path: path.join(__dirname, 'public/build/js'),
     filename: 'bundle.js',
