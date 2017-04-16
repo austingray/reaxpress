@@ -30,6 +30,26 @@ users.createUser = (username, password, callback) => {
   });
 };
 
+users.createUserFromCLI = (username, password, roleType, callback) => {
+  const role = roleType === 'admin'
+    ? 10
+    : 0;
+  bcrypt.genSalt(10, (genSaltErr, salt) => {
+    bcrypt.hash(password, salt, (hashErr, hash) => {
+      knex.raw(`
+        INSERT INTO users (username, hash, role)
+        VALUES ('${username}', '${hash}', ${role})
+        RETURNING id, username, created_at, role
+      `).then((userModel) => {
+        const user = userModel.rows.length === 0
+          ? {}
+          : userModel.rows[0];
+        callback(user);
+      });
+    });
+  });
+};
+
 users.getData = (username, callback) => {
   knex.raw(`
     SELECT

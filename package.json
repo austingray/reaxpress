@@ -8,9 +8,9 @@
     "start": "node ./bin/www",
     "start-dev": "npm run-script watch | nodemon ./bin/www",
     "watch": "npm run-script watch-sass | npm run-script watch-react",
-    "run-migrate-rollback": "node ./node_modules/knex/bin/cli.js --knexfile .knex/knexfile.js migrate:rollback",
-    "run-migrate-latest": "node ./node_modules/knex/bin/cli.js --knexfile .knex/knexfile.js migrate:latest",
-    "run-seeds": "node node ./node_modules/knex/bin/cli.js --knexfile .knex/knexfile.js seed:run",
+    "knex-migrate-rollback": "node ./node_modules/knex/bin/cli.js --knexfile .knex/knexfile.js migrate:rollback",
+    "knex-migrate-latest": "node ./node_modules/knex/bin/cli.js --knexfile .knex/knexfile.js migrate:latest",
+    "knex-seeds": "node node ./node_modules/knex/bin/cli.js --knexfile .knex/knexfile.js seed:run",
     "watch-sass": "node-sass --watch --include-path scss src/scss/style.scss public/build/css/style.css",
     "watch-react": "webpack --progress --colors --display-error-details --watch"
   },

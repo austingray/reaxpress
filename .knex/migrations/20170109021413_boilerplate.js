@@ -7,7 +7,7 @@ exports.up = (knex, Promise) => {
         table.increments().primary();
         table.uuid('uuid').defaultTo(knex.raw('uuid_generate_v4()')).notNullable().unique();
         table.timestamps(true, true);
-        table.string('username').notNullable();
+        table.string('username').notNullable().unique();
         table.string('hash').notNullable();
         table.integer('role').defaultTo(0);
       }),
@@ -16,7 +16,7 @@ exports.up = (knex, Promise) => {
         table.increments().primary();
         table.uuid('uuid').defaultTo(knex.raw('uuid_generate_v4()')).notNullable().unique();
         table.timestamps(true, true);
-        table.integer('created_by').references('users.id').notNullable();
+        table.integer('created_by');
         table.string('slug');
         table.string('title');
         table.text('content');

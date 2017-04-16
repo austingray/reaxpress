@@ -22,7 +22,7 @@ program
 
 program
   .command('remove <route>')
-  .description('Delete a route and all its files')
+  .description('Delete a route and all its files.')
   .action((route) => {
     if (blacklist.test(route)) {
       return;
@@ -31,12 +31,28 @@ program
   });
 
 program
-  .command('user <action> <username>')
-  .description('Manage users accounts.')
-  .action((action, username) => {
-    console.log(action);
-    console.log(username);
-    // commands.user(route);
+  .command('user <action> <username> [password] [role]')
+  .description('Manage user accounts.')
+  .action((action, username, password, role) => {
+    switch (action) {
+      case 'create' :
+        if (typeof password === 'undefined') {
+          console.log('You must provide a password.');
+          return;
+        }
+        commands.user.create(username, password, role, () => {
+          process.exit(1);
+        });
+        break;
+      case 'delete':
+        console.log('Coming soon...');
+        process.exit(1);
+        break;
+      default :
+        console.log('Did not recognize the command.');
+        process.exit(1);
+        break;
+    }
   });
 
 program.parse(process.argv);
