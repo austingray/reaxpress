@@ -14,6 +14,10 @@ export default [
         path: '/register',
         component: 'Register',
       },
+      {
+        path: '/account',
+        component: 'Account',
+      },
     ],
   },
 ];

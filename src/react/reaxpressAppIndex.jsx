@@ -4,14 +4,13 @@ import ReactDOM from 'react-dom';
 import defaults from '../../reaxpress/helpers/skeleton/defaults';
 import custom from '../../reaxpress/helpers/skeleton/custom';
 import Account from './Account';
-import Admin from './Admin';
 import Index from './Index';
 import Login from './Login';
 import Register from './Register';
 import Page from './_global/Page';
 // #reaxpress components
 
-const componentList = { Account, Admin, Index, Login, Register, Page, // eslint-disable-line
+const componentList = { Index, Login, Register, Account, Page, // eslint-disable-line
   // #reaxpress component list
 };
 
@@ -19,6 +18,9 @@ const routes = [...custom, ...defaults];
 
 const checkRegisteredRoutes = (reqPath = null, callback) => {
   const currentPath = reqPath || window.location.pathname;
+  if (currentPath.indexOf('admin') > -1) {
+    return callback(false);
+  }
   for (let i = 0; i < routes.length; i += 1) {
     const route = routes[i];
     for (let j = 0; j < route.routes.length; j += 1) {
@@ -82,7 +84,13 @@ document.addEventListener('click', (e) => {
   const currentHost = window.location.host;
   const targetHref = event.target.href;
 
+  // bail on external links
   if (targetHref.indexOf(currentHost) < 0) {
+    return;
+  }
+
+  // bail on admin pages
+  if (targetHref.indexOf('admin') > -1) {
     return;
   }
 

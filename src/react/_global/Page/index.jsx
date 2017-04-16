@@ -41,11 +41,4 @@ Page.propTypes = {
   reaxpressData: React.PropTypes.object,
 };
 
-if (typeof document !== 'undefined') {
-  ReactDOM.render(
-    <Page />,
-    document.getElementById('app'),
-  );
-}
-
 export default Page;
