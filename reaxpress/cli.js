@@ -30,14 +30,4 @@ program
     commands.remove(route);
   });
 
-program
-  .command('forget <route>')
-  .description('Forget a route so it can no longer be controlled by the CLI')
-  .action((route) => {
-    if (blacklist.test(route)) {
-      return;
-    }
-    commands.forget(route);
-  });
-
 program.parse(process.argv);
