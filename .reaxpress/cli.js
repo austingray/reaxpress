@@ -30,4 +30,13 @@ program
     commands.remove(route);
   });
 
+program
+  .command('user <action> <username>')
+  .description('Manage users accounts.')
+  .action((action, username) => {
+    console.log(action);
+    console.log(username);
+    // commands.user(route);
+  });
+
 program.parse(process.argv);
