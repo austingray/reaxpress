@@ -3399,13 +3399,13 @@ function Footer() {
         { className: "row" },
         React.createElement(
           "div",
-          { className: "col-xs-3" },
+          { className: "col-3" },
           "Reaxpress \xA9 ",
           new Date().getFullYear()
         ),
         React.createElement(
           "div",
-          { className: "col-xs-9" },
+          { className: "col-9" },
           React.createElement(
             "div",
             { className: "footer-menu" },
@@ -3502,7 +3502,7 @@ var Header = (0, _Reaxpress2.default)(_class = function (_React$Component) {
               { className: 'row' },
               _react2.default.createElement(
                 'div',
-                { className: 'col-xs-6' },
+                { className: 'col-4' },
                 _react2.default.createElement(
                   'div',
                   { className: 'logo' },
@@ -3515,7 +3515,7 @@ var Header = (0, _Reaxpress2.default)(_class = function (_React$Component) {
               ),
               _react2.default.createElement(
                 'div',
-                { className: 'col-xs-6', style: { textAlign: 'right' } },
+                { className: 'col-8', style: { textAlign: 'right' } },
                 user ? _react2.default.createElement(
                   'div',
                   null,

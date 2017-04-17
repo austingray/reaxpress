@@ -10,12 +10,12 @@ class Header extends React.Component {
         <section id="header-main">
           <div className="container">
             <div className="row">
-              <div className="col-xs-6">
+              <div className="col-4">
                 <div className="logo">
                   <a href="/">Reaxpress</a>
                 </div>
               </div>
-              <div className="col-xs-6" style={{ textAlign: 'right' }}>
+              <div className="col-8" style={{ textAlign: 'right' }}>
                 {
                   user
                     ? (
