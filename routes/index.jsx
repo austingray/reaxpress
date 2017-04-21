@@ -13,6 +13,7 @@ import Register from '../src/react/Register';
 import Account from '../src/react/Account';
 import Page from '../src/react/_global/Page';
 import template from '../template';
+import reaxpressResponseHandler from './reaxpressResponseHandler';
 
 const router = express.Router();
 
@@ -20,18 +21,13 @@ const router = express.Router();
  * GET
 */
 router.get('/', (req, res) => {
-  const rd = res.locals.reaxpressData;
-  users.allUsers((allUsers) => {
-    rd.users = allUsers;
-    if (req.query.reaxpress === 'true') { return res.json(rd); }
-    return res.send(template(rd, renderToString(<Index reaxpressData={rd} />)));
-  });
+  const reaxpressData = res.locals.reaxpressData;
+  reaxpressResponseHandler(req, res, Index, reaxpressData);
 });
 
 router.get('/login', (req, res) => {
-  const rd = res.locals.reaxpressData;
-  if (req.query.reaxpress === 'true') { return res.json(rd); }
-  return res.send(template(rd, renderToString(<Login reaxpressData={rd} />)));
+  const reaxpressData = res.locals.reaxpressData;
+  reaxpressResponseHandler(req, res, Login, reaxpressData);
 });
 
 router.get('/logout', (req, res) => {
@@ -40,22 +36,20 @@ router.get('/logout', (req, res) => {
 });
 
 router.get('/register', (req, res) => {
-  const rd = res.locals.reaxpressData;
-  if (req.query.reaxpress === 'true') { return res.json(rd); }
-  return res.send(template(rd, renderToString(<Register reaxpressData={rd} />)));
+  const reaxpressData = res.locals.reaxpressData;
+  reaxpressResponseHandler(req, res, Register, reaxpressData);
 });
 
-router.get('/account', (req, res) => {
+router.get('/account', async (req, res) => {
   if (typeof req.user === 'undefined') {
     res.redirect('/login');
     return;
   }
-  users.getData(req.user.username, (userData) => {
-    const rd = res.locals.reaxpressData;
-    rd.user = userData;
-    if (req.query.reaxpress === 'true') { return res.json(rd); }
-    return res.send(template(rd, renderToString(<Account reaxpressData={rd} />)));
-  });
+
+  const reaxpressData = res.locals.reaxpressData;
+  reaxpressData.user = await users.fetchOne(req.user.username);
+
+  reaxpressResponseHandler(req, res, Account, reaxpressData);
 });
 
 // pages
@@ -66,10 +60,10 @@ router.use((req, res, next) => {
       return next();
     }
     const isReaxpress = req.originalUrl.indexOf('reaxpress=true') > -1;
-    const rd = res.locals.reaxpressData;
-    rd.page = page;
-    if (isReaxpress) { return res.json(rd); }
-    return res.send(template(rd, renderToString(<Page reaxpressData={rd} />)));
+    const reaxpressData = res.locals.reaxpressData;
+    reaxpressData.page = page;
+    if (isReaxpress) { return res.json(reaxpressData); }
+    return res.send(template(reaxpressData, renderToString(<Page reaxpressData={reaxpressData} />)));
   });
 });
 
@@ -84,10 +78,10 @@ router.post('/login', passport.authenticate('local', {
   res.redirect('/account');
 });
 
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
   const reqUsername = req.body.username;
-  const reqPassword = req.body.password;
-  const reqPasswordAgain = req.body.passwordAgain;
+  const reqPassworeaxpressData = req.body.passworeaxpressData;
+  const reqPassworeaxpressDataAgain = req.body.passworeaxpressDataAgain;
   // twitter style usernames
   const allowedRegex = /^[a-zA-Z0-9_]{1,15}$/;
 
@@ -98,25 +92,26 @@ router.post('/register', (req, res) => {
     return;
   }
 
-  // bail on password mismatch
-  if (reqPassword !== reqPasswordAgain) {
-    req.flash('error', 'Password mismatch. Please try again.');
+  // bail on passworeaxpressData mismatch
+  if (reqPassworeaxpressData !== reqPassworeaxpressDataAgain) {
+    req.flash('error', 'PassworeaxpressData mismatch. Please try again.');
     res.redirect('/register');
     return;
   }
 
-  users.checkIfUserExists(reqUsername, (exists) => {
-    if (exists) {
-      req.flash('error', 'That username is taken. Please try again..');
-      res.redirect('/register');
-      return;
-    }
-    users.createUser(reqUsername, reqPassword, () => {
-      passport.authenticate('local')(req, res, () => {
-        req.flash('success', `Welcome, ${reqUsername}.`);
-        res.redirect('/account');
-      });
-    });
+  const exists = await users.exists(reqUsername);
+
+  if (exists) {
+    req.flash('error', 'That username is taken. Please try again..');
+    res.redirect('/register');
+    return;
+  }
+
+  await users.create(reqUsername, reqPassworeaxpressData);
+
+  passport.authenticate('local')(req, res, () => {
+    req.flash('success', `Welcome, ${reqUsername}.`);
+    res.redirect('/account');
   });
 });
 

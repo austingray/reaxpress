@@ -28,12 +28,11 @@ module.exports = {
     console.log(`Successfully deleted route: ${route}`);
   },
   user: {
-    create: (username, password, role, callback) => {
-      modelUsers.createUserFromCLI(username, password, role, (user) => {
-        console.log('Successfully created user:');
-        console.log(user);
-        callback();
-      });
+    create: async (username, password, role, callback) => {
+      const user = await modelUsers.create(username, password, role);
+      console.log('Successfully created user:');
+      console.log(user);
+      callback();
     },
   },
 };

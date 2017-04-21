@@ -1,136 +1,136 @@
 const knex = require('knex')(require('../.knex/knexfile')[process.env.NODE_ENV]);
 const bcrypt = require('bcrypt');
 
-const users = {};
-
-users.checkIfUserExists = (username, callback) => {
-  let exists = true;
-  knex.raw(`
-    SELECT u.*
-    FROM users u
-    WHERE u.username = '${username}'
-  `).then((clients) => {
-    if (clients.rows.length === 0) {
-      exists = false;
+/**
+ * 'users' database table methods
+ */
+export default {
+  /**
+   * Checks whether a user exists
+   * @param  {String}  username
+   * @return {Boolean}
+   */
+  exists: async (username) => {
+    try {
+      const user = await knex.raw(`
+        SELECT 1
+        FROM users u
+        WHERE u.username = '${username}'
+      `);
+      return user.rows.length > 0;
+    } catch (err) {
+      throw new Error(err);
     }
-    callback(exists);
-  });
-};
+  },
 
-users.createUser = (username, password, callback) => {
-  bcrypt.genSalt(10, (genSaltErr, salt) => {
-    bcrypt.hash(password, salt, (hashErr, hash) => {
-      knex.raw(`
-        INSERT INTO users (username, hash)
-        VALUES ('${username}', '${hash}')
-      `).then(() => {
-        callback();
-      });
-    });
-  });
-};
-
-users.createUserFromCLI = (username, password, roleType, callback) => {
-  const role = roleType === 'admin'
-    ? 10
-    : 0;
-  bcrypt.genSalt(10, (genSaltErr, salt) => {
-    bcrypt.hash(password, salt, (hashErr, hash) => {
-      knex.raw(`
+  /**
+   * Creates a new user
+   * @param  {String}  username
+   * @param  {String}  password
+   * @param  {String}  [role='user'] Translates this string to an integer value
+   * @return {Object}
+   */
+  create: async (username, password, role = 'user') => {
+    const roleVal = role === 'admin'
+      ? 10
+      : 0;
+    try {
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(password, salt);
+      const user = await knex.raw(`
         INSERT INTO users (username, hash, role)
-        VALUES ('${username}', '${hash}', ${role})
+        VALUES ('${username}', '${hash}', ${roleVal})
         RETURNING id, username, created_at, role
-      `).then((userModel) => {
-        const user = userModel.rows.length === 0
-          ? {}
-          : userModel.rows[0];
-        callback(user);
-      });
-    });
-  });
-};
-
-users.getData = (username, callback) => {
-  knex.raw(`
-    SELECT
-      u.username,
-      u.created_at,
-      u.role
-    FROM users u
-    WHERE u.username = '${username}'
-  `).then((user) => {
-    if (user.rows.length === 0) {
-      callback({});
-      return;
+      `);
+      return user.rows.length > 0
+        ? user.rows[0]
+        : {};
+    } catch (err) {
+      throw new Error(err);
     }
-    callback(user.rows[0]);
-  });
-};
+  },
 
-users.getRole = (username, callback) => {
-  knex.raw(`
-    SELECT u.role
-    FROM users u
-    WHERE u.username = '${username}'
-  `).then((user) => {
-    callback(user.rows[0].role);
-  });
-};
-
-users.isAdmin = (reqUser, callback) => {
-  // if user is not logged in, fail
-  if (typeof reqUser === 'undefined') {
-    return callback(false);
-  }
-  const username = reqUser.username;
-  return knex.raw(`
-    SELECT u.role
-    FROM users u
-    WHERE u.username = '${username}'
-  `).then((model) => {
-    const user = model.rows[0];
-    // if no user with username, fail
-    if (typeof user === 'undefined') {
-      return callback(false);
+  /**
+   * Fetches one user by username
+   * @param  {String}  username
+   * @return {Object}
+   */
+  fetchOne: async (username) => {
+    try {
+      const user = await knex.raw(`
+        SELECT username, created_at, role
+        FROM users u
+        WHERE u.username = '${username}'
+      `);
+      return user.rows.length > 0
+        ? user.rows[0]
+        : {};
+    } catch (err) {
+      throw new Error(err);
     }
-    const role = Number(user.role);
-    // if role isNaN, or less than 1, fail
-    if (isNaN(role) || role < 1) {
-      return callback(false);
+  },
+
+  /**
+   * Return all users
+   * @return {Array}
+   */
+  fetchAll: async () => {
+    try {
+      const users = await knex.raw(`
+        SELECT id, username, created_at
+        FROM users
+      `);
+      return users.rows;
+    } catch (err) {
+      throw new Error(err);
     }
-    // user is admin
-    return callback(true);
-  });
-};
+  },
 
-users.getUserIdFromUsername = (username, callback) => {
-  if (typeof username === 'undefined') {
-    callback();
-    return;
-  }
-  knex.raw(`
-    SELECT u.id
-    FROM users u
-    WHERE u.username = '${username}'
-  `).then((model) => {
-    const user = model.rows[0];
-    // if no user with username, fail
-    if (typeof user === 'undefined') {
-      return callback();
+  /**
+   * Determine with a user is an admin
+   * @param  {String}  username
+   * @return {Boolean}
+   */
+  isAdmin: async (username) => {
+    try {
+      const user = await knex.raw(`
+        SELECT u.role
+        FROM users u
+        WHERE u.username = '${username}'
+      `);
+      // false if no results
+      // or the role is less than 10
+      if (
+        user.rows.length === 0 ||
+        Number(user.rows[0].role) < 9
+      ) {
+        return false;
+      }
+      return true;
+    } catch (err) {
+      throw new Error(err);
     }
-    const id = Number(user.id);
-    // user is admin
-    return callback(id);
-  });
-};
+  },
 
-users.allUsers = (callback) => {
-  knex.raw(`
-    SELECT id, username, created_at
-    FROM users
-  `).then((model) => {
-    callback(model.rows);
-  });
+  /**
+   * Fetch a user ID from username
+   * @param  {String}  username
+   * @return {Integer}
+   */
+  fetchId: async (username) => {
+    try {
+      const user = await knex.raw(`
+        SELECT id
+        FROM users
+        WHERE username = '${username}'
+      `);
+      // return ID if the user was found
+      // or 0 if not found
+      return user.rows.length > 0
+        ? Number(user.rows[0].id)
+        : 0;
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
 };
-
-module.exports = users;

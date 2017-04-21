@@ -12,30 +12,31 @@ import Admin from '../src/react/Admin';
 import AdminPages from '../src/react/Admin/Pages';
 import AdminPagesUpdate from '../src/react/Admin/Pages/Update';
 import template from '../template';
+import reaxpressResponseHandler from './reaxpressResponseHandler';
 
 const router = express.Router();
 
 // validate admin requests
-const validateAdminRequest = (req, res, next) => {
-  users.isAdmin(req.user, (isAdmin) => {
-    if (isAdmin) {
-      return next();
-    }
-    // do 404 if not an admin
+const validateAdminRequest = async (req, res, next) => {
+  if (
+    typeof req.user === 'undefined' ||
+    !await users.isAdmin(req.user.username)
+  ) {
     res.status(404);
-    const rd = res.locals.reaxpressData;
-    rd.page = {
+    const reaxpressData = res.locals.reaxpressData;
+    reaxpressData.page = {
       title: 'Error: 404',
       content: 'There was a problem processing your request or this page simply does not exist.',
     };
-    return res.send(template(rd, renderToString(<Page reaxpressData={rd} />)));
-  });
+    return reaxpressResponseHandler(req, res, Page, reaxpressData);
+  }
+
+  return next();
 };
 
 router.get('/', validateAdminRequest, (req, res) => {
-  const rd = res.locals.reaxpressData;
-  if (req.query.reaxpress === 'true') { return res.json(rd); }
-  return res.send(template(rd, renderToString(<Admin reaxpressData={rd} />)));
+  const reaxpressData = res.locals.reaxpressData;
+  reaxpressResponseHandler(req, res, Admin, reaxpressData);
 });
 
 router.get('/pages', validateAdminRequest, (req, res) => {
@@ -56,13 +57,12 @@ router.get('/pages/:id', validateAdminRequest, (req, res) => {
   });
 });
 
-router.post('/pages/:id', validateAdminRequest, (req, res) => {
+router.post('/pages/:id', validateAdminRequest, async (req, res) => {
   const page = req.body;
-  users.getUserIdFromUsername(req.user.username, (userId) => {
-    page.user_id = userId;
-    pages.savePage(page, () => {
-      res.redirect('/admin/pages');
-    });
+  const userId = await users.fetchId(req.user.username);
+  page.user_id = userId;
+  pages.savePage(page, () => {
+    res.redirect('/admin/pages');
   });
 });
 
