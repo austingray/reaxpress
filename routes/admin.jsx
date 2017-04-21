@@ -1,8 +1,6 @@
 /* eslint max-len: 0 */
 // modules
 import express from 'express';
-import React from 'react';
-import { renderToString } from 'react-dom/server';
 // models
 import users from '../models/users';
 import pages from '../models/pages';
@@ -11,7 +9,6 @@ import Page from '../src/react/_global/Page';
 import Admin from '../src/react/Admin';
 import AdminPages from '../src/react/Admin/Pages';
 import AdminPagesUpdate from '../src/react/Admin/Pages/Update';
-import template from '../template';
 import reaxpressResponseHandler from './reaxpressResponseHandler';
 
 const router = express.Router();
@@ -39,37 +36,29 @@ router.get('/', validateAdminRequest, (req, res) => {
   reaxpressResponseHandler(req, res, Admin, reaxpressData);
 });
 
-router.get('/pages', validateAdminRequest, (req, res) => {
-  pages.fetch({}, (allPages) => {
-    const rd = res.locals.reaxpressData;
-    rd.pages = allPages;
-    if (req.query.reaxpress === 'true') { return res.json(rd); }
-    return res.send(template(rd, renderToString(<AdminPages reaxpressData={rd} />)));
-  });
+router.get('/pages', validateAdminRequest, async (req, res) => {
+  const reaxpressData = res.locals.reaxpressData;
+  reaxpressData.pages = await pages.fetchMany();
+  reaxpressResponseHandler(req, res, AdminPages, reaxpressData);
 });
 
-router.get('/pages/:id', validateAdminRequest, (req, res) => {
-  pages.fetchPageById(req.params.id, (page) => {
-    const rd = res.locals.reaxpressData;
-    rd.page = page;
-    if (req.query.reaxpress === 'true') { return res.json(rd); }
-    return res.send(template(rd, renderToString(<AdminPagesUpdate reaxpressData={rd} />)));
-  });
+router.get('/pages/:id', validateAdminRequest, async (req, res) => {
+  const reaxpressData = res.locals.reaxpressData;
+  reaxpressData.page = await pages.fetchById(req.params.id);
+  reaxpressResponseHandler(req, res, AdminPagesUpdate, reaxpressData);
 });
 
 router.post('/pages/:id', validateAdminRequest, async (req, res) => {
   const page = req.body;
   const userId = await users.fetchId(req.user.username);
   page.user_id = userId;
-  pages.savePage(page, () => {
-    res.redirect('/admin/pages');
-  });
+  await pages.savePage(page);
+  res.redirect('/admin/pages');
 });
 
-router.delete('/pages/:id', validateAdminRequest, (req, res) => {
-  pages.deleteById(req.params.id, () => {
-    res.send('/admin/pages');
-  });
+router.delete('/pages/:id', validateAdminRequest, async (req, res) => {
+  await pages.deleteById(req.params.id);
+  res.send('/admin/pages');
 });
 
 module.exports = router;

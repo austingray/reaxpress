@@ -10,7 +10,7 @@ export default {
    * @param  {String}  username
    * @return {Boolean}
    */
-  exists: async (username) => {
+  async exists(username) {
     try {
       const user = await knex.raw(`
         SELECT 1
@@ -30,7 +30,7 @@ export default {
    * @param  {String}  [role='user'] Translates this string to an integer value
    * @return {Object}
    */
-  create: async (username, password, role = 'user') => {
+  async create(username, password, role = 'user') {
     const roleVal = role === 'admin'
       ? 10
       : 0;
@@ -55,7 +55,7 @@ export default {
    * @param  {String}  username
    * @return {Object}
    */
-  fetchOne: async (username) => {
+  async fetchOne(username) {
     try {
       const user = await knex.raw(`
         SELECT username, created_at, role
@@ -74,11 +74,16 @@ export default {
    * Return all users
    * @return {Array}
    */
-  fetchAll: async () => {
+  async fetchMany(offset = 0, _limit = 0) {
+    const limit = _limit === 0
+      ? 'ALL'
+      : _limit;
     try {
       const users = await knex.raw(`
         SELECT id, username, created_at
         FROM users
+        OFFSET ${offset}
+        LIMIT ${limit}
       `);
       return users.rows;
     } catch (err) {
@@ -91,7 +96,7 @@ export default {
    * @param  {String}  username
    * @return {Boolean}
    */
-  isAdmin: async (username) => {
+  async isAdmin(username) {
     try {
       const user = await knex.raw(`
         SELECT u.role
@@ -117,7 +122,7 @@ export default {
    * @param  {String}  username
    * @return {Integer}
    */
-  fetchId: async (username) => {
+  async fetchId(username) {
     try {
       const user = await knex.raw(`
         SELECT id

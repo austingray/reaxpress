@@ -53,18 +53,17 @@ router.get('/account', async (req, res) => {
 });
 
 // pages
-router.use((req, res, next) => {
+router.use(async (req, res, next) => {
   const reqUrl = req.originalUrl.split('?')[0];
-  pages.fetchPageFromRequestUrl(reqUrl, (page) => {
-    if (!page) {
-      return next();
-    }
-    const isReaxpress = req.originalUrl.indexOf('reaxpress=true') > -1;
-    const reaxpressData = res.locals.reaxpressData;
-    reaxpressData.page = page;
-    if (isReaxpress) { return res.json(reaxpressData); }
-    return res.send(template(reaxpressData, renderToString(<Page reaxpressData={reaxpressData} />)));
-  });
+  const page = await pages.fetchByUrl(reqUrl);
+  if (!page) {
+    return next();
+  }
+  const isReaxpress = req.originalUrl.indexOf('reaxpress=true') > -1;
+  const reaxpressData = res.locals.reaxpressData;
+  reaxpressData.page = page;
+  if (isReaxpress) { return res.json(reaxpressData); }
+  return res.send(template(reaxpressData, renderToString(<Page reaxpressData={reaxpressData} />)));
 });
 
 /*
