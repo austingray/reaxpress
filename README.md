@@ -1,4 +1,4 @@
-# Reaxpress
+# Reaxpress 0.9.1
 
 Reaxpress (React + Express) is a framework for rapid application prototyping and development.
 
@@ -10,6 +10,20 @@ Reaxpress (React + Express) is a framework for rapid application prototyping and
 - State management via the global ReaxpressData object and @Reaxpress decorator
 - Basic user auth using [passport](http://passportjs.org/)
 - Basic CMS functionality
+
+### Notes
+
+- This project is under development, and is subject to much change prior to hitting version 1.0.0
+- This project follows [Airbnb React/JSX Style Guide](https://github.com/airbnb/javascript/tree/master/react)
+- This project uses [Bootstrap v4](https://v4-alpha.getbootstrap.com/)
+
+### Roadmap to v1
+
+- Add state management for the current endpoint
+- Finish the CLI functionality for routes
+- Finish the CLI functionality for users
+- Extend the CLI (?)
+- Add tests
 
 ### Installation
 
@@ -36,7 +50,7 @@ ALTER USER <db_user> WITH SUPERUSER;
 
 With defined environment variable:
 
-```bash
+```
 export REAXPRESS_CONNECTION_STRING=postgresql://username:password@127.0.0.1:5432/database
 ```
 
@@ -155,9 +169,3 @@ anonymous {
 Now if you visit the `http://localhost:3000/userlist` endpoint again, you should see your new user in the list.
 
 When you're done with this little experiment, you can run `./reaxpress.js remove userlist`. BE CAREFUL! This is a very powerful command. Not only will it delete the project from the skeleton, it will also remove all of the boilerplate files that were generated, even if they were modified.
-
-### Notes
-
-- This project is under development, and is subject to much change prior to hitting version 1.0.0
-- This project follows [Airbnb React/JSX Style Guide](https://github.com/airbnb/javascript/tree/master/react)
-- This project uses [Bootstrap v4](https://v4-alpha.getbootstrap.com/)
