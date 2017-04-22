@@ -62,39 +62,31 @@ We're going to create a page that displays all users. Navigate to your project d
 Successfully created route: userlist
 ```
 
-What does it all mean? The project Skeleton is the internal route handler for Reaxpress. It makes the app aware of what routes are in the project, and facilitates rendering the correct React components on their desired endpoints. The next line is the React component that we will be rendering when a user visits that endpoint. After that is the Express route handler. This is where we will be adding custom data from the server. Finally, the reference in mount.js mounts that route file into our app. Along with the Skeleton, we should never have to edit it manually.
+What does it all mean? The Skeleton is the internal route handler for Reaxpress. It makes the app aware of what routes are in the project, and facilitates rendering the correct React components on their desired endpoints. The next line is the React component that we will be rendering when a user visits that endpoint. After that is the Express route handler. This is where we will be adding custom data from the server. Finally, the reference in mount.js mounts that route file into our app. Along with the Skeleton, we should never have to edit it manually.
 
 To start your server (as well as compile/watch your React components and Sass files), run `npm run-script start-dev`. This is an alias for several scripts. You can which ones by examining the `package.json` file. Navigate your server to `http://localhost:3000`. You should see the text "Userlist content". If you do, you are on the right track.
 
-Next we need to create a custom database method to grab our list of all users. Fortunately, one already exists inside of the `models/users.js` file. Reaxpress keeps all database methods inside of the models folder. The naming convention is still being hammered out, as well as how bloated/lean it will be kept in this repo. All of the methods are going to be converted to async/await which is on my roadmap for 1.0.0. For this example, we will just use a callback function. The method `users.allUsers` takes one argument, and that is the callback. It returns an array of all users. Let's incorporate this in our route.
+Next we need to create a custom database method to grab our list of all users. Fortunately, one already exists inside of the `models/users.js` file called `fetchMany`. Fetch many takes two arguments, `offset` and `limit` which default to `0`. Reaxpress keeps all database methods inside of the models folder. The naming convention is still being hammered out, as well as how bloated/lean it will be kept in this repo.
 
 Open `routes/userlist.jsx` and take a look at the boilerplate file that was generated. You will see there's a get route for the path `/`. That path is mounted to `/userlist`, so all requests to that endpoint will be handled here. There's also some boilerplate instructional code. First things first, let's import our users model. After your module imports, add this line:
 
 ```javascript
-import modelUsers from '../models/users';
+import users from '../models/users';
 ```
 
 After that clean out the boilerplate/instructional code inside of the default get route, until you have this:
 
 ```javascript
 const reaxpressData = res.locals.reaxpressData;
-if (req.params.reaxpress) {
-  return res.json(reaxpressData);
-}
-return res.send(template(reaxpressData, renderToString(<Userlist reaxpressData={reaxpressData} />)));
+reaxpressResponseHandler(req, res, Userlist, reaxpressData);
 ```
 
-This grabs the reaxpressData object from where it originates, returns it as json if it was an ajax request auto generated from the app, otherwise sends a server rendered version of the endpoint. Now let's wrap that code inside of our `users.allUsers` method. Your code will look like this:
+Now let's include the `users.fetchMany` method. This is nice and clean since we're using async/await.
 
 ```javascript
-modelUsers.allUsers((users) => {
-  const reaxpressData = res.locals.reaxpressData;
-  reaxpressData.users = users
-  if (req.params.reaxpress) {
-    return res.json(reaxpressData);
-  }
-  return res.send(template(reaxpressData, renderToString(<Userlist reaxpressData={reaxpressData} />)));
-});
+const reaxpressData = res.locals.reaxpressData;
+reaxpressData.users = await users.fetchMany();
+reaxpressResponseHandler(req, res, Userlist, reaxpressData);
 ```
 
 Now that our users have been attached to the reaxpressData object, it is available inside of our react component via the @Reaxpress decorator. Let's open the component file which was generated when we created our route: `src/react/Userlist/index.jsx`. You will see that the decorator was automatically added for you. Before our return statement inside the component's render method, let's add the following:
