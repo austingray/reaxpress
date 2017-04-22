@@ -77,33 +77,61 @@ import users from '../models/users';
 After that clean out the boilerplate/instructional code inside of the default get route, until you have this:
 
 ```javascript
-const reaxpressData = res.locals.reaxpressData;
-reaxpressResponseHandler(req, res, Userlist, reaxpressData);
+router.get('/', async (req, res) => {
+  const reaxpressData = res.locals.reaxpressData;
+  reaxpressResponseHandler(req, res, Userlist, reaxpressData);
+});
 ```
 
 Now let's include the `users.fetchMany` method. This is nice and clean since we're using async/await.
 
 ```javascript
-const reaxpressData = res.locals.reaxpressData;
-reaxpressData.users = await users.fetchMany();
-reaxpressResponseHandler(req, res, Userlist, reaxpressData);
+router.get('/', async (req, res) => {
+  const reaxpressData = res.locals.reaxpressData;
+  reaxpressData.users = await users.fetchMany();
+  reaxpressResponseHandler(req, res, Userlist, reaxpressData);
+});
 ```
 
-Now that our users have been attached to the reaxpressData object, it is available inside of our react component via the @Reaxpress decorator. Let's open the component file which was generated when we created our route: `src/react/Userlist/index.jsx`. You will see that the decorator was automatically added for you. Before our return statement inside the component's render method, let's add the following:
+Now that our users have been attached to the reaxpressData object, it is available inside of our React component via the @Reaxpress decorator. Let's open the component file which was generated when we created our route: `src/react/Userlist/index.jsx`. You will see that the decorator is automatically added. We're going to update the `render` method of our component. Here's what it looks like before our changes:
 
 ```javascript
-const users = this.props.reaxpressData.users;
-```
-
-Now inside of our template, let's replace the text `Userlist content` with the following:
-
-```javascript
-{
-  users.map(user =>
-    <div key={user.id}>{user.username}</div>,
-  )
+render() {
+  return (
+    <div>
+      <Header />
+      <Content>
+        Userlist content
+      </Content>
+      <Footer />
+    </div>
+  );
 }
 ```
+
+and after:
+
+```javascript
+render() {
+  const users = this.props.reaxpressData.users;
+  return (
+    <div>
+      <Header />
+      <Content>
+        <h1>All Users</h1>
+        {
+          users.map(user =>
+            <div key={user.id}>{user.username}</div>,
+          )
+        }
+      </Content>
+      <Footer />
+    </div>
+  );
+}
+```
+
+Navigate to `http://localhost:3000/userlist`
 
 Now if you see a blank page, well then you're on the right track! That's because there aren't any users yet. You can go ahead and create a regular user via the /register page. Or... you can create an admin user using the command line:
 
@@ -124,7 +152,7 @@ anonymous {
 
 *Note: The `user` cli is very new and its implementation still being hammered out*
 
-Now if you visit the `/userlist` endpoint again, you should see your new user in the list.
+Now if you visit the `http://localhost:3000/userlist` endpoint again, you should see your new user in the list.
 
 When you're done with this little experiment, you can run `./reaxpress.js remove userlist`. BE CAREFUL! This is a very powerful command. Not only will it delete the project from the skeleton, it will also remove all of the boilerplate files that were generated, even if they were modified.
 
