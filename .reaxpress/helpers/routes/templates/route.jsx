@@ -1,9 +1,6 @@
 export default parsedArgs =>
 `import express from 'express';
-import React from 'react';
-import { renderToString } from 'react-dom/server';
 import ${parsedArgs.component} from '../src/react/${parsedArgs.component}';
-import template from '../template';
 import reaxpressResponseHandler from './reaxpressResponseHandler';
 
 const router = express.Router();
