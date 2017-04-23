@@ -7,6 +7,12 @@
  * @return {Object}                      { parent, child, component }
  */
 const parseRoute = (route, customComponent = '') => {
+  // type check
+  if (typeof route !== 'string') {
+    console.log(`Could not parse route, wanted string, got: typeof ${route}`)
+    return null;
+  }
+
   const routeNames = route.split('/');
   const parent = routeNames.shift();
   const child = routeNames.length > 0
