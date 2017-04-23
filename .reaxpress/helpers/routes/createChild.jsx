@@ -26,7 +26,7 @@ export default (parsedArgs) => {
   } catch (err) {
     throw new Error(err);
   }
-  console.log(`...created: ${routeFile}`);
+  console.log(`...added child route to: ${routeFile}`);
 
   // success!
   return true;
