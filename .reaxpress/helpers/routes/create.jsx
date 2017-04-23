@@ -3,11 +3,12 @@ import createChild from './createChild';
 import exists from './exists';
 import existsChild from './existsChild';
 
-export default (parsedArgs) => {
-  if (!exists(parsedArgs)) {
+export default (args) => {
+  const routesExist = exists(args);
+  if (!routesExist.parent) {
     createParent(parsedArgs);
   }
-  if (parsedArgs.child !== '' && !existsChild(parsedArgs)) {
+  if (!routesExist.child) {
     createChild(parsedArgs);
   }
 };
