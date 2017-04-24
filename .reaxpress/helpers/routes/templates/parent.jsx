@@ -1,7 +1,8 @@
 export default args =>
 `import express from 'express';
-import ${args.component} from '../src/react/${args.component}';
 import reaxpressResponseHandler from './reaxpressResponseHandler';
+// #reaxpress custom components
+import ${args.component} from '../src/react/${args.component}';
 
 const router = express.Router();
 
