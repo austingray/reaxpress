@@ -192,8 +192,13 @@ export default {
 };
 ```
 
-Great! Now we have a fully functioning database model. Let's create an endpoint:
+Great! Now we have a fully functioning database model. Let's create some endpoints:
 
-...
+```
+./reaxpress.js create todos
+./reaxpress.js create todos/add
+```
+
+This will give us the route file `routes/todos.jsx` where we can add our server logic, as well as two brand new react components named `Todos` and `TodosAdd` in `src/react/`.
 
 More coming soon... working on rewriting the cli to handle child routes and regex routes.
