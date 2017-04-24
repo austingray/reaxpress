@@ -59,7 +59,7 @@ export default (args) => {
   let mountContent = fs.readFileSync(mountFile, 'utf8');
   if (mountContent.indexOf(`const ${args.parent} = require('../routes/${args.parent}');`) < 0) {
     mountContent = mountContent.replace(/#route-def/g, `#route-def\nconst ${args.parent} = require('../routes/${args.parent}');`);
-    mountContent = mountContent.replace(/#route-mount/g, `#route-mount\nrouter.use('/${name}', ${name});`);
+    mountContent = mountContent.replace(/#route-mount/g, `#route-mount\nrouter.use('/${args.parent}', ${args.parent});`);
     try {
       fs.writeFileSync(mountFile, mountContent);
       consoleLog.push('...mounted route file');
