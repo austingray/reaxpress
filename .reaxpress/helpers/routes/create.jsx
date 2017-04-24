@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 import exists from './exists';
 import templates from './templates';
 import getRouteFilePath from './getRouteFilePath';
@@ -50,6 +51,21 @@ export default (args) => {
     consoleLog.push(`...wrote route code to file: ${routeFilePath}`);
   } catch (err) {
     throw new Error(err);
+  }
+
+  // if the file is not yet mounted, mount it
+  // mount the route by adding it to the mount file
+  const mountFile = path.join(__dirname, '../..', 'mount.jsx');
+  let mountContent = fs.readFileSync(mountFile, 'utf8');
+  if (mountContent.indexOf(`const ${args.parent} = require('../routes/${args.parent}');`) < 0) {
+    mountContent = mountContent.replace(/#route-def/g, `#route-def\nconst ${args.parent} = require('../routes/${args.parent}');`);
+    mountContent = mountContent.replace(/#route-mount/g, `#route-mount\nrouter.use('/${name}', ${name});`);
+    try {
+      fs.writeFileSync(mountFile, mountContent);
+      consoleLog.push('...mounted route file');
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 
   for (let i = 0; i < consoleLog.length; i += 1) {
