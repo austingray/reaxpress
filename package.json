@@ -37,8 +37,8 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "pg": "^6.1.2",
-    "react": "^15.4.1",
-    "react-dom": "^15.4.1",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
     "serve-favicon": "~2.3.0",
     "slug": "^0.9.1",
     "validator": "^6.2.1"
