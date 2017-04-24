@@ -36,7 +36,7 @@ export default (args) => {
     const childRouteContent = templates.child(args);
     routeFileContents = routeFileContents.replace(
       /\/\/ #reaxpress custom components/g,
-      `import ${args.component} from '../src/react/${args.component}'\n// #reaxpress custom components;`,
+      `import ${args.component} from '../src/react/${args.component};'\n// #reaxpress custom components;`,
     );
     routeFileContents = routeFileContents.replace(
       /\/\/ end of #reaxpress routes/g,
