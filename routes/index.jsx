@@ -79,8 +79,8 @@ router.post('/login', passport.authenticate('local', {
 
 router.post('/register', async (req, res) => {
   const reqUsername = req.body.username;
-  const reqPassworeaxpressData = req.body.passworeaxpressData;
-  const reqPassworeaxpressDataAgain = req.body.passworeaxpressDataAgain;
+  const reqPassword = req.body.password;
+  const reqPasswordAgain = req.body.passwordAgain;
   // twitter style usernames
   const allowedRegex = /^[a-zA-Z0-9_]{1,15}$/;
 
@@ -91,9 +91,9 @@ router.post('/register', async (req, res) => {
     return;
   }
 
-  // bail on passworeaxpressData mismatch
-  if (reqPassworeaxpressData !== reqPassworeaxpressDataAgain) {
-    req.flash('error', 'PassworeaxpressData mismatch. Please try again.');
+  // bail on password mismatch
+  if (reqPassword !== reqPasswordAgain) {
+    req.flash('error', 'Password mismatch. Please try again.');
     res.redirect('/register');
     return;
   }
@@ -106,7 +106,7 @@ router.post('/register', async (req, res) => {
     return;
   }
 
-  await users.create(reqUsername, reqPassworeaxpressData);
+  await users.create(reqUsername, reqPassword);
 
   passport.authenticate('local')(req, res, () => {
     req.flash('success', `Welcome, ${reqUsername}.`);
