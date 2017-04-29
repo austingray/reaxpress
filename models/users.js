@@ -35,8 +35,8 @@ export default {
       ? 10
       : 0;
     try {
-      const salt = await bcrypt.genSalt(10);
-      const hash = await bcrypt.hash(password, salt);
+      const salt = bcrypt.genSaltSync(10);
+      const hash = bcrypt.hashSync(password, salt);
       const user = await knex.raw(`
         INSERT INTO users (username, hash, role)
         VALUES ('${username}', '${hash}', ${roleVal})
