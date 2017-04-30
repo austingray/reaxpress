@@ -1,27 +1,16 @@
+import bcrypt from 'bcrypt';
+import Model from './_model';
+
 const knex = require('knex')(require('../.knex/knexfile')[process.env.NODE_ENV]);
-const bcrypt = require('bcrypt');
 
 /**
  * 'users' database table methods
  */
-export default {
-  /**
-   * Checks whether a user exists
-   * @param  {String}  username
-   * @return {Boolean}
-   */
-  async exists(username) {
-    try {
-      const user = await knex.raw(`
-        SELECT 1
-        FROM users u
-        WHERE u.username = '${username}'
-      `);
-      return user.rows.length > 0;
-    } catch (err) {
-      throw new Error(err);
-    }
-  },
+export default class Users extends Model {
+  constructor() {
+    super();
+    this.model = 'users';
+  }
 
   /**
    * Creates a new user
@@ -38,7 +27,7 @@ export default {
       const salt = bcrypt.genSaltSync(10);
       const hash = bcrypt.hashSync(password, salt);
       const user = await knex.raw(`
-        INSERT INTO users (username, hash, role)
+        INSERT INTO ${this.model} (username, hash, role)
         VALUES ('${username}', '${hash}', ${roleVal})
         RETURNING id, username, created_at, role
       `);
@@ -48,7 +37,7 @@ export default {
     } catch (err) {
       throw new Error(err);
     }
-  },
+  }
 
   /**
    * Fetches one user by username
@@ -59,7 +48,7 @@ export default {
     try {
       const user = await knex.raw(`
         SELECT username, created_at, role
-        FROM users u
+        FROM ${this.model} u
         WHERE u.username = '${username}'
       `);
       return user.rows.length > 0
@@ -68,28 +57,7 @@ export default {
     } catch (err) {
       throw new Error(err);
     }
-  },
-
-  /**
-   * Return all users
-   * @return {Array}
-   */
-  async fetchMany(offset = 0, _limit = 0) {
-    const limit = _limit === 0
-      ? 'ALL'
-      : _limit;
-    try {
-      const users = await knex.raw(`
-        SELECT id, username, created_at
-        FROM users
-        OFFSET ${offset}
-        LIMIT ${limit}
-      `);
-      return users.rows;
-    } catch (err) {
-      throw new Error(err);
-    }
-  },
+  }
 
   /**
    * Determine with a user is an admin
@@ -100,7 +68,7 @@ export default {
     try {
       const user = await knex.raw(`
         SELECT u.role
-        FROM users u
+        FROM ${this.model} u
         WHERE u.username = '${username}'
       `);
       // false if no results
@@ -115,7 +83,7 @@ export default {
     } catch (err) {
       throw new Error(err);
     }
-  },
+  }
 
   /**
    * Fetch a user ID from username
@@ -126,7 +94,7 @@ export default {
     try {
       const user = await knex.raw(`
         SELECT id
-        FROM users
+        FROM ${this.model}
         WHERE username = '${username}'
       `);
       // return ID if the user was found
@@ -137,5 +105,5 @@ export default {
     } catch (err) {
       throw new Error(err);
     }
-  },
-};
+  }
+}

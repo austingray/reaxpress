@@ -4,8 +4,7 @@ import passport from 'passport';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 // models
-import users from '../models/users';
-import pages from '../models/pages';
+import Models from '../models/index';
 // react components
 import Index from '../src/react/Index';
 import Login from '../src/react/Login';
@@ -46,6 +45,8 @@ router.get('/account', async (req, res) => {
     return;
   }
 
+  const users = new Models.Users();
+
   const reaxpressData = res.locals.reaxpressData;
   reaxpressData.user = await users.fetchOne(req.user.username);
 
@@ -54,6 +55,8 @@ router.get('/account', async (req, res) => {
 
 // pages
 router.use(async (req, res, next) => {
+  const pages = new Models.Pages();
+
   const reqUrl = req.originalUrl.split('?')[0];
   const page = await pages.fetchByUrl(reqUrl);
   if (!page) {
@@ -84,6 +87,8 @@ router.post('/register', async (req, res) => {
   // twitter style usernames
   const allowedRegex = /^[a-zA-Z0-9_]{1,15}$/;
 
+  const users = new Models.Users();
+
   // bail on invalid username
   if (!allowedRegex.test(reqUsername)) {
     req.flash('error', 'Invalid username. Please try again.');
@@ -98,9 +103,9 @@ router.post('/register', async (req, res) => {
     return;
   }
 
-  const exists = await users.exists(reqUsername);
+  const existingUser = await users.fetch(reqUsername, 'username');
 
-  if (exists) {
+  if (existingUser.length > 0) {
     req.flash('error', 'That username is taken. Please try again..');
     res.redirect('/register');
     return;

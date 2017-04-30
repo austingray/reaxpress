@@ -1,34 +1,16 @@
-const validator = require('validator');
+import validator from 'validator';
+import slug from 'slug';
+import Model from './_model';
+
 const knex = require('knex')(require('../.knex/knexfile')[process.env.NODE_ENV]);
-const slug = require('slug');
 
 slug.mode = slug.defaults.mode = 'rfc3986'; // eslint-disable-line no-multi-assign
 
-export default {
-  /**
-   * Fetch a collection of pages
-   * @param  {Integer}  [offset=0]
-   * @param  {Integer}  [limit=0]
-   * @return {Array}
-   */
-  async fetchMany(offset = 0, _limit = 0) {
-    const limit = _limit === 0
-      ? 'ALL'
-      : _limit;
-    try {
-      const pages = await knex.raw(`
-        SELECT * FROM pages
-        OFFSET ${offset}
-        LIMIT ${limit}
-      `);
-      return pages.rows.length > 0
-        ? pages.rows
-        : [];
-    } catch (err) {
-      throw new Error(err);
-    }
-  },
-
+export default class Pages extends Model {
+  constructor() {
+    super();
+    this.model = 'pages';
+  }
   /**
    * Fetch a page by url
    * @param  {String}  url
@@ -54,8 +36,7 @@ export default {
 
     // return 0 if no matches
     return 0;
-  },
-
+  }
   /**
    * Fetch a page by ID
    * @param  {Integer}  id
@@ -69,7 +50,7 @@ export default {
     try {
       const page = await knex.raw(`
         SELECT p.*
-        FROM pages p
+        FROM ${this.model} p
         WHERE p.id = ${id}
       `);
       return page.rows.length > 0
@@ -78,8 +59,7 @@ export default {
     } catch (err) {
       throw new Error(err);
     }
-  },
-
+  }
   /**
    * Save a page
    * @param  {Object}  page
@@ -94,12 +74,12 @@ export default {
     try {
       if (isNaN(pageId)) {
         return await knex.raw(`
-          INSERT INTO pages (title, slug, content, created_by)
+          INSERT INTO ${this.model} (title, slug, content, created_by)
           VALUES ('${pageTitle}', '${pageSlug}', '${pageContent}', ${pageUserId})
         `);
       }
       return await knex.raw(`
-        UPDATE pages
+        UPDATE ${this.model}
         SET
           title = '${pageTitle}',
           slug = '${pageSlug}',
@@ -109,8 +89,7 @@ export default {
     } catch (err) {
       throw new Error(err);
     }
-  },
-
+  }
   /**
    * Delete a page by ID
    * @param  {Integer}  _id
@@ -123,12 +102,12 @@ export default {
     }
     try {
       await knex.raw(`
-        DELETE FROM pages
+        DELETE FROM ${this.model}
         WHERE id = ${id}
       `);
       return true;
     } catch (err) {
       throw new Error(err);
     }
-  },
-};
+  }
+}
