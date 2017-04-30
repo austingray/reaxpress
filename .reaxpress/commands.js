@@ -3,7 +3,7 @@ import parseRoute from './helpers/parseRoute';
 import skeleton from './helpers/skeleton';
 import react from './helpers/react';
 import routes from './helpers/routes';
-// models
+import models from './helpers/models';
 import modelUsers from '../models/users';
 
 module.exports = {
@@ -34,5 +34,8 @@ module.exports = {
       console.log(user);
       callback();
     },
+  },
+  model: (name) => {
+    models.create(name);
   },
 };

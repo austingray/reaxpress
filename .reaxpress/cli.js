@@ -55,5 +55,12 @@ program
     }
   });
 
+program
+  .command('model <name>')
+  .description('Generate a boilerplate model methods file and add it to the models registry')
+  .action((name) => {
+    commands.model(name);
+  });
+
 program.parse(process.argv);
 process.exit(1);
