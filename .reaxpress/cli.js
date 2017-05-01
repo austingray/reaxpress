@@ -7,9 +7,10 @@ program
   .version('0.4.0');
 
 program
-  .command('create <route>')
+  .command('route <route>')
   .description('Create a route and all its boilerplate code.')
-  .option('-c, --component <component>', 'Specify a component instead of a Reaxpress generated component.')
+  .option('-d, --delete', 'Delete an existing route.')
+  .option('-c, --component <component>', 'Specify a custom React component.')
   .action((route, options) => {
     if (blacklist.test(route)) {
       return;
@@ -17,17 +18,12 @@ program
     const component = typeof options.component === 'undefined'
       ? ''
       : options.component;
-    commands.create(route, component);
-  });
-
-program
-  .command('remove <route>')
-  .description('Delete a route and all its files.')
-  .action((route) => {
-    if (blacklist.test(route)) {
+    if (options.delete) {
+      commands.remove(route);
       return;
     }
-    commands.remove(route);
+
+    commands.create(route, component);
   });
 
 program

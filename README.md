@@ -1,4 +1,4 @@
-# Reaxpress 0.10.0
+# Reaxpress 0.10.1
 
 Reaxpress (React + Express) is a framework for rapid application prototyping and development.
 
@@ -17,14 +17,6 @@ Reaxpress (React + Express) is a framework for rapid application prototyping and
 
 - This project is under development, and is subject to much change prior to hitting version 1.0.0
 - This project follows [Airbnb React/JSX Style Guide](https://github.com/airbnb/javascript/tree/master/react)
-
-### Roadmap to v1
-
-- Add state management for the current endpoint
-- Finish the CLI functionality for routes
-- Finish the CLI functionality for users
-- Extend the CLI (?)
-- Add tests
 
 ### Installation
 
@@ -64,8 +56,7 @@ export REAXPRESS_CONNECTION_STRING=postgresql://username:password@127.0.0.1:5432
 ### The CLI
 
 ```
-./reaxpress.js create <route>
-./reaxpress.js remove <route>
+./reaxpress.js route <route> [--delete, --component=CustomName]
 ./reaxpress.js user create <username> <password> <role>
 ./reaxpress.js model <name>
 ```
@@ -75,3 +66,8 @@ export REAXPRESS_CONNECTION_STRING=postgresql://username:password@127.0.0.1:5432
 *"To destroy is always the first step in any creation."* - E.E. Cummings
 
 coming soon...
+
+### Running todos
+- move React files into a contained 'App' dir
+- break ReaxpressAppIndex into individual files
+- move Reaxpress React files into a separate folder aside from the App dir
