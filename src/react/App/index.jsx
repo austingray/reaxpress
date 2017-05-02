@@ -6,9 +6,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.handleUrlChange = this.handleUrlChange.bind(this);
-    const path = window.location.pathname;
     this.state = {
-      path,
+      path: window.location.pathname,
     };
   }
   componentDidMount() {
@@ -43,3 +42,5 @@ Router(null, (exists) => {
     );
   }
 });
+
+export default App;
