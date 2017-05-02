@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const componentList = path.join(__dirname, '../../..', 'src/react/App/Components.jsx');
+const componentList = path.join(__dirname, '../../..', 'src/react/Reaxpress/Components.jsx');
 
 const deleteFolderRecursive = (_path) => {
   if (fs.existsSync(_path)) {
