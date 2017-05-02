@@ -1,5 +1,6 @@
 /* eslint class-methods-use-this: 0 */
 import React from 'react';
+import PropTypes from 'prop-types';
 import Reaxpress from '../../../Reaxpress';
 import Header from '../../_global/Header';
 import Footer from '../../_global/Footer';
@@ -71,7 +72,7 @@ AdminPages.defaultProps = {
 };
 
 AdminPages.propTypes = {
-  reaxpressData: React.PropTypes.object,
+  reaxpressData: PropTypes.object,
 };
 
 export default AdminPages;

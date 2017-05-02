@@ -12,3 +12,4 @@
  - Moved app components into `src/react/App`
  - Moved Reaxpress core into `src/react/Reaxpress`
  - Renamed protected `Index` to `Homepage`
+- Added prop-types package

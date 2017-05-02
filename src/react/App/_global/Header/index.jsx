@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Reaxpress from '../../../Reaxpress';
 
 @Reaxpress
@@ -45,7 +46,7 @@ Header.defaultProps = {
 };
 
 Header.propTypes = {
-  reaxpressData: React.PropTypes.object,
+  reaxpressData: PropTypes.object,
 };
 
 export default Header;

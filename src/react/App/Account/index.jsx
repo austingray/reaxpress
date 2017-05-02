@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Reaxpress from '../../Reaxpress';
 import Header from '../_global/Header';
 import Footer from '../_global/Footer';
@@ -34,7 +35,7 @@ Account.defaultProps = {
 };
 
 Account.propTypes = {
-  reaxpressData: React.PropTypes.object,
+  reaxpressData: PropTypes.object,
 };
 
 export default Account;

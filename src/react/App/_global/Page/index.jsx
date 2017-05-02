@@ -1,6 +1,7 @@
 /* eslint react/no-danger: 0 */
 import validator from 'validator';
 import React from 'react';
+import PropTypes from 'prop-types';
 import Reaxpress from '../../../Reaxpress';
 import Header from '../Header';
 import Footer from '../Footer';
@@ -36,7 +37,7 @@ Page.defaultProps = {
 };
 
 Page.propTypes = {
-  reaxpressData: React.PropTypes.object,
+  reaxpressData: PropTypes.object,
 };
 
 export default Page;

@@ -1,5 +1,6 @@
 /* eslint react/prop-types: 0, max-len: 0 */
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function Reaxpress(ReaxpressComponent) {
   class ReaxpressComponentWrapper extends React.Component {
@@ -42,10 +43,10 @@ function Reaxpress(ReaxpressComponent) {
     }
   }
   ReaxpressComponentWrapper.contextTypes = {
-    reaxpressData: React.PropTypes.object,
+    reaxpressData: PropTypes.object,
   };
   ReaxpressComponentWrapper.childContextTypes = {
-    reaxpressData: React.PropTypes.object,
+    reaxpressData: PropTypes.object,
   };
   return ReaxpressComponentWrapper;
 }
