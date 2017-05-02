@@ -6,11 +6,11 @@ import { renderToString } from 'react-dom/server';
 // models
 import Models from '../models/index';
 // react components
-import Index from '../src/react/Index';
-import Login from '../src/react/Login';
-import Register from '../src/react/Register';
-import Account from '../src/react/Account';
-import Page from '../src/react/_global/Page';
+import Homepage from '../src/react/App/Homepage';
+import Login from '../src/react/App/Login';
+import Register from '../src/react/App/Register';
+import Account from '../src/react/App/Account';
+import Page from '../src/react/App/_global/Page';
 import template from '../template';
 import reaxpressResponseHandler from './reaxpressResponseHandler';
 
@@ -21,7 +21,7 @@ const router = express.Router();
 */
 router.get('/', (req, res) => {
   const reaxpressData = res.locals.reaxpressData;
-  reaxpressResponseHandler(req, res, Index, reaxpressData);
+  reaxpressResponseHandler(req, res, Homepage, reaxpressData);
 });
 
 router.get('/login', (req, res) => {

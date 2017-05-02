@@ -2,7 +2,7 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 // react components
-import Page from '../src/react/_global/Page';
+import Page from '../src/react/App/_global/Page';
 import template from '../template';
 
 const router = require('express').Router();

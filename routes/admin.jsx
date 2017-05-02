@@ -5,10 +5,10 @@ import express from 'express';
 import users from '../models/users';
 import pages from '../models/pages';
 // react components
-import Page from '../src/react/_global/Page';
-import Admin from '../src/react/Admin';
-import AdminPages from '../src/react/Admin/Pages';
-import AdminPagesUpdate from '../src/react/Admin/Pages/Update';
+import Page from '../src/react/App/_global/Page';
+import Admin from '../src/react/App/Admin';
+import AdminPages from '../src/react/App/Admin/Pages';
+import AdminPagesUpdate from '../src/react/App/Admin/Pages/Update';
 import reaxpressResponseHandler from './reaxpressResponseHandler';
 
 const router = express.Router();
