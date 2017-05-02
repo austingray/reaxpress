@@ -34,7 +34,7 @@ const remove = (routes) => {
   } catch (err) {
     throw new Error(err);
   }
-  componentListContent = componentListContent.replace(`\nimport ${routes.component} from './${routes.component}';`, '');
+  componentListContent = componentListContent.replace(`\nimport ${routes.component} from '../App/${routes.component}';`, '');
   componentListContent = componentListContent.replace(`\n  ${routes.component},`, '');
   try {
     fs.writeFileSync(componentList, componentListContent);
