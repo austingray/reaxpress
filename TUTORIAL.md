@@ -150,11 +150,25 @@ router.post('/update/:id', async (req, res) => {
 Now open the file `src/react/Todos` and update the component to be the following:
 
 ```javascript
+@Reaxpress
 class Todos extends React.Component {
   completeTodo(todo) {
+    // create our new todo
     const updatedTodo = Object.assign({}, todo, {
       complete: !todo.complete,
     });
+
+    // update our application on the front end
+    window.reaxpress.update({
+      todos: this.props.reaxpressData.todos.map((oldTodo) => {
+        if (oldTodo.id === todo.id) {
+          return updatedTodo;
+        }
+        return oldTodo;
+      }),
+    });
+
+    // send it to the server to be updated
     $.ajax({
       url: `/todos/update/${todo.id}`,
       method: 'POST',
@@ -196,7 +210,4 @@ class Todos extends React.Component {
 }
 ```
 
-You should see a nice clean little list of your todos. Great!
-
-
-More coming soon... working on rewriting the cli to handle child routes and regex routes.
+This might seem like a lot but break down the above code to see how Reaxpress is handling application state. More detailed tutorial breakdown coming soon.
