@@ -2,6 +2,9 @@
 
 ### [Unreleased]
 - move skeleton files `default` and `custom` into `.reaxpress` and rename to `routemap-default.js` and `routemap-custom.js` or something like that.
+- 404 handling when clicking a link to a 404 page (`/about` link in footer when not using the seed file for example)
+- regex routes with the Reaxpress Router
+- subscription model for components to watch for changes to the `reaxpressData` global variable
 
 ### [0.10.3] 2017-05-01
 - added a changelog :D

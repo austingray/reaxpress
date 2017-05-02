@@ -66,8 +66,3 @@ export REAXPRESS_CONNECTION_STRING=postgresql://username:password@127.0.0.1:5432
 *"To destroy is always the first step in any creation."* - E.E. Cummings
 
 coming soon...
-
-### Running todos
-- move React files into a contained 'App' dir
-- break ReaxpressAppIndex into individual files
-- move Reaxpress React files into a separate folder aside from the App dir
