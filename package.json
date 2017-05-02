@@ -1,6 +1,6 @@
 {
   "name": "reaxpress",
-  "version": "0.10.0",
+  "version": "0.10.3",
   "description": "An Express/React boilerplate with a CLI for rapid prototyping.",
   "main": "app.js",
   "private": false,
