@@ -8,7 +8,6 @@ npm-debug.log
 # project
 ./routes
 public/build/js/bundle.js
-public/build/css/style.css
 
 # whitelist
 !routes/admin.jsx
