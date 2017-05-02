@@ -29,9 +29,6 @@ const Router = (reqPath = null, callback) => {
         ? `${routeIter.path}`
         : `/${route.key}${routePath}`;
       if (path === currentPath) {
-        console.log('here it is:');
-        console.log(routeIter.component);
-        console.log(Components[routeIter.component]);
         return callback(true, Components[routeIter.component]);
       }
     }
