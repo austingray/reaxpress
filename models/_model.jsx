@@ -37,13 +37,14 @@ export default class Model {
   }
   /**
    * Select from the table with advanced arguments
-   * @param  {Object}          args   Optional query arguments
-   * @param  {Object.<object>} where  Key, value pair for a where clause
-   * @param  {Object.<number>} offset Offset value
-   * @param  {Object.<number>} limit  Limit value
-   * @return {Array}                  An array of objects
+   * @param  {Object}          args     Optional query arguments
+   * @param  {Object.<object>} where    Key, value pair for a where clause
+   * @param  {Object.<number>} offset   Offset value
+   * @param  {Object.<number>} limit    Limit value
+   * @param  {Object.<array>}  orderby  [Key, Direction]
+   * @return {Array}                    An array of objects
    */
-  async fetchMany(args = {}) {
+  async fetchMany(args = { orderby: ['id', 'asc'] }) {
     try {
       let query = knex(`${this.model}`).select('*');
       if (typeof args.where === 'object') {
@@ -57,6 +58,7 @@ export default class Model {
       if (typeof args.limit === 'number') {
         query = query.limit(args.offset);
       }
+      query = query.orderBy(args.orderby[0], args.orderby[1]);
       return await query;
     } catch (err) {
       throw new Error(err);
