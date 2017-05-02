@@ -1,6 +1,6 @@
 import validator from 'validator';
 import React from 'react';
-import Reaxpress from '../../../_global/Reaxpress';
+import Reaxpress from '../../../../Reaxpress';
 import Header from '../../../_global/Header';
 import Footer from '../../../_global/Footer';
 import Content from '../../../_global/Content';

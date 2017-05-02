@@ -1,18 +1,18 @@
 import React from 'react';
-import Reaxpress from '../_global/Reaxpress';
+import Reaxpress from '../../Reaxpress';
 import Header from '../_global/Header';
 import Footer from '../_global/Footer';
 import Content from '../_global/Content';
 
 @Reaxpress
-class Login extends React.Component {
+class Register extends React.Component {
   render() {
     return (
       <div>
         <Header />
         <Content>
-          <h1>Login</h1>
-          <form role="form" action="/login" method="post" className="credential-box">
+          <h1>Register</h1>
+          <form role="form" action="/register" method="post" className="credential-box">
             <div className="form-group">
               <label htmlFor="username">Username</label>
               <input className="form-control" type="text" name="username" placeholder="Username" />
@@ -20,6 +20,10 @@ class Login extends React.Component {
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <input className="form-control" type="password" name="password" placeholder="Password" />
+            </div>
+            <div className="form-group">
+              <label htmlFor="passwordAgain">Password Again</label>
+              <input className="form-control" type="password" name="passwordAgain" placeholder="Password Again" />
             </div>
             <div className="form-group">
               <input className="btn btn-primary" type="submit" value="Submit" />
@@ -33,12 +37,12 @@ class Login extends React.Component {
   }
 }
 
-Login.defaultProps = {
+Register.defaultProps = {
   reaxpressData: {},
 };
 
-Login.propTypes = {
+Register.propTypes = {
   reaxpressData: React.PropTypes.object,
 };
 
-export default Login;
+export default Register;

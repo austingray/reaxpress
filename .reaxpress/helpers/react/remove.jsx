@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const appIndex = path.join(__dirname, '../../..', 'src/react/reaxpressAppIndex.jsx');
+const componentList = path.join(__dirname, '../../..', 'src/react/App/Components.jsx');
 
 const deleteFolderRecursive = (_path) => {
   if (fs.existsSync(_path)) {
@@ -19,25 +19,25 @@ const deleteFolderRecursive = (_path) => {
 
 const remove = (routes) => {
   // delete react component
-  const reactDirPath = path.join(__dirname, '../../..', 'src/react/', routes.component);
+  const reactDirPath = path.join(__dirname, '../../..', 'src/react/App', routes.component);
   try {
     deleteFolderRecursive(reactDirPath);
   } catch (err) {
     throw new Error(err);
   }
 
-  // delete reference in appIndex
-  // add to reaxpressAppIndex component
-  let appIndexContent = '';
+  // delete reference in componentList
+  // add to reaxpresscomponentList component
+  let componentListContent = '';
   try {
-    appIndexContent = fs.readFileSync(appIndex, 'utf8');
+    componentListContent = fs.readFileSync(componentList, 'utf8');
   } catch (err) {
     throw new Error(err);
   }
-  appIndexContent = appIndexContent.replace(`\nimport ${routes.component} from './${routes.component}';`, '');
-  appIndexContent = appIndexContent.replace(`\n  ${routes.component},`, '');
+  componentListContent = componentListContent.replace(`\nimport ${routes.component} from './${routes.component}';`, '');
+  componentListContent = componentListContent.replace(`\n  ${routes.component},`, '');
   try {
-    fs.writeFileSync(appIndex, appIndexContent);
+    fs.writeFileSync(componentList, componentListContent);
   } catch (err) {
     throw new Error(err);
   }

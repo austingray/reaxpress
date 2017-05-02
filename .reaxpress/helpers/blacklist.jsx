@@ -1,6 +1,7 @@
 // these route names cannot be used by the CLI
 const blacklist = [
   'index',
+  'homepage',
   'reaxpress',
   'login',
   'logout',

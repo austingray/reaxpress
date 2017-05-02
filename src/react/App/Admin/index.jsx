@@ -1,17 +1,20 @@
 import React from 'react';
-import Reaxpress from '../_global/Reaxpress';
+import Reaxpress from '../../Reaxpress';
 import Header from '../_global/Header';
 import Footer from '../_global/Footer';
 import Content from '../_global/Content';
 
 @Reaxpress
-class Index extends React.Component {
+class Admin extends React.Component {
   render() {
     return (
       <div>
         <Header />
         <Content>
-          Index content
+          <h1>Admin</h1>
+          <ul>
+            <li><a href="/admin/pages">Pages</a></li>
+          </ul>
         </Content>
         <Footer />
       </div>
@@ -19,12 +22,12 @@ class Index extends React.Component {
   }
 }
 
-Index.defaultProps = {
+Admin.defaultProps = {
   reaxpressData: {},
 };
 
-Index.propTypes = {
+Admin.propTypes = {
   reaxpressData: React.PropTypes.object,
 };
 
-export default Index;
+export default Admin;

@@ -3,7 +3,7 @@ import path from 'path';
 import template from './templates/component';
 import exists from './exists';
 
-const appIndex = path.join(__dirname, '../../..', 'src/react/reaxpressAppIndex.jsx');
+const componentList = path.join(__dirname, '../../..', 'src/react/Reaxpress/Components.jsx');
 
 const create = (routes) => {
   // bail if the file already exists.
@@ -12,7 +12,7 @@ const create = (routes) => {
   }
 
   // create the dir
-  const reactDirPath = path.join(__dirname, '../../..', 'src/react/', routes.component);
+  const reactDirPath = path.join(__dirname, '../../..', 'src/react/App', routes.component);
   try {
     fs.mkdirSync(reactDirPath);
   } catch (err) {
@@ -27,17 +27,17 @@ const create = (routes) => {
     throw new Error(err);
   }
 
-  // add to reaxpressAppIndex component
-  let appIndexContent = '';
+  // add to reaxpresscomponentList component
+  let componentListContent = '';
   try {
-    appIndexContent = fs.readFileSync(appIndex, 'utf8');
+    componentListContent = fs.readFileSync(componentList, 'utf8');
   } catch (err) {
     throw new Error(err);
   }
-  appIndexContent = appIndexContent.replace(/\/\/ #reaxpress components/g, `// #reaxpress components\nimport ${routes.component} from './${routes.component}';`);
-  appIndexContent = appIndexContent.replace(/\/\/ #reaxpress component list/g, `// #reaxpress component list\n  ${routes.component},`);
+  componentListContent = componentListContent.replace(/\/\/ #reaxpress components/g, `// #reaxpress components\nimport ${routes.component} from './${routes.component}';`);
+  componentListContent = componentListContent.replace(/\/\/ #reaxpress component list/g, `// #reaxpress component list\n  ${routes.component},`);
   try {
-    fs.writeFileSync(appIndex, appIndexContent);
+    fs.writeFileSync(componentList, componentListContent);
   } catch (err) {
     throw new Error(err);
   }

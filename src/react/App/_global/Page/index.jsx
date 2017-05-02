@@ -1,9 +1,7 @@
 /* eslint react/no-danger: 0 */
 import validator from 'validator';
 import React from 'react';
-import ReactDOM from 'react-dom';
-
-import Reaxpress from '../Reaxpress';
+import Reaxpress from '../../../Reaxpress';
 import Header from '../Header';
 import Footer from '../Footer';
 import Content from '../Content';

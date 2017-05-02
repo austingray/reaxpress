@@ -1,20 +1,17 @@
 import React from 'react';
-import Reaxpress from '../_global/Reaxpress';
+import Reaxpress from '../../Reaxpress';
 import Header from '../_global/Header';
 import Footer from '../_global/Footer';
 import Content from '../_global/Content';
 
 @Reaxpress
-class Admin extends React.Component {
+class Homepage extends React.Component {
   render() {
     return (
       <div>
         <Header />
         <Content>
-          <h1>Admin</h1>
-          <ul>
-            <li><a href="/admin/pages">Pages</a></li>
-          </ul>
+          Homepage content
         </Content>
         <Footer />
       </div>
@@ -22,12 +19,12 @@ class Admin extends React.Component {
   }
 }
 
-Admin.defaultProps = {
+Homepage.defaultProps = {
   reaxpressData: {},
 };
 
-Admin.propTypes = {
+Homepage.propTypes = {
   reaxpressData: React.PropTypes.object,
 };
 
-export default Admin;
+export default Homepage;

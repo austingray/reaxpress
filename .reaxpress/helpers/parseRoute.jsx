@@ -9,7 +9,7 @@
 const parseRoute = (route, customComponent = '') => {
   // type check
   if (typeof route !== 'string') {
-    console.log(`Could not parse route, wanted string, got: typeof ${route}`)
+    console.log(`Could not parse route, wanted string, got: typeof ${route}`);
     return null;
   }
 
