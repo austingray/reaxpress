@@ -7,13 +7,16 @@
   "scripts": {
     "test": "mocha --compilers js:babel-core/register",
     "start": "node ./bin/www",
-    "start-dev": "npm run-script watch | nodemon ./bin/www",
-    "watch": "npm run-script watch-sass | npm run-script watch-react",
-    "knex-migrate-rollback": "node ./node_modules/knex/bin/cli.js --knexfile .knex/knexfile.js migrate:rollback",
-    "knex-migrate-latest": "node ./node_modules/knex/bin/cli.js --knexfile .knex/knexfile.js migrate:latest",
-    "knex-seeds": "node node ./node_modules/knex/bin/cli.js --knexfile .knex/knexfile.js seed:run",
-    "watch-sass": "node-sass --watch --include-path scss src/scss/style.scss public/build/css/style.css",
-    "watch-react": "webpack --progress --colors --display-error-details --watch"
+    "start:dev": " npm run watch | nodemon ./bin/www",
+    "prestart:docker-dev": "npm run db:init",
+    "start:docker-dev": "npm run start",
+    "watch": "npm run watch:sass | npm run watch:react",
+    "db:init": "npm run db:migrate | npm run db:seed",
+    "db:rollback": "knex --knexfile .knex/knexfile.js migrate:rollback",
+    "db:migrate": "knex --knexfile .knex/knexfile.js migrate:latest",
+    "db:seed": "knex --knexfile .knex/knexfile.js seed:run",
+    "watch:sass": "node-sass --watch --include-path scss src/scss/style.scss public/build/css/style.css",
+    "watch:react": "webpack --progress --colors --display-error-details --watch"
   },
   "author": "Austin Gray",
   "license": "ISC",
