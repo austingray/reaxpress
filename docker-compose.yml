@@ -1,0 +1,22 @@
+app:
+  image: node:7
+  command: npm run start-dev
+  working_dir: /app
+  volumes:
+    - .:/app
+  environment:
+    PORT: 4000
+    REAXPRESS_CONNECTION_STRING: postgresql://admin:mysecretpassword@172.17.0.2:5432/doves
+  ports:
+    - "4000:4000"
+    - "5858:5858"
+  links:
+    - db
+db:
+  image: postgres
+  expose:
+    - 5432
+  environment:
+    POSTGRES_PASSWORD: mysecretpassword
+    POSTGRES_USER: admin
+    POSTGRES_DB: doves
