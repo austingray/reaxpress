@@ -12,6 +12,7 @@ Reaxpress (React + Express) is a framework for rapid application prototyping and
 - Basic CMS functionality
 - Postgres database/Knex SQL query builder
 - Bootstrap v4
+- Docker support
 
 ### Notes
 
@@ -20,19 +21,7 @@ Reaxpress (React + Express) is a framework for rapid application prototyping and
 
 ### Installation
 
-This project relies on webpack.
-
-```
-npm install -g webpack
-```
-
-And since we want to run migrations in our project directory using the Knex CLI
-
-```
-npm install -g knex
-```
-
-then
+Run the following to get command-line tools for `webpack` and `knex`, among other important dependencies.
 
 ```
 npm install
@@ -47,19 +36,54 @@ CREATE DATABASE <db_name> OWNER <db_user>;
 ALTER USER <db_user> WITH SUPERUSER;
 ```
 
+#### Environment Variables
+
+Easy way: use docker to inject your environment variables
+
+Next: use `.env` file with `dotenv`
+
+
+Or you can be lame and define them directly on your system, as follows:
 With defined environment variable:
 
+For *nix systems
 ```
+export NODE_ENV: development
 export REAXPRESS_CONNECTION_STRING=postgresql://username:password@127.0.0.1:5432/database
 ```
 
-### The CLI
+For Windows systems
+```
+SET NODE_ENV=development
+SET REAXPRESS_CONNECTION_STRING=postgresql://username:password@127.0.0.1:5432/database
+```
+
+
+
+### The Reaxpress CLI
 
 ```
 ./reaxpress.js route <route> [--delete, --component=CustomName]
 ./reaxpress.js user create <username> <password> <role>
 ./reaxpress.js model <name>
 ```
+
+### Getting Started -- With Docker!
+
+Install Docker and start it up if you haven't already.  
+>If you're on a windows machine, this project uses linux containers, which is the default. But if you've changed to Windows Containers, you'll need to switch back.
+
+From the root of the project, run 
+
+```bash 
+docker-compose up --build
+```
+
+Website:  http://localhost:3000
+
+Database is exposed on the default port of 5432. 
+
+Currently there's no "watch", so if you want to use it for debugging, you will need to stop and restart each time.
 
 ### Getting Started
 
@@ -104,7 +128,7 @@ exports.down = (knex, Promise) => {
 Then run the migration:
 
 ```bash
-knex --knexfile=.knex/knexfile.js migrate:latest
+npm run db:migrate
 ```
 
 Now let's create a database model file using the CLI:

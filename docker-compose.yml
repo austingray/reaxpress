@@ -1,0 +1,21 @@
+app:
+  build: .
+  environment:
+    NODE_ENV: development
+    PORT: 3000
+    REAXPRESS_CONNECTION_STRING: postgresql://admin:mysecretpassword@db:5432/doves
+    #SHOW_ENV_VARIABLES: 0
+  ports:
+    - "3000:3000"
+  links:
+    - db
+db:
+  image: postgres
+  expose:
+    - 5432
+  ports:
+    - "5432:5432"
+  environment:
+    POSTGRES_PASSWORD: mysecretpassword
+    POSTGRES_USER: admin
+    POSTGRES_DB: doves

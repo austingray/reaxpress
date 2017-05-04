@@ -1,5 +1,4 @@
 require('babel-register');
-require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
@@ -11,6 +10,12 @@ const passport = require('passport');
 const favicon = require('serve-favicon');
 
 const app = express();
+
+if(process.env.SHOW_ENV_VARIABLES){
+  console.log('ENVIRONMENT VARIABLES:');
+  console.log(process.env);
+}
+
 
 // view engine setup
 app.set('views', __dirname);
