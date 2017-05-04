@@ -2,9 +2,15 @@
 
 ### [Unreleased]
 - move skeleton files `default` and `custom` into `.reaxpress` and rename to `routemap-default.js` and `routemap-custom.js` or something like that.
-- 404 handling when clicking a link to a 404 page (`/about` link in footer when not using the seed file for example)
 - regex routes with the Reaxpress Router
 - subscription model for components to watch for changes to the `reaxpressData` global variable
+- fix async/await methods used in commander - https://github.com/austingray/reaxpress/issues/8
+
+### [0.10.4] 2017-05-04
+- fixed routing issues for pages created via CMS
+- updated admin routes to use reaxpressRouteHandler and new db models
+- added comments to Reaxpress Router code
+- removed user methods from database until async/await functionality is figured out with npm commander
 
 ### [0.10.3] 2017-05-01
 - added a changelog :D

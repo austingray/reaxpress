@@ -31,7 +31,12 @@ program
   .description('Manage user accounts.')
   .action((action, username, password, role) => {
     switch (action) {
-      case 'create' :
+      case 'create': {
+        const works = false;
+        if (works === false) {
+          console.log('user methods not available: https://github.com/austingray/reaxpress/issues/8');
+          return;
+        }
         if (typeof password === 'undefined') {
           console.log('You must provide a password.');
           return;
@@ -40,14 +45,17 @@ program
           process.exit(1);
         });
         break;
-      case 'delete':
+      }
+      case 'delete': {
         console.log('Coming soon...');
         process.exit(1);
         break;
-      default :
+      }
+      default: {
         console.log('Did not recognize the command.');
         process.exit(1);
         break;
+      }
     }
   });
 

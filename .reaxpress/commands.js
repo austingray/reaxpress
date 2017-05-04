@@ -4,7 +4,7 @@ import skeleton from './helpers/skeleton';
 import react from './helpers/react';
 import routes from './helpers/routes';
 import models from './helpers/models';
-import modelUsers from '../models/users';
+import Models from '../models';
 
 module.exports = {
   create: (route, component = '') => {
@@ -28,11 +28,16 @@ module.exports = {
     console.log(`Successfully deleted route: ${route}`);
   },
   user: {
-    create: async (username, password, role, callback) => {
-      const user = await modelUsers.create(username, password, role);
-      console.log('Successfully created user:');
-      console.log(user);
-      callback();
+    async create(username, password, role, callback) {
+      try {
+        new Models.Users().create(username, password, role).then((user) => {
+          console.log('Successfully created user:');
+          console.log(user);
+          callback();
+        });
+      } catch (err) {
+        throw new Error(err);
+      }
     },
   },
   model: (name) => {
