@@ -11,7 +11,7 @@ const favicon = require('serve-favicon');
 
 const app = express();
 
-if(process.env.SHOW_ENV_VARIABLES){
+if (process.env.SHOW_ENV_VARIABLES) {
   console.log('ENVIRONMENT VARIABLES:');
   console.log(process.env);
 }
