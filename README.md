@@ -40,13 +40,12 @@ ALTER USER <db_user> WITH SUPERUSER;
 
 Easy way: use docker to inject your environment variables
 
-Next: use `.env` file with `dotenv`
+Next: rename `.env.example` to `.env`, update the placeholder values and use `.env` file with `dotenv`
 
-
-Or you can be lame and define them directly on your system, as follows:
+Or define them directly on your system, as follows:
 With defined environment variable:
 
-For *nix systems
+For \*nix systems
 ```
 export NODE_ENV: development
 export REAXPRESS_CONNECTION_STRING=postgresql://username:password@127.0.0.1:5432/database
@@ -57,8 +56,6 @@ For Windows systems
 SET NODE_ENV=development
 SET REAXPRESS_CONNECTION_STRING=postgresql://username:password@127.0.0.1:5432/database
 ```
-
-
 
 ### The Reaxpress CLI
 
@@ -73,15 +70,15 @@ SET REAXPRESS_CONNECTION_STRING=postgresql://username:password@127.0.0.1:5432/da
 Install Docker and start it up if you haven't already.  
 >If you're on a windows machine, this project uses linux containers, which is the default. But if you've changed to Windows Containers, you'll need to switch back.
 
-From the root of the project, run 
+From the root of the project, run
 
-```bash 
+```bash
 docker-compose up --build
 ```
 
 Website:  http://localhost:3000
 
-Database is exposed on the default port of 5432. 
+Database is exposed on the default port of 5432.
 
 Currently there's no "watch", so if you want to use it for debugging, you will need to stop and restart each time.
 
@@ -302,3 +299,7 @@ class Todos extends React.Component {
 ```
 
 This might seem like a lot but break down the above code to see how Reaxpress is handling application state. More detailed tutorial breakdown coming soon.
+
+### FAQ
+
+- I am getting "UnhandledPromiseRejectionWarning: Unhandled promise rejection" in my console, what should I do? - https://github.com/austingray/reaxpress/issues/6

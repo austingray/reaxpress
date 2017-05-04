@@ -22,9 +22,7 @@ class App extends React.Component {
   render() {
     let renderComponent = null;
     Router(this.state.path, (exists, Component) => {
-      renderComponent = exists
-        ? <Component />
-        : null;
+      renderComponent = <Component />;
     });
     return (
       <div>
@@ -34,13 +32,13 @@ class App extends React.Component {
   }
 }
 
-Router(null, (exists) => {
-  if (exists) {
-    ReactDOM.render(
-      <App />,
-      document.getElementById('app'),
-    );
-  }
-});
+// don't bother mounting on admin pages, will not work
+// TODO: fix this to make sure we don't catch random paths by accident
+if (window.location.pathname.indexOf('admin') < 0) {
+  ReactDOM.render(
+    <App />,
+    document.getElementById('app'),
+  );
+}
 
 export default App;

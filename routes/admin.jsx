@@ -2,8 +2,7 @@
 // modules
 import express from 'express';
 // models
-import users from '../models/users';
-import pages from '../models/pages';
+import Models from '../models';
 // react components
 import Page from '../src/react/App/_global/Page';
 import Admin from '../src/react/App/Admin';
@@ -15,6 +14,7 @@ const router = express.Router();
 
 // validate admin requests
 const validateAdminRequest = async (req, res, next) => {
+  const users = new Models.Users();
   if (
     typeof req.user === 'undefined' ||
     !await users.isAdmin(req.user.username)
@@ -38,26 +38,26 @@ router.get('/', validateAdminRequest, (req, res) => {
 
 router.get('/pages', validateAdminRequest, async (req, res) => {
   const reaxpressData = res.locals.reaxpressData;
-  reaxpressData.pages = await pages.fetchMany();
+  reaxpressData.pages = await new Models.Pages().fetchMany();
   reaxpressResponseHandler(req, res, AdminPages, reaxpressData);
 });
 
 router.get('/pages/:id', validateAdminRequest, async (req, res) => {
   const reaxpressData = res.locals.reaxpressData;
-  reaxpressData.page = await pages.fetchById(req.params.id);
+  reaxpressData.page = await new Models.Pages().fetchById(req.params.id);
   reaxpressResponseHandler(req, res, AdminPagesUpdate, reaxpressData);
 });
 
 router.post('/pages/:id', validateAdminRequest, async (req, res) => {
   const page = req.body;
-  const userId = await users.fetchId(req.user.username);
+  const userId = await new Models.Users().fetchId(req.user.username);
   page.user_id = userId;
-  await pages.savePage(page);
+  await new Models.Pages().savePage(page);
   res.redirect('/admin/pages');
 });
 
 router.delete('/pages/:id', validateAdminRequest, async (req, res) => {
-  await pages.deleteById(req.params.id);
+  await new Models.Pages().deleteById(req.params.id);
   res.send('/admin/pages');
 });
 

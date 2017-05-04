@@ -1,8 +1,6 @@
 // modules
 import express from 'express';
 import passport from 'passport';
-import React from 'react';
-import { renderToString } from 'react-dom/server';
 // models
 import Models from '../models/index';
 // react components
@@ -11,7 +9,6 @@ import Login from '../src/react/App/Login';
 import Register from '../src/react/App/Register';
 import Account from '../src/react/App/Account';
 import Page from '../src/react/App/_global/Page';
-import template from '../template';
 import reaxpressResponseHandler from './reaxpressResponseHandler';
 
 const router = express.Router();
@@ -55,18 +52,22 @@ router.get('/account', async (req, res) => {
 
 // pages
 router.use(async (req, res, next) => {
+  // get all pages
   const pages = new Models.Pages();
-
+  // parse the request url
   const reqUrl = req.originalUrl.split('?')[0];
+  // try to fetch a page by the url
   const page = await pages.fetchByUrl(reqUrl);
+  // bail if it doesn't exist
   if (!page) {
-    return next();
+    next();
+    return;
   }
-  const isReaxpress = req.originalUrl.indexOf('reaxpress=true') > -1;
+
+  // handle the response normally if it does
   const reaxpressData = res.locals.reaxpressData;
   reaxpressData.page = page;
-  if (isReaxpress) { return res.json(reaxpressData); }
-  return res.send(template(reaxpressData, renderToString(<Page reaxpressData={reaxpressData} />)));
+  reaxpressResponseHandler(req, res, Page, reaxpressData);
 });
 
 /*
