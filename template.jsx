@@ -28,6 +28,12 @@ module.exports = (reaxpressData, componentHtml) =>
       window.reaxpress.addDataListener = function(action) {
         reaxpress.dataListeners.push(action);
       }
+      window.reaxpress.update = (newState) => {
+        window.reaxpressData = Object.assign({}, reaxpressData, newState);
+        for (var i = 0; i < reaxpress.dataListeners.length; i++) {
+          reaxpress.dataListeners[i](window.reaxpressData);
+        }
+      }
       window.reaxpress.reload = (callback = () => {}) => {
         $.ajax({
           url: window.location.href,
