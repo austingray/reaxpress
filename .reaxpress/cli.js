@@ -7,11 +7,16 @@ program
   .version('0.4.0');
 
 program
-  .command('route <route>')
+  .command('route [route]>')
   .description('Create a route and all its boilerplate code.')
-  .option('-d, --delete', 'Delete an existing route.')
   .option('-c, --component <component>', 'Specify a custom React component.')
+  .option('-d, --delete', 'Delete an existing route.')
+  .option('-l, --list', 'List all registered application routes, optionally providing a parent path to check child routes.')
   .action((route, options) => {
+    if (options.list) {
+      commands.list(route);
+      return;
+    }
     if (blacklist.test(route)) {
       return;
     }

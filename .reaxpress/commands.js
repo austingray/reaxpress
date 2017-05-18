@@ -7,6 +7,39 @@ import models from './helpers/models';
 import Models from '../models';
 
 module.exports = {
+  list: (route = '') => {
+    if (route !== '') {
+      console.log('specific route testing coming soon.');
+    }
+    const routes = [...skeleton.defaults, ...skeleton.custom];
+    const results = [];
+    let total = 0;
+    routes.forEach((parent) => {
+      // don't prepend parent slug if it's the index route
+      const parentSlug = parent.key === 'index'
+        ? ''
+        : `/${parent.key}`;
+      parent.routes.forEach((child) => {
+        const childSlug = child.path === '/'
+          ? ''
+          : child.path;
+
+        const result = `${parentSlug}${childSlug}`;
+        if (result.length > 0) {
+          results.push(result);
+          total += 1;
+        }
+      });
+    });
+
+    // hardcode the default index route
+    console.log('/');
+    total += 1;
+    // do all routes
+    results.forEach(result => console.log(result));
+    console.log('----------------------');
+    console.log(`Total: ${total} routes`);
+  },
   create: (route, component = '') => {
     const parsedRoutes = parseRoute(route, component);
     skeleton.create(parsedRoutes);
