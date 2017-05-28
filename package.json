@@ -4,6 +4,10 @@
   "description": "An Express/React boilerplate with a CLI for rapid prototyping.",
   "main": "app.js",
   "private": false,
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/austingray/reaxpress.git"
+  },
   "scripts": {
     "test": "mocha --compilers js:babel-core/register",
     "start": "node ./bin/www",
@@ -21,9 +25,6 @@
   },
   "author": "Austin Gray",
   "license": "ISC",
-  "bin": {
-    "reaxpress": "./bin/reaxpress-cli.js"
-  },
   "dependencies": {
     "babel-register": "^6.18.0",
     "bcrypt": "^1.0.2",
