@@ -9,6 +9,7 @@
 ### [0.11.0] 2017-05-28
 - cleaned up some dated package.json entries
 - updated Router to use parseurl library
+- moved skeleton parsing in Router to its own file
 
 ### [0.10.5] 2017-05-05
 - added missing window.reaxpress.update method in template

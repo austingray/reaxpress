@@ -5,6 +5,7 @@ import parseUrl from 'parseurl';
 import Components from './Components';
 import defaults from '../../../.reaxpress/helpers/skeleton/defaults';
 import custom from '../../../.reaxpress/helpers/skeleton/custom';
+import skeletonParse from '../../../.reaxpress/helpers/skeleton/parse';
 
 const routes = [...custom, ...defaults];
 
@@ -24,19 +25,8 @@ const Router = (reqPath = null, callback) => {
 
     // loop through all child routes for each endpoint
     for (let j = 0; j < route.routes.length; j += 1) {
-      // set the route to test
-      const routeIter = route.routes[j];
-
-      // if routeIter.path === '/' then it is the top level route, disregard
-      const routePath = routeIter.path === '/'
-        ? ''
-        : routeIter.path;
-
-      // if route.key === 'index', then it is the homepage
-      // that is the only route where the key should not be prepended
-      const path = route.key === 'index'
-        ? `${routeIter.path}`
-        : `/${route.key}${routePath}`;
+      const iteration = route.routes[j];
+      const path = skeletonParse(route, iteration);
 
       // if path === currentPath then we've found a match, return
       if (path === currentPath) {
@@ -45,7 +35,7 @@ const Router = (reqPath = null, callback) => {
          * @type {Boolean} exists whether the route exists or not
          * @type {React.Component} component the component to render
          */
-        return callback(true, Components[routeIter.component]);
+        return callback(true, Components[iteration.component]);
       }
     }
   }
