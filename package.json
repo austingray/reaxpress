@@ -4,9 +4,9 @@
   "description": "An Express/React boilerplate with a CLI for rapid prototyping.",
   "main": "app.js",
   "private": false,
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/austingray/reaxpress.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/austingray/reaxpress.git"
   },
   "scripts": {
     "test": "mocha --compilers js:babel-core/register",
@@ -40,6 +40,7 @@
     "knex": "^0.12.6",
     "morgan": "~1.7.0",
     "node-sass": "^4.1.1",
+    "parseurl": "^1.3.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "pg": "^6.1.2",

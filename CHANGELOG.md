@@ -6,6 +6,10 @@
 - subscription model for components to watch for changes to the `reaxpressData` global variable
 - fix async/await methods used in commander - https://github.com/austingray/reaxpress/issues/8
 
+### [0.11.0] 2017-05-28
+- cleaned up some dated package.json entries
+- updated Router to use parseurl library
+
 ### [0.10.5] 2017-05-05
 - added missing window.reaxpress.update method in template
 - added scss compilation on start

@@ -1,6 +1,7 @@
 /* eslint no-unused-vars: 0 */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import parseUrl from 'parseurl';
 import Components from './Components';
 import defaults from '../../../.reaxpress/helpers/skeleton/defaults';
 import custom from '../../../.reaxpress/helpers/skeleton/custom';
@@ -16,11 +17,6 @@ const routes = [...custom, ...defaults];
 const Router = (reqPath = null, callback) => {
   // set the path to test to be the provided reqPath or the current path
   const currentPath = reqPath || window.location.pathname;
-
-  // always serve admin pages fresh
-  if (currentPath.indexOf('admin') > -1) {
-    return callback(false);
-  }
 
   // loop through all custom and default endpoints
   for (let i = 0; i < routes.length; i += 1) {
@@ -53,8 +49,10 @@ const Router = (reqPath = null, callback) => {
       }
     }
   }
+
   // if no match was found, return false
   // render the default Page template for the 404 page
+  // will need to update this mechanism for regex routes
   return callback(false, Components.Page);
 };
 
@@ -73,23 +71,24 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  // get the current host
-  const currentHost = window.location.host;
   // get the target href
   const targetHref = event.target.href;
 
+  // parse the target url
+  const parsedUrl = parseUrl({ url: targetHref });
+
   // bail on external links
-  if (targetHref.indexOf(currentHost) < 0) {
+  if (parsedUrl.hostname !== window.location.hostname) {
     return;
   }
+
+  // assign the target path to be the new url
+  const pushUrl = parsedUrl.path;
 
   // bail on admin pages
-  if (targetHref.indexOf('admin') > -1) {
+  if (pushUrl.indexOf('/admin') === 0) {
     return;
   }
-
-  // grab the slug of the request url
-  const pushUrl = targetHref.split(currentHost)[1];
 
   // push the request slug to the browser bar
   window.history.pushState({}, 'Page Title', pushUrl);
