@@ -2,6 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import parseUrl from 'parseurl';
+import pathRegexp from 'path-to-regexp';
 import Components from './Components';
 import defaults from '../../../.reaxpress/helpers/skeleton/defaults';
 import custom from '../../../.reaxpress/helpers/skeleton/custom';
@@ -17,7 +18,7 @@ const routes = [...custom, ...defaults];
  */
 const Router = (reqPath = null, callback) => {
   // set the path to test to be the provided reqPath or the current path
-  const currentPath = reqPath || window.location.pathname;
+  const testPath = reqPath || window.location.pathname;
 
   // loop through all custom and default endpoints
   for (let i = 0; i < routes.length; i += 1) {
@@ -28,8 +29,8 @@ const Router = (reqPath = null, callback) => {
       const iteration = route.routes[j];
       const path = skeletonParse(route, iteration);
 
-      // if path === currentPath then we've found a match, return
-      if (path === currentPath) {
+      // if path === testPath then we've found a match, return
+      if (pathRegexp(path).exec(testPath)) {
         /**
          * @callback
          * @type {Boolean} exists whether the route exists or not
