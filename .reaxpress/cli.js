@@ -13,21 +13,35 @@ program
   .option('-d, --delete', 'Delete an existing route.')
   .option('-l, --list', 'List all registered application routes, optionally providing a parent path to check child routes.')
   .action((route, options) => {
+    // list all routes
     if (options.list) {
       commands.list(route);
       return;
     }
+
+    // bail if route is blacklisted
     if (blacklist.test(route)) {
       return;
     }
-    const component = typeof options.component === 'undefined'
-      ? ''
-      : options.component;
+
+    // delete route
     if (options.delete) {
       commands.remove(route);
       return;
     }
 
+    // parse component option
+    const component = typeof options.component === 'undefined'
+      ? ''
+      : options.component;
+
+    // bail if route has any non-alpha characters and no named component
+    if (!/^[a-zA-Z]*$/.test(route) && component === '') {
+      console.log('Regex routes must have a named react component. Use --component=CustomName');
+      return;
+    }
+
+    // perform route creation
     commands.create(route, component);
   });
 
