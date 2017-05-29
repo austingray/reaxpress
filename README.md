@@ -1,4 +1,4 @@
-# Reaxpress v0.11.0
+# Reaxpress v0.10.6
 
 Reaxpress (React + Express) is a (very) opinionated framework for rapid application prototyping.
 

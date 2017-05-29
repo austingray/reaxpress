@@ -38,6 +38,7 @@ module.exports = (reaxpressData, componentHtml) =>
         $.ajax({
           url: window.location.href,
           method: 'GET',
+          cache: false,
           data: {
             reaxpress: true
           },

@@ -9,7 +9,7 @@
 - cli should fail when trying to create a regex route without a named component. - https://github.com/austingray/reaxpress/issues/11
 - routes need to have a priority in which they are loaded - https://github.com/austingray/reaxpress/issues/12
 
-### [0.11.0]
+### [0.10.6] 2017-05-29
 - cleaned up some dated package.json entries
 - updated Router to use parseurl library
 - moved skeleton parsing in Router to its own file
