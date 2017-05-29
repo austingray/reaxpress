@@ -29,6 +29,8 @@ const Router = (reqPath = null, callback) => {
       const iteration = route.routes[j];
       const path = skeletonParse(route, iteration);
 
+      console.log(path);
+
       // if path === testPath then we've found a match, return
       if (pathRegexp(path).exec(testPath)) {
         /**
