@@ -43,6 +43,10 @@ module.exports = (reaxpressData, componentHtml) =>
             reaxpress: true
           },
           success(newReaxpressData) {
+            // reload 404 pages to get proper 404 page
+            if (newReaxpressData.status === 404) {
+              window.location.reload();
+            }
             window.reaxpressData = newReaxpressData;
             for (var i = 0; i < reaxpress.dataListeners.length; i++) {
               reaxpress.dataListeners[i](newReaxpressData);

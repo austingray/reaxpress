@@ -21,7 +21,7 @@ class App extends React.Component {
   }
   render() {
     let renderComponent = null;
-    Router(this.state.path, (exists, Component) => {
+    Router(this.state.path, (Component) => {
       renderComponent = <Component />;
     });
     return (

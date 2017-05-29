@@ -14,6 +14,7 @@
 - updated Router to use parseurl library
 - moved skeleton parsing in Router to its own file
 - added regex path matching
+- routes now always match and fallback to default Page, page reloads if 404 to get proper status code
 
 ### [0.10.5] 2017-05-05
 - added missing window.reaxpress.update method in template

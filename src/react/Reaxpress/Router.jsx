@@ -12,9 +12,11 @@ const routes = [...custom, ...defaults];
 
 /**
  * Route handler for Reaxpress apps
+ * Takes an app route and returns the corresponding React Component
+ *
  * @param  {String}   [reqPath=null] the current path of the website minus the hostname
  * @param  {Function} callback       callback
- * @callback {Function}              callback: boolean: exists, object: React Component
+ * @callback {Function}              callback: object: React Component
  */
 const Router = (reqPath = null, callback) => {
   // set the path to test to be the provided reqPath or the current path
@@ -33,10 +35,9 @@ const Router = (reqPath = null, callback) => {
       if (pathRegexp(path).exec(testPath)) {
         /**
          * @callback
-         * @type {Boolean} exists whether the route exists or not
          * @type {React.Component} component the component to render
          */
-        return callback(true, Components[iteration.component]);
+        return callback(Components[iteration.component]);
       }
     }
   }
@@ -44,7 +45,7 @@ const Router = (reqPath = null, callback) => {
   // if no match was found, return false
   // render the default Page template for the 404 page
   // will need to update this mechanism for regex routes
-  return callback(false, Components.Page);
+  return callback(Components.Page);
 };
 
 /**
@@ -77,14 +78,11 @@ const handleUrlChange = (e, newAddress, popstate = true) => {
     window.history.pushState({}, pushUrl, pushUrl);
   }
 
-  // pass the slug to the Router
-  Router(pushUrl, (exists) => {
-    if ((exists && window.reaxpress.mounted) || popstate) {
-      window.reaxpress.updateUrl(pushUrl);
-      window.reaxpress.reload();
-      e.preventDefault();
-    }
-  });
+  if (window.reaxpress.mounted || popstate) {
+    window.reaxpress.updateUrl(pushUrl);
+    window.reaxpress.reload();
+    e.preventDefault();
+  }
 };
 
 /**
