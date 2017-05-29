@@ -1,9 +1,12 @@
 /* eslint no-unused-vars: 0 */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import parseUrl from 'parseurl';
+import pathRegexp from 'path-to-regexp';
 import Components from './Components';
 import defaults from '../../../.reaxpress/helpers/skeleton/defaults';
 import custom from '../../../.reaxpress/helpers/skeleton/custom';
+import skeletonParse from '../../../.reaxpress/helpers/skeleton/parse';
 
 const routes = [...custom, ...defaults];
 
@@ -15,12 +18,7 @@ const routes = [...custom, ...defaults];
  */
 const Router = (reqPath = null, callback) => {
   // set the path to test to be the provided reqPath or the current path
-  const currentPath = reqPath || window.location.pathname;
-
-  // always serve admin pages fresh
-  if (currentPath.indexOf('admin') > -1) {
-    return callback(false);
-  }
+  const testPath = reqPath || window.location.pathname;
 
   // loop through all custom and default endpoints
   for (let i = 0; i < routes.length; i += 1) {
@@ -28,33 +26,26 @@ const Router = (reqPath = null, callback) => {
 
     // loop through all child routes for each endpoint
     for (let j = 0; j < route.routes.length; j += 1) {
-      // set the route to test
-      const routeIter = route.routes[j];
+      const iteration = route.routes[j];
+      const path = skeletonParse(route, iteration);
 
-      // if routeIter.path === '/' then it is the top level route, disregard
-      const routePath = routeIter.path === '/'
-        ? ''
-        : routeIter.path;
+      console.log(path);
 
-      // if route.key === 'index', then it is the homepage
-      // that is the only route where the key should not be prepended
-      const path = route.key === 'index'
-        ? `${routeIter.path}`
-        : `/${route.key}${routePath}`;
-
-      // if path === currentPath then we've found a match, return
-      if (path === currentPath) {
+      // if path === testPath then we've found a match, return
+      if (pathRegexp(path).exec(testPath)) {
         /**
          * @callback
          * @type {Boolean} exists whether the route exists or not
          * @type {React.Component} component the component to render
          */
-        return callback(true, Components[routeIter.component]);
+        return callback(true, Components[iteration.component]);
       }
     }
   }
+
   // if no match was found, return false
   // render the default Page template for the 404 page
+  // will need to update this mechanism for regex routes
   return callback(false, Components.Page);
 };
 
@@ -73,23 +64,24 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  // get the current host
-  const currentHost = window.location.host;
   // get the target href
   const targetHref = event.target.href;
 
+  // parse the target url
+  const parsedUrl = parseUrl({ url: targetHref });
+
   // bail on external links
-  if (targetHref.indexOf(currentHost) < 0) {
+  if (parsedUrl.hostname !== window.location.hostname) {
     return;
   }
+
+  // assign the target path to be the new url
+  const pushUrl = parsedUrl.path;
 
   // bail on admin pages
-  if (targetHref.indexOf('admin') > -1) {
+  if (pushUrl.indexOf('/admin') === 0) {
     return;
   }
-
-  // grab the slug of the request url
-  const pushUrl = targetHref.split(currentHost)[1];
 
   // push the request slug to the browser bar
   window.history.pushState({}, 'Page Title', pushUrl);

@@ -2,9 +2,18 @@
 
 ### [Unreleased]
 - move skeleton files `default` and `custom` into `.reaxpress` and rename to `routemap-default.js` and `routemap-custom.js` or something like that.
-- regex routes with the Reaxpress Router
 - subscription model for components to watch for changes to the `reaxpressData` global variable
 - fix async/await methods used in commander - https://github.com/austingray/reaxpress/issues/8
+- fix duplicate component when creating child route first and specifying the compnent - https://github.com/austingray/reaxpress/issues/10
+- parent route should be added to parents route array when creating by child - https://github.com/austingray/reaxpress/issues/10
+- cli should fail when trying to create a regex route without a named component. - https://github.com/austingray/reaxpress/issues/11
+- routes need to have a priority in which they are loaded - https://github.com/austingray/reaxpress/issues/12
+
+### [0.11.0]
+- cleaned up some dated package.json entries
+- updated Router to use parseurl library
+- moved skeleton parsing in Router to its own file
+- added regex path matching
 
 ### [0.10.5] 2017-05-05
 - added missing window.reaxpress.update method in template
