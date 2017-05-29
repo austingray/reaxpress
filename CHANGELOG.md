@@ -6,7 +6,6 @@
 - fix async/await methods used in commander - https://github.com/austingray/reaxpress/issues/8
 - fix duplicate component when creating child route first and specifying the compnent - https://github.com/austingray/reaxpress/issues/10
 - parent route should be added to parents route array when creating by child - https://github.com/austingray/reaxpress/issues/10
-- cli should fail when trying to create a regex route without a named component. - https://github.com/austingray/reaxpress/issues/11
 - routes need to have a priority in which they are loaded - https://github.com/austingray/reaxpress/issues/12
 
 ### [0.10.6] 2017-05-29
@@ -15,6 +14,7 @@
 - moved skeleton parsing in Router to its own file
 - added regex path matching
 - updated 404 handling
+- cli now fails when trying to create a regex route without a named component
 
 ### [0.10.5] 2017-05-05
 - added missing window.reaxpress.update method in template
