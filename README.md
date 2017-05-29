@@ -1,4 +1,4 @@
-# Reaxpress v0.10.5
+# Reaxpress v0.11.0
 
 Reaxpress (React + Express) is a (very) opinionated framework for rapid application prototyping.
 
@@ -14,13 +14,9 @@ When you create your route via the CLI, it saves data about it in a file buried 
 
 *Reaxpress only cares about `GET` requests*. `POST` and other types of requests should be manually added. If you have an endpoint that has no get requests, then you should prefix that with `/api/`. This project may build out some default api routes as part of its core in the future to demonstrate.
 
-*Outstanding issues*: Reaxpress has a good deal of work to go before hitting 1.0, and part of that has to do with Routing. There currently is no way to setup wildcard get routes via the CLI, but this will be added soon. It will look something like this: `./reaxpress.js route users/:id --component=UsersSingle` which will create a get route for `www.example.com/users/:id`, and create the boilerplate React component named UsersSingle which will be used in our views.
-
 #### Views
 
 Views are created with React components. When you create a route via the CLI, you will get a corresponding React component. For example, if you run the command `./reaxpress.js route users`, the file `src/react/App/Users/index.jsx` will be created. This file will have a React component named `Users` that will be rendered whenever someone visits `www.example.com/users`. The name of the generated component is based on your route, and can be overridden with the option `--component=CustomNameHere` when creating a route. Every folder inside of `src/react/App` is essentially a standalone endpoint for a `GET` request. Reusable components are inside of `_global`. Feel free to add custom global components there or create your own directory structure.
-
-
 
 #### State
 

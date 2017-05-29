@@ -1,6 +1,6 @@
 {
   "name": "reaxpress",
-  "version": "0.10.5",
+  "version": "0.11.0",
   "description": "An Express/React boilerplate with a CLI for rapid prototyping.",
   "main": "app.js",
   "private": false,
@@ -24,7 +24,7 @@
     "watch:react": "webpack --progress --colors --display-error-details --watch"
   },
   "author": "Austin Gray",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "babel-register": "^6.18.0",
     "bcrypt": "^1.0.2",
