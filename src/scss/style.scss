@@ -1,13 +1,5 @@
+@import '_global';
 @import '_header';
 @import '_footer';
 @import '_content';
-
-body, html {
-  height:100%;
-}
-
-#app {
-  position:relative;
-  padding-bottom: 68px;
-  min-height: 100%;
-}
+@import '_messages';

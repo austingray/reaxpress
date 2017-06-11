@@ -1,4 +1,4 @@
-# Reaxpress v0.10.6
+# Reaxpress v0.10.7
 
 Reaxpress (React + Express) is a (very) opinionated framework for rapid application prototyping.
 
@@ -344,7 +344,3 @@ class Todos extends React.Component {
 ```
 
 This might seem like a lot but break down the above code to see how Reaxpress is handling application state. More detailed tutorial breakdown coming soon.
-
-### FAQ
-
-- I am getting "UnhandledPromiseRejectionWarning: Unhandled promise rejection" in my console, what should I do? - https://github.com/austingray/reaxpress/issues/6

@@ -41,8 +41,13 @@ require('./passport.config.js')();
 
 // reaxpress globals
 app.use((req, res, next) => {
+  const messages = [];
+  ['success', 'info', 'warning', 'error'].forEach((type) => {
+    req.flash(type).forEach(text => messages.push({ type, text }));
+  });
   res.locals.reaxpressData = {
     user: req.user || false,
+    messages,
   };
   next();
 });

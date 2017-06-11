@@ -8,6 +8,10 @@
 - parent route should be added to parents route array when creating by child - https://github.com/austingray/reaxpress/issues/10
 - routes need to have a priority in which they are loaded - https://github.com/austingray/reaxpress/issues/12
 
+### [0.10.7] 2017-06-11
+- added messages
+- added an scss file for global elements
+
 ### [0.10.6] 2017-05-29
 - cleaned up some dated package.json entries
 - updated Router to use parseurl library

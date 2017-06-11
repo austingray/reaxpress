@@ -4,6 +4,7 @@ import Reaxpress from '../../Reaxpress';
 import Header from '../_global/Header';
 import Footer from '../_global/Footer';
 import Content from '../_global/Content';
+import Messages from '../_global/Messages';
 
 @Reaxpress
 class Login extends React.Component {
@@ -13,6 +14,7 @@ class Login extends React.Component {
         <Header />
         <Content>
           <h1>Login</h1>
+          <Messages />
           <form role="form" action="/login" method="post" className="credential-box">
             <div className="form-group">
               <label htmlFor="username">Username</label>
